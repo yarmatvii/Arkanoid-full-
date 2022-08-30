@@ -132,12 +132,14 @@
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="DynamicUnit.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="PratformUnit.cpp" />
     <ClCompile Include="Unit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
     <ClInclude Include="DynamicUnit.h" />
     <ClInclude Include="Framework.h" />
+    <ClInclude Include="PratformUnit.h" />
     <ClInclude Include="Unit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

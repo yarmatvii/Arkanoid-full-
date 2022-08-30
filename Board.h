@@ -3,6 +3,7 @@
 #include "Framework.h"
 #include "Unit.h"
 #include "DynamicUnit.h"
+#include "PratformUnit.h"
 
 #include <vector>
 
@@ -12,7 +13,7 @@ public:
 	int width;
 	int height;
 	std::vector<Unit*> units;
-	DynamicUnit* platform;
+	PratformUnit* platform;
 	DynamicUnit* ball;
 	Unit* coursor;
 
@@ -21,7 +22,7 @@ public:
 
 	bool intersencts(Unit* other);
 	bool addUnit(Unit* unit);
-	bool addPlatform(DynamicUnit* platform);
+	bool addPlatform(PratformUnit* platform);
 	bool addBall(DynamicUnit* ball);
 	void addCoursor(Unit* coursor);
 	int checkIfCollideWithEdges(DynamicUnit* ball);
