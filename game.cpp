@@ -3,9 +3,9 @@
 #include "Board.h"
 
 #include "string"
-#include <iostream>
 #include <filesystem>
 #include <numbers>
+#include <cmath>
 
 #include "iostream"
 
@@ -92,13 +92,12 @@ public:
 
 				int dx = coursorX - ballX;
 				int dy = coursorY - ballY;
-				double rotation = std::atan(dx / dy);
+				double rotation = std::atan2(dy, dx);
 				board->ball->setVelosity(BALL_VELOCITY);
 				board->ball->setRotation(rotation);
 			}
 		}
 		else if (button == FRMouseButton::RIGHT) {
-
 
 		}
 		else if (button == FRMouseButton::MIDDLE) {
