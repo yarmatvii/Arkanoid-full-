@@ -13,7 +13,6 @@
 #define PLATFORM_VELOCITY 2
 #define BALL_VELOCITY 10
 
-
 /* Test Framework realization */
 class MyFramework : public Framework {
 
@@ -23,7 +22,7 @@ public:
 	Board* board;
 
 	Sprite* blueWallSprite = NULL;
-	Sprite* PlatformSprite = NULL;
+	std::vector<Sprite*> platformSprites;
 	Sprite* ballSprite = NULL;
 	Sprite* coursorSprite = NULL;
 
@@ -45,7 +44,11 @@ public:
 	virtual bool Init() {
 		// load resources
 		blueWallSprite = createSprite(getResourcePath("01-Breakout-Tiles.png").c_str());
-		PlatformSprite = createSprite(getResourcePath("50-Breakout-Tiles.png").c_str());
+		platformSprites = {
+			createSprite(getResourcePath("50-Breakout-Tiles.png").c_str()),
+			createSprite(getResourcePath("51-Breakout-Tiles.png").c_str()),
+			createSprite(getResourcePath("52-Breakout-Tiles.png").c_str())
+		};
 		ballSprite = createSprite(getResourcePath("63-Breakout-Tiles.png").c_str());
 		coursorSprite = createSprite(getResourcePath("59-Breakout-Tiles.png").c_str());
 
@@ -56,7 +59,7 @@ public:
 		board->addUnit(new Unit(blueWallSprite, 600, 0, 150, 50));
 		board->addUnit(new Unit(blueWallSprite, 750, 0, 50, 50));
 
-		board->addPlatform(new DynamicUnit(PlatformSprite, 306, 400, 188, 50));
+		board->addPlatform(new PratformUnit(platformSprites, 306, 400, 188, 50));
 		board->addBall(new DynamicUnit(ballSprite, 384, 360, 32, 32));
 		board->addCoursor(new Unit(coursorSprite, -50, -50, 16, 16));
 
@@ -70,6 +73,7 @@ public:
 
 	virtual bool Tick() {
 		drawTestBackground();
+		board->platform->update();
 
 		board->draw();
 

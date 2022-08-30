@@ -23,11 +23,12 @@ bool Board::addUnit(Unit* unit) {
 	return true;
 }
 
-bool Board::addPlatform(DynamicUnit* platform) {
+bool Board::addPlatform(PratformUnit* platform) {
 	if (!addUnit(platform)) {
 		return false;
 	}
 	this->platform = platform;
+	return true;
 }
 
 bool Board::addBall(DynamicUnit* ball) {
@@ -35,6 +36,7 @@ bool Board::addBall(DynamicUnit* ball) {
 		return false;
 	}
 	this->ball = ball;
+	return true;
 }
 
 void Board::addCoursor(Unit* coursor) {
