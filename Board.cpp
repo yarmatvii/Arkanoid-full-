@@ -1,5 +1,7 @@
 #include "Board.h"
 #include <algorithm>
+#include "iostream"
+#include <numbers>
 
 Board::Board(int width, int height) {
 	this->width = width;
@@ -41,21 +43,24 @@ void Board::addCoursor(Unit* coursor) {
 	this->coursor = coursor;
 }
 
-//void Board::movePlatformRight(int xrelative) {
-//	int newX = std::min(this->width, this->platform->x + xrelative);
-//	this->platform->move(newX, this->platform->y);
-//};
-//
-//void Board::movePlatformLeft(int xrelative) {
-//	int newX = std::max(0, this->platform->x - xrelative);
-//	this->platform->move(newX, this->platform->y);
-//
-//};
 
 void Board::update() {
 	ball->update();
 	platform->update();
-
+	switch (checkIfCollideWithEdges(ball)) {
+	case 1:
+		ball->setRotation((2 * (ball->getRotation() * 0) * 0 - ball->getRotation()) + std::numbers::pi);
+		break;
+	case 2:
+		ball->setRotation((2 * (ball->getRotation() * 0) * std::numbers::pi - ball->getRotation()) + std::numbers::pi);
+		break;
+	case 3:
+		ball->setRotation((2 * (ball->getRotation() * 0) * 3 * std::numbers::pi / 2 - ball->getRotation()) + 2 * std::numbers::pi);
+		break;
+	case 4:
+		ball->setRotation((2 * (ball->getRotation() * 0) * std::numbers::pi / 2 - ball->getRotation()) + 2 * std::numbers::pi);
+		break;
+	}
 }
 
 void Board::draw() {
@@ -66,4 +71,22 @@ void Board::draw() {
 
 }
 
-
+int Board::checkIfCollideWithEdges(DynamicUnit* other)
+{
+	if (other->x + other->width + 1 > this->width) {
+		std::cout << "right" << std::endl;
+		return 1;
+	}
+	else if (other->x - 1 < 0) {
+		std::cout << "left" << std::endl;
+		return 2;
+	}
+	else if (other->y + other->height + 1 > this->height) {
+		std::cout << "bottom" << std::endl;
+		return 3;
+	}
+	else if (other->y - 1 < 0) {
+		std::cout << "up" << std::endl;
+		return 4;
+	}
+}

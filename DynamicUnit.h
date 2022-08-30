@@ -15,6 +15,7 @@ public:
 	void setVelosity(double velocity);
 	void resetVelosity();
 	void setRotation(double rotation);
+	double getRotation();
 	void resetRotation();
 
 	virtual void update();
