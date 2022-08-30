@@ -22,6 +22,9 @@ void DynamicUnit::resetVelosity() {
 void DynamicUnit::setRotation(double rotation) {
 	this->rotation = rotation;
 }
+double DynamicUnit::getRotation() {
+	return this->rotation;
+}
 void DynamicUnit::resetRotation() {
 	this->rotation = 0;
 }

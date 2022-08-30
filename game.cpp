@@ -11,7 +11,7 @@
 
 
 #define PLATFORM_VELOCITY 2
-#define BALL_VELOCITY 10
+#define BALL_VELOCITY 2
 
 /* Test Framework realization */
 class MyFramework : public Framework {
@@ -73,10 +73,8 @@ public:
 
 	virtual bool Tick() {
 		drawTestBackground();
-		board->platform->update();
-
+		board->update();
 		board->draw();
-
 		return false;
 	}
 

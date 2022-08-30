@@ -25,6 +25,7 @@ public:
 	bool addPlatform(PratformUnit* platform);
 	bool addBall(DynamicUnit* ball);
 	void addCoursor(Unit* coursor);
+	int checkIfCollideWithEdges(DynamicUnit* ball);
 
 	void update();
 	void draw();
