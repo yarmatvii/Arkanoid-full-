@@ -26,6 +26,7 @@ public:
 	bool addBall(DynamicUnit* ball);
 	void addCoursor(Unit* coursor);
 	int checkIfCollideWithEdges(DynamicUnit* ball);
+	int checkIfCollideWithPlatform(DynamicUnit* other, DynamicUnit* platform);
 
 	void update();
 	void draw();

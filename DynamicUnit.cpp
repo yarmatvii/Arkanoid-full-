@@ -1,6 +1,7 @@
 #define _WINDOWS
 #include "DynamicUnit.h"
 #include <cmath>
+#include <iostream>
 
 DynamicUnit::DynamicUnit(Sprite* sprite, int x, int y, int width, int height) :
 	Unit(sprite, x, y, width, height) {
@@ -46,3 +47,4 @@ void DynamicUnit::draw() {
 	update();
 	Unit::draw();
 }
+

@@ -52,17 +52,37 @@ void Board::update() {
 	switch (checkIfCollideWithEdges(ball)) {
 	case 1:
 		ball->setRotation((2 * (ball->getRotation() * 0) * 0 - ball->getRotation()) + std::numbers::pi);
+		std::cout << ball->getRotation() << std::endl;
 		break;
 	case 2:
 		ball->setRotation((2 * (ball->getRotation() * 0) * std::numbers::pi - ball->getRotation()) + std::numbers::pi);
+		std::cout << ball->getRotation() << std::endl;
 		break;
 	case 3:
 		ball->setRotation((2 * (ball->getRotation() * 0) * 3 * std::numbers::pi / 2 - ball->getRotation()) + 2 * std::numbers::pi);
+		std::cout << ball->getRotation() << std::endl;
 		break;
+	case 4:
+		ball->setRotation((2 * (ball->getRotation() * 0) * std::numbers::pi / 2 - ball->getRotation()) + 2 * std::numbers::pi);
+		std::cout << ball->getRotation() << std::endl;
+		break;
+	}
+
+	switch (checkIfCollideWithPlatform(ball, platform)) {
+		case 1:
+
+			break;
+		case 2:
+
+			break;
+		case 3:
+
+			break;
 	case 4:
 		ball->setRotation((2 * (ball->getRotation() * 0) * std::numbers::pi / 2 - ball->getRotation()) + 2 * std::numbers::pi);
 		break;
 	}
+
 }
 
 void Board::draw() {
@@ -76,19 +96,26 @@ void Board::draw() {
 int Board::checkIfCollideWithEdges(DynamicUnit* other)
 {
 	if (other->x + other->width + 1 > this->width) {
-		std::cout << "right" << std::endl;
+		//std::cout << "right" << std::endl;
 		return 1;
 	}
 	else if (other->x - 1 < 0) {
-		std::cout << "left" << std::endl;
+		//std::cout << "left" << std::endl;
 		return 2;
 	}
 	else if (other->y + other->height + 1 > this->height) {
-		std::cout << "bottom" << std::endl;
+		//std::cout << "bottom" << std::endl;
 		return 3;
 	}
 	else if (other->y - 1 < 0) {
-		std::cout << "up" << std::endl;
+		//std::cout << "up" << std::endl;
+		return 4;
+	}
+}
+
+int Board::checkIfCollideWithPlatform(DynamicUnit* ball, DynamicUnit* platform)
+{
+	if (((ball->y + ball->height + 1) > platform->y) && (ball->x + ball->width > platform->x) && (ball->x < this->width - (platform->x + platform->width))) {
 		return 4;
 	}
 }
