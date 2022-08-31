@@ -57,57 +57,26 @@ void Board::update() {
 
 	switch (checkIfCollideWithEdges(ball)) {
 	case 1:
-		r = reflectionVector({ directionX, directionY }, { -1, 0 });
-		this->ball->setDirection(r.first, r.second);
+		this->ball->setDirection(-directionX, directionY);
 		break;
 	case 2:
-		r = reflectionVector({ directionX, directionY }, { 1, 0 });
-		this->ball->setDirection(r.first, r.second);
+		this->ball->setDirection(-directionX, directionY);
 		break;
 	case 3:
-		r = reflectionVector({ directionX, directionY }, { 0, 1 });
-		this->ball->setDirection(r.first, r.second);
+		this->ball->setDirection(directionX, -directionY);
 		break;
 	case 4:
-		r = reflectionVector({ directionX, directionY }, { 0, -1 });
-		this->ball->setDirection(r.first, r.second);
+		this->ball->setDirection(directionX, -directionY);
 		break;
 	}
 
 	switch (checkIfCollideWithPlatform(ball, platform)) {
-	case 4:
-		r = reflectionVector({ directionX, directionY }, { 0, 1 });
-		this->ball->setDirection(r.first, r.second);
+	case 1:
+		this->ball->setDirection(directionX, -directionY);
 		break;
-	}
-
-	if (this->platform->intersencts(this->ball)) {
-		switch (this->platform->collides(this->ball))
-		{
-		case Side::TOP:
-			std::cout << "top" << std::endl;
-			r = reflectionVector({ directionX, directionY }, { 0, 1});
-			this->ball->setDirection(r.first, r.second);
-			break;
-		case Side::RIGHT:
-			std::cout << "right" << std::endl;
-			r = reflectionVector({ directionX, directionY }, { -1, 0});
-			this->ball->setDirection(r.first, r.second);
-			break;
-		case Side::BOTTOM:
-			std::cout << "bot" << std::endl;
-			r = reflectionVector({ directionX, directionY }, { 0, -1});
-			this->ball->setDirection(r.first, r.second);
-			break;
-		case Side::LEFT:
-			std::cout << "left" << std::endl;
-			r = reflectionVector({ directionX, directionY }, { 1, 0});
-			this->ball->setDirection(r.first, r.second);
-			break;
-		default:
-			std::cout << "inter" << std::endl;
-			break;
-		}
+	case 2:
+		this->ball->setDirection(-directionX, -directionY);
+		break;
 	}
 }
 
@@ -142,9 +111,14 @@ int Board::checkIfCollideWithEdges(DynamicUnit* unit)
 int Board::checkIfCollideWithPlatform(DynamicUnit* ball, DynamicUnit* platform)
 {
 	if (((ball->y + ball->height + 1) > platform->y) &&
-		(ball->x + ball->width > platform->x) &&
-		(ball->x < this->width - (platform->x + platform->width))) {
-		return 4;
+     (ball->x + ball->width + 1 > platform->x + platform->width / 2) &&
+     (ball->x - 1 < (platform->x + platform->width))) {
+		return 1;
+	}
+	else if (((ball->y + ball->height + 1) > platform->y) &&
+    (ball->x + ball->width + 1 > platform->x) &&
+    (ball->x - 1 < platform->x + platform->width / 2)) {
+		return 2;
 	}
 }
 
