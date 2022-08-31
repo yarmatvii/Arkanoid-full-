@@ -79,7 +79,7 @@ public:
 	}
 
 	virtual void onMouseMove(int x, int y, int xrelative, int yrelative) {
-		std::cout << x << ":" << y << " -> " << xrelative << ":" << yrelative << std::endl;
+		//std::cout << x << ":" << y << " -> " << xrelative << ":" << yrelative << std::endl;
 		board->coursor->move(x, y);
 	}
 
