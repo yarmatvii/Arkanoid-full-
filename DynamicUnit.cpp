@@ -5,16 +5,9 @@
 
 DynamicUnit::DynamicUnit(Sprite* sprite, int x, int y, int width, int height) :
 	Unit(sprite, x, y, width, height) {
-	this->rotation = 0;
 	this->velocity = 0;
 	this->directionStartX = x;
 	this->directionStartY = y;
-}
-
-DynamicUnit::DynamicUnit(Sprite* sprite, int x, int y, int width, int height, double rotation, double velocity) :
-	Unit(sprite, x, y, width, height) {
-	this->rotation = rotation;
-	this->velocity = velocity;
 }
 
 void DynamicUnit::setVelosity(double velocity) {

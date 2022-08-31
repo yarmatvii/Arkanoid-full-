@@ -53,15 +53,15 @@ public:
 		ballSprite = createSprite(getResourcePath("63-Breakout-Tiles.png").c_str());
 		coursorSprite = createSprite(getResourcePath("59-Breakout-Tiles.png").c_str());
 
-		board->addUnit(new Unit(blueWallSprite, 0, 0, 150, 50));
+		/*board->addUnit(new Unit(blueWallSprite, 0, 0, 150, 50));
 		board->addUnit(new Unit(blueWallSprite, 150, 0, 150, 50));
 		board->addUnit(new Unit(blueWallSprite, 300, 0, 150, 50));
 		board->addUnit(new Unit(blueWallSprite, 450, 0, 150, 50));
 		board->addUnit(new Unit(blueWallSprite, 600, 0, 150, 50));
-		board->addUnit(new Unit(blueWallSprite, 750, 0, 50, 50));
+		board->addUnit(new Unit(blueWallSprite, 750, 0, 50, 50));*/
 
-		board->addPlatform(new PratformUnit(platformSprites, 306, 400, 188, 50));
-		board->addBall(new DynamicUnit(ballSprite, 384, 360, 32, 32));
+		board->addPlatform(new PratformUnit(platformSprites, board->width/2, board->height - 100, 160, 50));
+		board->addBall(new DynamicUnit(ballSprite, board->width / 2, board->height - 160, 32, 32));
 		board->addCoursor(new Unit(coursorSprite, -50, -50, 16, 16));
 
 		showCursor(false);
