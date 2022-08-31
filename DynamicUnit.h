@@ -20,4 +20,9 @@ public:
 
 	virtual void update();
 	virtual void draw();
+
+private:
+	double directionStartX;
+	double directionStartY;
+	int directionStartTick;
 };

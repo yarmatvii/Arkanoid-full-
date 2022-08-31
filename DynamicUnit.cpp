@@ -1,3 +1,4 @@
+#define _WINDOWS
 #include "DynamicUnit.h"
 #include <cmath>
 
@@ -5,6 +6,8 @@ DynamicUnit::DynamicUnit(Sprite* sprite, int x, int y, int width, int height) :
 	Unit(sprite, x, y, width, height) {
 	this->rotation = 0;
 	this->velocity = 0;
+	this->directionStartX = x;
+	this->directionStartY = y;
 }
 
 DynamicUnit::DynamicUnit(Sprite* sprite, int x, int y, int width, int height, double rotation, double velocity) :
@@ -21,6 +24,10 @@ void DynamicUnit::resetVelosity() {
 }
 void DynamicUnit::setRotation(double rotation) {
 	this->rotation = rotation;
+	this->directionStartX = this->x;
+	this->directionStartY = this->y;
+	this->directionStartTick = getTickCount();
+
 }
 double DynamicUnit::getRotation() {
 	return this->rotation;
@@ -30,9 +37,9 @@ void DynamicUnit::resetRotation() {
 }
 
 void DynamicUnit::update() {
-	int dx = velocity * std::cos(rotation);
-	int dy = velocity * std::sin(rotation);
-	moveRelative(dx, dy);
+	int x = directionStartX + std::cos(rotation) * velocity * (getTickCount() - directionStartTick);
+	int y = directionStartY + std::sin(rotation) * velocity * (getTickCount() - directionStartTick);
+	move(x, y);
 }
 
 void DynamicUnit::draw() {

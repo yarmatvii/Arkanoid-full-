@@ -11,7 +11,7 @@
 
 
 #define PLATFORM_VELOCITY 2
-#define BALL_VELOCITY 2
+#define BALL_VELOCITY 0.5
 
 /* Test Framework realization */
 class MyFramework : public Framework {
