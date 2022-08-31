@@ -88,21 +88,21 @@ void Board::draw() {
 
 }
 
-int Board::checkIfCollideWithEdges(DynamicUnit* other)
+int Board::checkIfCollideWithEdges(DynamicUnit* unit)
 {
-	if (other->x + other->width + 1 > this->width) {
+	if (unit->x + unit->width >= this->width) {
 		//std::cout << "right" << std::endl;
 		return 1;
 	}
-	else if (other->x - 1 < 0) {
+	else if (unit->x < 0) {
 		//std::cout << "left" << std::endl;
 		return 2;
 	}
-	else if (other->y + other->height + 1 > this->height) {
+	else if (unit->y + unit->height >= this->height) {
 		//std::cout << "bottom" << std::endl;
 		return 3;
 	}
-	else if (other->y - 1 < 0) {
+	else if (unit->y < 0) {
 		//std::cout << "up" << std::endl;
 		return 4;
 	}
@@ -110,10 +110,14 @@ int Board::checkIfCollideWithEdges(DynamicUnit* other)
 
 int Board::checkIfCollideWithPlatform(DynamicUnit* ball, DynamicUnit* platform)
 {
-	if (((ball->y + ball->height + 1) > platform->y) && (ball->x + ball->width + 1 > platform->x + platform->width / 2) && (ball->x - 1 < (platform->x + platform->width))) {
+	if (((ball->y + ball->height + 1) > platform->y) &&
+     (ball->x + ball->width + 1 > platform->x + platform->width / 2) &&
+     (ball->x - 1 < (platform->x + platform->width))) {
 		return 1;
 	}
-	else if (((ball->y + ball->height + 1) > platform->y) && (ball->x + ball->width + 1 > platform->x) && (ball->x - 1 < platform->x + platform->width / 2)) {
+	else if (((ball->y + ball->height + 1) > platform->y) &&
+    (ball->x + ball->width + 1 > platform->x) &&
+    (ball->x - 1 < platform->x + platform->width / 2)) {
 		return 2;
 	}
 }

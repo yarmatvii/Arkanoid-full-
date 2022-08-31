@@ -47,5 +47,8 @@
     <ClInclude Include="PratformUnit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Side.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
