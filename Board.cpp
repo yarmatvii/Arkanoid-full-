@@ -2,6 +2,7 @@
 #include <algorithm>
 #include "iostream"
 #include <numbers>
+#include <numeric>
 
 Board::Board(int width, int height) {
 	this->width = width;
@@ -49,37 +50,34 @@ void Board::addCoursor(Unit* coursor) {
 void Board::update() {
 	ball->update();
 	platform->update();
+
+	double directionX = this->ball->getDirectionX();
+	double directionY = this->ball->getDirectionY();
+	std::pair<double, double> r;
+
 	switch (checkIfCollideWithEdges(ball)) {
 	case 1:
-		ball->setRotation((2 * (ball->getRotation() * 0) * 0 - ball->getRotation()) + std::numbers::pi);
-		std::cout << ball->getRotation() << std::endl;
+		r = reflectionVector({ directionX, directionY }, { -1, 0 });
+		this->ball->setDirection(r.first, r.second);
 		break;
 	case 2:
-		ball->setRotation((2 * (ball->getRotation() * 0) * std::numbers::pi - ball->getRotation()) + std::numbers::pi);
-		std::cout << ball->getRotation() << std::endl;
+		r = reflectionVector({ directionX, directionY }, { 1, 0 });
+		this->ball->setDirection(r.first, r.second);
 		break;
 	case 3:
-		ball->setRotation((2 * (ball->getRotation() * 0) * 3 * std::numbers::pi / 2 - ball->getRotation()) + 2 * std::numbers::pi);
-		std::cout << ball->getRotation() << std::endl;
+		r = reflectionVector({ directionX, directionY }, { 0, 1 });
+		this->ball->setDirection(r.first, r.second);
 		break;
 	case 4:
-		ball->setRotation((2 * (ball->getRotation() * 0) * std::numbers::pi / 2 - ball->getRotation()) + 2 * std::numbers::pi);
-		std::cout << ball->getRotation() << std::endl;
+		r = reflectionVector({ directionX, directionY }, { 0, -1 });
+		this->ball->setDirection(r.first, r.second);
 		break;
 	}
 
 	switch (checkIfCollideWithPlatform(ball, platform)) {
-		case 1:
-
-			break;
-		case 2:
-
-			break;
-		case 3:
-
-			break;
 	case 4:
-		ball->setRotation((2 * (ball->getRotation() * 0) * std::numbers::pi / 2 - ball->getRotation()) + 2 * std::numbers::pi);
+		r = reflectionVector({ directionX, directionY }, { 0, -1 });
+		this->ball->setDirection(r.first, r.second);
 		break;
 	}
 
@@ -118,4 +116,13 @@ int Board::checkIfCollideWithPlatform(DynamicUnit* ball, DynamicUnit* platform)
 	if (((ball->y + ball->height + 1) > platform->y) && (ball->x + ball->width > platform->x) && (ball->x < this->width - (platform->x + platform->width))) {
 		return 4;
 	}
+}
+
+std::pair<double, double> Board::reflectionVector(std::pair<double, double> d,
+	std::pair<double, double> n) {
+	double dotProduct = d.first * n.first + d.second * n.second;
+	return {
+		d.first - 2 * dotProduct * n.first,
+		d.second - 2 * dotProduct * n.second
+	};
 }

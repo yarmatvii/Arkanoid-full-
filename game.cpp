@@ -6,11 +6,12 @@
 #include <filesystem>
 #include <numbers>
 #include <cmath>
+#include <utility>
 
 #include "iostream"
 
 
-#define PLATFORM_VELOCITY 2
+#define PLATFORM_VELOCITY 0.5
 #define BALL_VELOCITY 0.5
 
 /* Test Framework realization */
@@ -94,13 +95,14 @@ public:
 
 				int dx = coursorX - ballX;
 				int dy = coursorY - ballY;
-				double rotation = std::atan2(dy, dx);
+				long double len = sqrt(pow(dx, 2) + pow(dy, 2));
+
 				board->ball->setVelosity(BALL_VELOCITY);
-				board->ball->setRotation(rotation);
+				board->ball->setDirection(dx / len, dy / len);
 			}
 		}
 		else if (button == FRMouseButton::RIGHT) {
-
+			board->ball->resetVelosity();
 		}
 		else if (button == FRMouseButton::MIDDLE) {
 
@@ -113,11 +115,11 @@ public:
 	virtual void onKeyPressed(FRKey k) {
 		if (k == FRKey::LEFT) {
 			board->platform->setVelosity(PLATFORM_VELOCITY);
-			board->platform->setRotation(std::numbers::pi);
+			board->platform->setDirection(-1, 0);
 		}
 		else if (k == FRKey::RIGHT) {
 			board->platform->setVelosity(PLATFORM_VELOCITY);
-			board->platform->setRotation(0);
+			board->platform->setDirection(1, 0);
 		}
 		else if (k == FRKey::UP) {
 

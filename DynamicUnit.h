@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Unit.h"
+#include <tuple>
 
 class DynamicUnit : public Unit {
 	// TODO getters & setters
@@ -14,15 +15,20 @@ public:
 
 	virtual void setVelosity(double velocity);
 	virtual void resetVelosity();
-	virtual void setRotation(double rotation);
-	virtual void resetRotation();
-	virtual double getRotation();
+	//virtual double getDirectionX();
+	//virtual double getDirectionY();
+
+	virtual void setDirection(double x, double y);
+	virtual double getDirectionX();
+	virtual double getDirectionY();
+
 
 	virtual void update();
 	virtual void draw();
 
-private:
-	double directionStartX;
-	double directionStartY;
+	int directionStartX;
+	int directionStartY;
+	double directionX;
+	double directionY;
 	int directionStartTick;
 };

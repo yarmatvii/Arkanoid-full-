@@ -23,24 +23,30 @@ void DynamicUnit::setVelosity(double velocity) {
 void DynamicUnit::resetVelosity() {
 	this->velocity = 0;
 }
-void DynamicUnit::setRotation(double rotation) {
-	this->rotation = rotation;
-	this->directionStartX = this->x;
-	this->directionStartY = this->y;
-	this->directionStartTick = getTickCount();
 
+void DynamicUnit::setDirection(double x, double y) {
+	directionX = x;
+	directionY = y;
+
+	directionStartX = this->x;
+	directionStartY = this->y;
+	directionStartTick = getTickCount();
 }
-double DynamicUnit::getRotation() {
-	return this->rotation;
+
+double DynamicUnit::getDirectionX() {
+	return this->directionX;
 }
-void DynamicUnit::resetRotation() {
-	this->rotation = 0;
+
+double DynamicUnit::getDirectionY() {
+	return this->directionY;
 }
 
 void DynamicUnit::update() {
-	int x = directionStartX + std::cos(rotation) * velocity * (getTickCount() - directionStartTick);
-	int y = directionStartY + std::sin(rotation) * velocity * (getTickCount() - directionStartTick);
-	move(x, y);
+	if (velocity != 0) {
+		int x = directionStartX + directionX * velocity * (getTickCount() - directionStartTick);
+		int y = directionStartY + directionY * velocity * (getTickCount() - directionStartTick);
+		move(x, y);
+	}
 }
 
 void DynamicUnit::draw() {

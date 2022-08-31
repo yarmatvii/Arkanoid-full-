@@ -30,4 +30,8 @@ public:
 
 	void update();
 	void draw();
+
+private:
+	std::pair<double, double> reflectionVector(std::pair<double, double> d,
+		std::pair<double, double> n);
 };
