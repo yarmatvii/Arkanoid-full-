@@ -76,11 +76,39 @@ void Board::update() {
 
 	switch (checkIfCollideWithPlatform(ball, platform)) {
 	case 4:
-		r = reflectionVector({ directionX, directionY }, { 0, -1 });
+		r = reflectionVector({ directionX, directionY }, { 0, 1 });
 		this->ball->setDirection(r.first, r.second);
 		break;
 	}
 
+	if (this->platform->intersencts(this->ball)) {
+		switch (this->platform->collides(this->ball))
+		{
+		case Side::TOP:
+			std::cout << "top" << std::endl;
+			r = reflectionVector({ directionX, directionY }, { 0, 1});
+			this->ball->setDirection(r.first, r.second);
+			break;
+		case Side::RIGHT:
+			std::cout << "right" << std::endl;
+			r = reflectionVector({ directionX, directionY }, { -1, 0});
+			this->ball->setDirection(r.first, r.second);
+			break;
+		case Side::BOTTOM:
+			std::cout << "bot" << std::endl;
+			r = reflectionVector({ directionX, directionY }, { 0, -1});
+			this->ball->setDirection(r.first, r.second);
+			break;
+		case Side::LEFT:
+			std::cout << "left" << std::endl;
+			r = reflectionVector({ directionX, directionY }, { 1, 0});
+			this->ball->setDirection(r.first, r.second);
+			break;
+		default:
+			std::cout << "inter" << std::endl;
+			break;
+		}
+	}
 }
 
 void Board::draw() {
@@ -91,21 +119,21 @@ void Board::draw() {
 
 }
 
-int Board::checkIfCollideWithEdges(DynamicUnit* other)
+int Board::checkIfCollideWithEdges(DynamicUnit* unit)
 {
-	if (other->x + other->width + 1 > this->width) {
+	if (unit->x + unit->width >= this->width) {
 		//std::cout << "right" << std::endl;
 		return 1;
 	}
-	else if (other->x - 1 < 0) {
+	else if (unit->x < 0) {
 		//std::cout << "left" << std::endl;
 		return 2;
 	}
-	else if (other->y + other->height + 1 > this->height) {
+	else if (unit->y + unit->height >= this->height) {
 		//std::cout << "bottom" << std::endl;
 		return 3;
 	}
-	else if (other->y - 1 < 0) {
+	else if (unit->y < 0) {
 		//std::cout << "up" << std::endl;
 		return 4;
 	}
@@ -113,7 +141,9 @@ int Board::checkIfCollideWithEdges(DynamicUnit* other)
 
 int Board::checkIfCollideWithPlatform(DynamicUnit* ball, DynamicUnit* platform)
 {
-	if (((ball->y + ball->height + 1) > platform->y) && (ball->x + ball->width > platform->x) && (ball->x < this->width - (platform->x + platform->width))) {
+	if (((ball->y + ball->height + 1) > platform->y) &&
+		(ball->x + ball->width > platform->x) &&
+		(ball->x < this->width - (platform->x + platform->width))) {
 		return 4;
 	}
 }

@@ -52,17 +52,18 @@ public:
 		};
 		ballSprite = createSprite(getResourcePath("63-Breakout-Tiles.png").c_str());
 		coursorSprite = createSprite(getResourcePath("59-Breakout-Tiles.png").c_str());
+		board->addUnit(new Unit(blueWallSprite, 150, 0, 150, 50));
 
 		board->addUnit(new Unit(blueWallSprite, 0, 0, 150, 50));
-		board->addUnit(new Unit(blueWallSprite, 150, 0, 150, 50));
 		board->addUnit(new Unit(blueWallSprite, 300, 0, 150, 50));
 		board->addUnit(new Unit(blueWallSprite, 450, 0, 150, 50));
 		board->addUnit(new Unit(blueWallSprite, 600, 0, 150, 50));
 		board->addUnit(new Unit(blueWallSprite, 750, 0, 50, 50));
 
-		board->addPlatform(new PratformUnit(platformSprites, 306, 400, 188, 50));
+		board->addPlatform(new PratformUnit(platformSprites, 306, 400, 300, 50));
 		board->addBall(new DynamicUnit(ballSprite, 384, 360, 32, 32));
 		board->addCoursor(new Unit(coursorSprite, -50, -50, 16, 16));
+
 
 		showCursor(false);
 		return true;
@@ -85,7 +86,9 @@ public:
 	}
 
 	virtual void onMouseButtonClick(FRMouseButton button, bool isReleased) {
-		if (button == FRMouseButton::LEFT) {
+		switch (button)
+		{
+		case FRMouseButton::LEFT:
 			if (isReleased) {
 				int coursorX = board->coursor->x;
 				int coursorY = board->coursor->y;
@@ -100,47 +103,58 @@ public:
 				board->ball->setVelosity(BALL_VELOCITY);
 				board->ball->setDirection(dx / len, dy / len);
 			}
-		}
-		else if (button == FRMouseButton::RIGHT) {
+			break;
+		case FRMouseButton::RIGHT:
 			board->ball->resetVelosity();
-		}
-		else if (button == FRMouseButton::MIDDLE) {
-
-		}
-		else if (button == FRMouseButton::COUNT) {
-
+			break;
+		case FRMouseButton::MIDDLE:
+			break;
+		case FRMouseButton::COUNT:
+			break;
+		default:
+			break;
 		}
 	}
 
 	virtual void onKeyPressed(FRKey k) {
-		if (k == FRKey::LEFT) {
-			board->platform->setVelosity(PLATFORM_VELOCITY);
-			board->platform->setDirection(-1, 0);
-		}
-		else if (k == FRKey::RIGHT) {
+		switch (k)
+		{
+		case FRKey::RIGHT:
 			board->platform->setVelosity(PLATFORM_VELOCITY);
 			board->platform->setDirection(1, 0);
-		}
-		else if (k == FRKey::UP) {
-
-		}
-		else if (k == FRKey::DOWN) {
-
+			break;
+		case FRKey::LEFT:
+			board->platform->setVelosity(PLATFORM_VELOCITY);
+			board->platform->setDirection(-1, 0);
+			break;
+		case FRKey::DOWN:
+			break;
+		case FRKey::UP:
+			break;
+		case FRKey::COUNT:
+			break;
+		default:
+			break;
 		}
 	}
 
 	virtual void onKeyReleased(FRKey k) {
-		if (k == FRKey::LEFT) {
+		switch (k)
+		{
+		case FRKey::RIGHT:
 			board->platform->resetVelosity();
-		}
-		else if (k == FRKey::RIGHT) {
+			break;
+		case FRKey::LEFT:
 			board->platform->resetVelosity();
-		}
-		else if (k == FRKey::UP) {
-
-		}
-		else if (k == FRKey::DOWN) {
-
+			break;
+		case FRKey::DOWN:
+			break;
+		case FRKey::UP:
+			break;
+		case FRKey::COUNT:
+			break;
+		default:
+			break;
 		}
 	}
 

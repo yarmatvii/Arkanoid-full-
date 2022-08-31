@@ -140,6 +140,7 @@
     <ClInclude Include="DynamicUnit.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="PratformUnit.h" />
+    <ClInclude Include="Side.h" />
     <ClInclude Include="Unit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
