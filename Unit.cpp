@@ -2,6 +2,7 @@
 #define _WINDOWS
 
 #include "Unit.h"
+#include <iostream>
 
 Unit::Unit(Sprite* sprite, int x, int y, int width, int height) {
 	this->sprite = sprite;
@@ -29,13 +30,16 @@ void Unit::moveRelative(int xRelative, int yRelative) {
 	this->y += yRelative;
 }
 
-bool Unit::intersencts(Unit* other) {
-	return !(this->x + this->width - 1 < other->x ||
+bool Unit::intersects(Unit* other) {
+	
+	bool r = !(this->x + this->width - 1 < other->x ||
 		this->x > other->y + other->width - 1 ||
 		this->y > other->y + other->height - 1 ||
 		this->y + this->height - 1 < other->y
 		);
-
+	if (r)
+	//std::cout << "intersects";
+	return r;
 }
 
 Side Unit::collides(Unit* other) {
@@ -44,23 +48,28 @@ Side Unit::collides(Unit* other) {
 	
 	double y = a * other->x + b;
 	if (other->y <= y && y <= other->y + other->height) {
+		std::cout << "right";
 		return Side::RIGHT;
 	}
 	
 	y = a * other->x + other->width + b;
 	if (other->y <= y && y <= other->y + other->height) {
+		std::cout << "left";
 		return Side::LEFT;
 	}
 	
 	double x = (other->y - b) / a;
 	if (other->x <= x && x <= other->x + width) {
+		std::cout << "top";
 		return Side::TOP;
 	}
 	
 	x = (other->y + other->height - b) / a;
 	if (other->x <= x && x <= other->x + width) {
+		std::cout << "bottom";
 		return Side::BOTTOM;
 	}
+	std::cout << "pohui";
 }
 
 void Unit::draw() {

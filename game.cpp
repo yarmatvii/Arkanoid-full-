@@ -21,6 +21,7 @@ public:
 	int width;
 	int height;
 	Board* board;
+	bool showBoard;
 
 	Sprite* blueWallSprite = NULL;
 	std::vector<Sprite*> platformSprites;
@@ -32,6 +33,7 @@ public:
 		this->width = width;
 		this->height = height;
 		board = new Board(width, height);
+		showBoard = true;
 	}
 
 	virtual void PreInit(int& width, int& height, bool& fullscreen)
@@ -52,15 +54,15 @@ public:
 		};
 		ballSprite = createSprite(getResourcePath("63-Breakout-Tiles.png").c_str());
 		coursorSprite = createSprite(getResourcePath("59-Breakout-Tiles.png").c_str());
-    
-    board->addUnit(new Unit(blueWallSprite, 0, 0, 150, 50));
+
+		board->addUnit(new Unit(blueWallSprite, 0, 200, 150, 50));
 		board->addUnit(new Unit(blueWallSprite, 150, 0, 150, 50));
 		board->addUnit(new Unit(blueWallSprite, 300, 0, 150, 50));
 		board->addUnit(new Unit(blueWallSprite, 450, 0, 150, 50));
 		board->addUnit(new Unit(blueWallSprite, 600, 0, 150, 50));
 		board->addUnit(new Unit(blueWallSprite, 750, 0, 50, 50));
 
-		board->addPlatform(new PratformUnit(platformSprites, board->width/2, board->height - 100, 160, 50));
+		board->addPlatform(new PratformUnit(platformSprites, board->width / 2, board->height - 100, 160, 50));
 		board->addBall(new DynamicUnit(ballSprite, board->width / 2, board->height - 160, 32, 32));
 		board->addCoursor(new Unit(coursorSprite, -50, -50, 16, 16));
 
@@ -74,9 +76,16 @@ public:
 	}
 
 	virtual bool Tick() {
+
 		drawTestBackground();
-		board->update();
-		board->draw();
+		if (showBoard)
+		{
+			board->update();
+			board->draw();
+			if (board->ball->y + board->ball->height > board->platform->y + board->platform->height)
+				showBoard = false;
+		}
+
 		return false;
 	}
 

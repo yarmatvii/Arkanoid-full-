@@ -20,7 +20,7 @@ public:
 
 	virtual void move(int x, int y);
 	virtual void moveRelative(int xRelative, int yRelative);
-	virtual bool intersencts(Unit* other);
+	virtual bool intersects(Unit* other);
 	virtual Side collides(Unit* other);
 	virtual void draw();
 };

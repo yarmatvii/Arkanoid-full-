@@ -20,13 +20,13 @@ public:
 
 	Board(int width, int height);
 
-	bool intersencts(Unit* other);
+	bool intersects(Unit* other);
 	bool addUnit(Unit* unit);
 	bool addPlatform(PratformUnit* platform);
 	bool addBall(DynamicUnit* ball);
 	void addCoursor(Unit* coursor);
-	int checkIfCollideWithEdges(DynamicUnit* ball);
-	int checkIfCollideWithPlatform(DynamicUnit* other, DynamicUnit* platform);
+	Side checkIfCollideWithEdges(DynamicUnit* ball);
+	Side checkIfCollideWithPlatform(DynamicUnit* other, DynamicUnit* platform);
 
 	void update();
 	void draw();
