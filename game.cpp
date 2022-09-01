@@ -72,7 +72,12 @@ public:
 	}
 
 	virtual void Close() {
-
+		destroySprite(blueWallSprite);
+		destroySprite(ballSprite);
+		destroySprite(coursorSprite);
+		for (auto sprite : platformSprites) {
+			destroySprite(sprite);
+		}
 	}
 
 	virtual bool Tick() {
@@ -82,8 +87,8 @@ public:
 		{
 			board->update();
 			board->draw();
-			if (board->ball->y + board->ball->height > board->platform->y + board->platform->height)
-				showBoard = false;
+			if (board->ball->y + board->ball->height > board->platform->y + board->platform->height){}
+				//showBoard = false;
 		}
 
 		return false;

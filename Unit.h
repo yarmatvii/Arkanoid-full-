@@ -22,5 +22,7 @@ public:
 	virtual void moveRelative(int xRelative, int yRelative);
 	virtual bool intersects(Unit* other);
 	virtual Side collides(Unit* other);
+	bool linesLintersects(double p0_x, double p0_y, double p1_x, double p1_y,
+		double p2_x, double p2_y, double p3_x, double p3_y);
 	virtual void draw();
 };
