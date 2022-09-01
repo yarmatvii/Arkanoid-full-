@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BallUnit.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="DynamicUnit.cpp" />
     <ClCompile Include="game.cpp" />
@@ -137,6 +138,7 @@
     <ClCompile Include="Unit.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BallUnit.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="DynamicUnit.h" />
     <ClInclude Include="Framework.h" />
