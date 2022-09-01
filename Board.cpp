@@ -65,6 +65,7 @@ void Board::addcursor(Unit* cursor) {
 
 void Board::update() {
 	ball->update();
+	checkIfPLatformCollidesWithEdges();
 	platform->update();
 
 	double directionX = this->ball->getDirectionX();
@@ -170,4 +171,15 @@ std::pair<double, double> Board::reflectionVector(std::pair<double, double> d,
 		d.first - 2 * dotProduct * n.first,
 		d.second - 2 * dotProduct * n.second
 	};
+}
+
+void Board::checkIfPLatformCollidesWithEdges() {
+	if (this->platform->x + this->platform->width + 1 > this->width) {
+		this->platform->velocity = 0;
+		this->platform->x -= 1;
+	}
+	if (this->platform->x - 1 < 0) {
+		this->platform->velocity = 0;
+		this->platform->x += 1;
+	}
 }
