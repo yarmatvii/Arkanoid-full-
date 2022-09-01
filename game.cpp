@@ -13,7 +13,7 @@
 
 
 #define PLATFORM_VELOCITY 0.5
-#define BALL_VELOCITY 0.5
+
 
 /* Test Framework realization */
 class MyFramework : public Framework {
@@ -106,18 +106,7 @@ public:
 			{
 			case FRMouseButton::LEFT:
 				if (isReleased) {
-					int cursorX = board->cursor->x;
-					int cursorY = board->cursor->y;
-
-					int ballX = board->ball->x;
-					int ballY = board->ball->y;
-
-					int dx = cursorX - ballX;
-					int dy = cursorY - ballY;
-					long double len = sqrt(pow(dx, 2) + pow(dy, 2));
-
-					board->ball->setVelosity(BALL_VELOCITY);
-					board->ball->setDirection(dx / len, dy / len);
+					board->launchBall();
 				}
 				break;
 			case FRMouseButton::RIGHT:

@@ -13,6 +13,7 @@ DynamicUnit::DynamicUnit(Sprite* sprite, int x, int y, int width, int height) :
 void DynamicUnit::setVelosity(double velocity) {
 	this->velocity = velocity;
 }
+
 void DynamicUnit::resetVelosity() {
 	this->velocity = 0;
 }
