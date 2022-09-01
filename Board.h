@@ -29,6 +29,7 @@ public:
 	void addcursor(Unit* cursor);
 	Side checkIfCollideWithEdges(DynamicUnit* ball);
 	Side checkIfCollideWithPlatform(DynamicUnit* other, DynamicUnit* platform);
+	void checkIfPLatformCollidesWithEdges();
 	void launchBall();
 
 	void update();

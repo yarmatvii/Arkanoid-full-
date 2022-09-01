@@ -11,9 +11,8 @@
 
 #include <iostream>
 
-
-#define PLATFORM_VELOCITY 0.5
-
+#define PLATFORM_VELOCITY 1
+#define BALL_VELOCITY 0.5
 
 /* Test Framework realization */
 class MyFramework : public Framework {
@@ -44,7 +43,7 @@ public:
 
 	virtual bool Init() {
 		// load resources
-		
+
 		blueWallSprite = createSprite(getResourcePath("01-Breakout-Tiles.png").c_str());
 		platformSprites = {
 			createSprite(getResourcePath("50-Breakout-Tiles.png").c_str()),
@@ -77,7 +76,7 @@ public:
 		{
 			board->update();
 			board->draw();
-      
+
 			if (board->ball->y + board->ball->height > board->platform->y + board->platform->height)
 			{
 				showBoard = false;
@@ -126,14 +125,15 @@ public:
 		{
 		case FRKey::RIGHT:
 			if (showBoard) {
+
 				board->platform->setVelosity(PLATFORM_VELOCITY);
-				board->platform->setDirection(1, 0);
+				board->platform->setDirection(board->platform->getDirectionX() + 1, 0);
 			}
 			break;
 		case FRKey::LEFT:
 			if (showBoard) {
 				board->platform->setVelosity(PLATFORM_VELOCITY);
-				board->platform->setDirection(-1, 0);
+				board->platform->setDirection(board->platform->getDirectionX() - 1, 0);
 			}
 			break;
 		case FRKey::DOWN:
@@ -157,12 +157,14 @@ public:
 		{
 		case FRKey::RIGHT:
 			if (showBoard) {
-				board->platform->resetVelosity();
+				board->platform->setDirection(board->platform->getDirectionX() - 1, 0);
+				//board->platform->resetVelosity();
 			}
 			break;
 		case FRKey::LEFT:
 			if (showBoard) {
-				board->platform->resetVelosity();
+				board->platform->setDirection(board->platform->getDirectionX() + 1, 0);
+				//board->platform->resetVelosity();
 			}
 			break;
 		case FRKey::DOWN:
