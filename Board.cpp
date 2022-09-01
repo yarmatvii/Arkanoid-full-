@@ -88,21 +88,24 @@ void Board::draw() {
 	for (auto unit : units) {
 		if (unit->intersects(ball))
 		{
-			std::cout << "intersects";
 			double directionX = this->ball->getDirectionX();
 			double directionY = this->ball->getDirectionY();
 			switch (unit->collides(ball))
 			{
 			case Side::TOP:
+				this->ball->move(this->ball->x, unit->y - unit->height - 1);
 				this->ball->setDirection(directionX, -directionY);
 				break;
 			case Side::BOTTOM:
+				this->ball->move(this->ball->x, unit->y + unit->height + 1);
 				this->ball->setDirection(directionX, -directionY);
 				break;
 			case Side::RIGHT:
+				this->ball->move(unit->x + unit->width + 1, this->ball->y);
 				this->ball->setDirection(-directionX, directionY);
 				break;
 			case Side::LEFT:
+				this->ball->move(unit->x - this->ball->width - 1, this->ball->y);
 				this->ball->setDirection(-directionX, directionY);
 				break;
 			}
