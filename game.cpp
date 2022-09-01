@@ -3,13 +3,13 @@
 #include "Board.h"
 #include "GameOver.h"
 
-#include "string"
+#include <string>
 #include <filesystem>
 #include <numbers>
 #include <cmath>
 #include <utility>
 
-#include "iostream"
+#include <iostream>
 
 
 #define PLATFORM_VELOCITY 0.5
@@ -30,15 +30,13 @@ public:
 	Sprite* ballSprite = NULL;
 	Sprite* cursorSprite = NULL;
 
-
 	MyFramework(int width, int height) {
 		this->width = width;
 		this->height = height;
 		showBoard = true;
 	}
 
-	virtual void PreInit(int& width, int& height, bool& fullscreen)
-	{
+	virtual void PreInit(int& width, int& height, bool& fullscreen) {
 		width = this->width;
 		height = this->height;
 		fullscreen = false;
@@ -65,16 +63,21 @@ public:
 	}
 
 	virtual void Close() {
-
+		destroySprite(blueWallSprite);
+		destroySprite(ballSprite);
+		destroySprite(coursorSprite);
+		for (auto sprite : platformSprites) {
+			destroySprite(sprite);
+		}
 	}
 
 	virtual bool Tick() {
-
 		drawTestBackground();
 		if (showBoard)
 		{
 			board->update();
 			board->draw();
+      
 			if (board->ball->y + board->ball->height > board->platform->y + board->platform->height)
 			{
 				showBoard = false;
@@ -94,9 +97,7 @@ public:
 	}
 
 	virtual void onMouseMove(int x, int y, int xrelative, int yrelative) {
-		//std::cout << x << ":" << y << " -> " << xrelative << ":" << yrelative << std::endl;
-		if (showBoard)
-			board->cursor->move(x, y);
+		if (showBoard) board->cursor->move(x, y);
 	}
 
 	virtual void onMouseButtonClick(FRMouseButton button, bool isReleased) {
@@ -186,8 +187,7 @@ public:
 		}
 	}
 
-	virtual const char* GetTitle() override
-	{
+	virtual const char* GetTitle() override {
 		return "Arcanoid";
 	}
 
@@ -200,8 +200,7 @@ private:
 
 };
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
 	// default values
 	int width = 800;
 	int height = 600;

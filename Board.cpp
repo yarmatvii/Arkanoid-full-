@@ -43,17 +43,17 @@ bool Board::addUnit(Unit* unit) {
 }
 
 bool Board::addPlatform(PratformUnit* platform) {
-	//if (!addUnit(platform)) {
-	//	return false;
-	//}
+	if (intersects(platform)) {
+		return false;
+	}
 	this->platform = platform;
 	return true;
 }
 
 bool Board::addBall(DynamicUnit* ball) {
-	//if (!addUnit(ball)) {
-	//	return false;
-	//}
+	if (intersects(ball)) {
+		return false;
+	}
 	this->ball = ball;
 	return true;
 }
@@ -64,7 +64,6 @@ void Board::addcursor(Unit* cursor) {
 
 
 void Board::update() {
-	//if (ball->y + ball->height < platform->y + platform->height)
 	ball->update();
 	platform->update();
 
@@ -109,15 +108,19 @@ void Board::draw() {
 			switch (unit->collides(ball))
 			{
 			case Side::TOP:
+				this->ball->move(this->ball->x, unit->y - unit->height - 1);
 				this->ball->setDirection(directionX, -directionY);
 				break;
 			case Side::BOTTOM:
+				this->ball->move(this->ball->x, unit->y + unit->height + 1);
 				this->ball->setDirection(directionX, -directionY);
 				break;
 			case Side::RIGHT:
+				this->ball->move(unit->x + unit->width + 1, this->ball->y);
 				this->ball->setDirection(-directionX, directionY);
 				break;
 			case Side::LEFT:
+				this->ball->move(unit->x - this->ball->width - 1, this->ball->y);
 				this->ball->setDirection(-directionX, directionY);
 				break;
 			}
@@ -133,19 +136,15 @@ void Board::draw() {
 Side Board::checkIfCollideWithEdges(DynamicUnit* unit)
 {
 	if (unit->x + unit->width >= this->width) {
-		//std::cout << "right" << std::endl;
 		return Side::RIGHT;
 	}
 	else if (unit->x < 0) {
-		//std::cout << "left" << std::endl;
 		return Side::LEFT;
 	}
 	else if (unit->y + unit->height >= this->height) {
-		//std::cout << "bottom" << std::endl;
 		return Side::BOTTOM;
 	}
 	else if (unit->y < 0) {
-		//std::cout << "top" << std::endl;
 		return Side::TOP;
 	}
 }
