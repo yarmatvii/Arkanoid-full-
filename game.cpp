@@ -65,7 +65,7 @@ public:
 	virtual void Close() {
 		destroySprite(blueWallSprite);
 		destroySprite(ballSprite);
-		destroySprite(coursorSprite);
+		destroySprite(cursorSprite);
 		for (auto sprite : platformSprites) {
 			destroySprite(sprite);
 		}

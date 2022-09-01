@@ -20,7 +20,7 @@ Board::Board(int width, int height, Sprite* wall, std::vector<Sprite*> platforms
 	this->addUnit(new Unit(wall, 600, 0, 150, 50));
 	this->addUnit(new Unit(wall, 750, 0, 50, 50));
 
-	this->addPlatform(new PratformUnit(platforms, this->width / 2, this->height - 100, 160, 40));
+	this->addPlatform(new PratformUnit(platforms, this->width / 2 - 80, this->height - 100, 160, 40));
 	this->addBall(new DynamicUnit(ball, (this->platform->x + this->platform->width / 2) - 8, this->height - 160, 16, 16));
 	this->addcursor(new Unit(cursor, -50, -50, 16, 16));
 }

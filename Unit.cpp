@@ -38,37 +38,34 @@ bool Unit::intersects(Unit* other) {
 		);
 }
 Side Unit::collides(Unit* other) {
-	if (linesLintersects(other->getCenterX(), other->getCenterY(), this->getCenterX(), this->getCenterY(),
+	if (linesIntersects(other->getCenterX(), other->getCenterY(), this->getCenterX(), this->getCenterY(),
 		this->x, this->y, this->x + this->width, this->y)) {
 		return Side::TOP;
 	}
-	if (linesLintersects(other->getCenterX(), other->getCenterY(), this->getCenterX(), this->getCenterY(),
+	if (linesIntersects(other->getCenterX(), other->getCenterY(), this->getCenterX(), this->getCenterY(),
 		this->x, this->y + this->height, this->x + this->width, this->y + this->height)) {
 		return Side::BOTTOM;
 	}
-	if (linesLintersects(other->getCenterX(), other->getCenterY(), this->getCenterX(), this->getCenterY(),
+	if (linesIntersects(other->getCenterX(), other->getCenterY(), this->getCenterX(), this->getCenterY(),
 		this->x, this->y, this->x, this->y + this->height)) {
 		return Side::LEFT;
 	}
-	if (linesLintersects(other->getCenterX(), other->getCenterY(), this->getCenterX(), this->getCenterY(),
+	if (linesIntersects(other->getCenterX(), other->getCenterY(), this->getCenterX(), this->getCenterY(),
 		this->x + this->width, this->y, this->x + this->width, this->y + this->height)) {
 		return Side::RIGHT;
 	}
 }
 
-bool Unit::linesLintersects(double p0_x, double p0_y, double p1_x, double p1_y,
-	double p2_x, double p2_y, double p3_x, double p3_y)
-{
-	double s1_x, s1_y, s2_x, s2_y;
-	s1_x = p1_x - p0_x;     s1_y = p1_y - p0_y;
-	s2_x = p3_x - p2_x;     s2_y = p3_y - p2_y;
+bool Unit::linesIntersects(double p0x, double p0y, double p1x, double p1y, double p2x, double p2y, double p3x, double p3y) {
+	double s1x = p1x - p0x;
+	double s1y = p1y - p0y;
+	double s2x = p3x - p2x;
+	double s2y = p3y - p2y;
 
-	double s, t;
-	s = (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) / (-s2_x * s1_y + s1_x * s2_y);
-	t = (s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / (-s2_x * s1_y + s1_x * s2_y);
+	double s = (-s1y * (p0x - p2x) + s1x * (p0y - p2y)) / (-s2x * s1y + s1x * s2y);
+	double t = (s2x * (p0y - p2y) - s2y * (p0x - p2x)) / (-s2x * s1y + s1x * s2y);
 
-	if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
-	{
+	if (s >= 0 && s <= 1 && t >= 0 && t <= 1) {
 		return true;
 	}
 	return false;
