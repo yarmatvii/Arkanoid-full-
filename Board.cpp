@@ -27,17 +27,17 @@ bool Board::addUnit(Unit* unit) {
 }
 
 bool Board::addPlatform(PratformUnit* platform) {
-	//if (!addUnit(platform)) {
-	//	return false;
-	//}
+	if (intersects(platform)) {
+		return false;
+	}
 	this->platform = platform;
 	return true;
 }
 
 bool Board::addBall(DynamicUnit* ball) {
-	//if (!addUnit(ball)) {
-	//	return false;
-	//}
+	if (intersects(ball)) {
+		return false;
+	}
 	this->ball = ball;
 	return true;
 }
@@ -48,7 +48,6 @@ void Board::addCoursor(Unit* coursor) {
 
 
 void Board::update() {
-	//if (ball->y + ball->height < platform->y + platform->height)
 	ball->update();
 	platform->update();
 
@@ -121,19 +120,15 @@ void Board::draw() {
 Side Board::checkIfCollideWithEdges(DynamicUnit* unit)
 {
 	if (unit->x + unit->width >= this->width) {
-		//std::cout << "right" << std::endl;
 		return Side::RIGHT;
 	}
 	else if (unit->x < 0) {
-		//std::cout << "left" << std::endl;
 		return Side::LEFT;
 	}
 	else if (unit->y + unit->height >= this->height) {
-		//std::cout << "bottom" << std::endl;
 		return Side::BOTTOM;
 	}
 	else if (unit->y < 0) {
-		//std::cout << "top" << std::endl;
 		return Side::TOP;
 	}
 }

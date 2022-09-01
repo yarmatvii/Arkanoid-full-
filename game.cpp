@@ -2,13 +2,13 @@
 #include "Framework.h"
 #include "Board.h"
 
-#include "string"
+#include <string>
 #include <filesystem>
 #include <numbers>
 #include <cmath>
 #include <utility>
 
-#include "iostream"
+#include <iostream>
 
 
 #define PLATFORM_VELOCITY 0.5
@@ -28,7 +28,6 @@ public:
 	Sprite* ballSprite = NULL;
 	Sprite* coursorSprite = NULL;
 
-
 	MyFramework(int width, int height) {
 		this->width = width;
 		this->height = height;
@@ -36,12 +35,10 @@ public:
 		showBoard = true;
 	}
 
-	virtual void PreInit(int& width, int& height, bool& fullscreen)
-	{
+	virtual void PreInit(int& width, int& height, bool& fullscreen) {
 		width = this->width;
 		height = this->height;
 		fullscreen = false;
-
 	}
 
 	virtual bool Init() {
@@ -66,7 +63,6 @@ public:
 		board->addBall(new DynamicUnit(ballSprite, board->width / 2, board->height - 160, 32, 32));
 		board->addCoursor(new Unit(coursorSprite, -50, -50, 16, 16));
 
-
 		showCursor(false);
 		return true;
 	}
@@ -81,21 +77,19 @@ public:
 	}
 
 	virtual bool Tick() {
-
 		drawTestBackground();
 		if (showBoard)
 		{
 			board->update();
 			board->draw();
-			if (board->ball->y + board->ball->height > board->platform->y + board->platform->height){}
-				//showBoard = false;
+			if (board->ball->y + board->ball->height > board->platform->y + board->platform->height) {}
+			//showBoard = false;
 		}
 
 		return false;
 	}
 
 	virtual void onMouseMove(int x, int y, int xrelative, int yrelative) {
-		//std::cout << x << ":" << y << " -> " << xrelative << ":" << yrelative << std::endl;
 		board->coursor->move(x, y);
 	}
 
@@ -172,8 +166,7 @@ public:
 		}
 	}
 
-	virtual const char* GetTitle() override
-	{
+	virtual const char* GetTitle() override {
 		return "Arcanoid";
 	}
 
@@ -186,8 +179,7 @@ private:
 
 };
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
 	// default values
 	int width = 800;
 	int height = 600;
