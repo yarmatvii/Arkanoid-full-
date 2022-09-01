@@ -31,7 +31,6 @@ void Unit::moveRelative(int xRelative, int yRelative) {
 }
 
 bool Unit::intersects(Unit* other) {
-	
 	return !(this->x + this->width - 1 < other->x ||
 		this->x > other->x + other->width - 1 ||
 		this->y > other->y + other->height - 1 ||

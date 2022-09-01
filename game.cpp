@@ -1,6 +1,7 @@
 #define _WINDOWS
 #include "Framework.h"
 #include "Board.h"
+#include "GameOver.h"
 
 #include <string>
 #include <filesystem>
@@ -23,15 +24,15 @@ public:
 	Board* board;
 	bool showBoard;
 
+	Sprite* gameOverSprite = NULL;
 	Sprite* blueWallSprite = NULL;
 	std::vector<Sprite*> platformSprites;
 	Sprite* ballSprite = NULL;
-	Sprite* coursorSprite = NULL;
+	Sprite* cursorSprite = NULL;
 
 	MyFramework(int width, int height) {
 		this->width = width;
 		this->height = height;
-		board = new Board(width, height);
 		showBoard = true;
 	}
 
@@ -43,25 +44,19 @@ public:
 
 	virtual bool Init() {
 		// load resources
+		
 		blueWallSprite = createSprite(getResourcePath("01-Breakout-Tiles.png").c_str());
 		platformSprites = {
 			createSprite(getResourcePath("50-Breakout-Tiles.png").c_str()),
 			createSprite(getResourcePath("51-Breakout-Tiles.png").c_str()),
 			createSprite(getResourcePath("52-Breakout-Tiles.png").c_str())
 		};
+		cursorSprite = createSprite(getResourcePath("59-Breakout-Tiles.png").c_str());
 		ballSprite = createSprite(getResourcePath("63-Breakout-Tiles.png").c_str());
-		coursorSprite = createSprite(getResourcePath("59-Breakout-Tiles.png").c_str());
 
-		board->addUnit(new Unit(blueWallSprite, 0, 200, 150, 50));
-		board->addUnit(new Unit(blueWallSprite, 150, 0, 150, 50));
-		board->addUnit(new Unit(blueWallSprite, 300, 0, 150, 50));
-		board->addUnit(new Unit(blueWallSprite, 450, 0, 150, 50));
-		board->addUnit(new Unit(blueWallSprite, 600, 0, 150, 50));
-		board->addUnit(new Unit(blueWallSprite, 750, 0, 50, 50));
+		board = new Board(width, height, blueWallSprite, platformSprites, cursorSprite, ballSprite);
 
-		board->addPlatform(new PratformUnit(platformSprites, board->width / 2, board->height - 100, 160, 50));
-		board->addBall(new DynamicUnit(ballSprite, board->width / 2, board->height - 160, 32, 32));
-		board->addCoursor(new Unit(coursorSprite, -50, -50, 16, 16));
+		gameOverSprite = createSprite(getResourcePath("GameOver.jpg").c_str());
 
 		showCursor(false);
 		return true;
@@ -82,60 +77,82 @@ public:
 		{
 			board->update();
 			board->draw();
-			if (board->ball->y + board->ball->height > board->platform->y + board->platform->height) {}
-			//showBoard = false;
+      
+			if (board->ball->y + board->ball->height > board->platform->y + board->platform->height)
+			{
+				showBoard = false;
+				delete board->ball;
+				delete board->cursor;
+				delete board->platform;
+				board->units.clear();
+			}
+		}
+		else
+		{
+			setSpriteSize(gameOverSprite, this->width, this->height);
+			drawSprite(gameOverSprite, 0, 0);
 		}
 
 		return false;
 	}
 
 	virtual void onMouseMove(int x, int y, int xrelative, int yrelative) {
-		board->coursor->move(x, y);
+		if (showBoard) board->cursor->move(x, y);
 	}
 
 	virtual void onMouseButtonClick(FRMouseButton button, bool isReleased) {
-		switch (button)
-		{
-		case FRMouseButton::LEFT:
-			if (isReleased) {
-				int coursorX = board->coursor->x;
-				int coursorY = board->coursor->y;
+		if (showBoard)
+			switch (button)
+			{
+			case FRMouseButton::LEFT:
+				if (isReleased) {
+					int cursorX = board->cursor->x;
+					int cursorY = board->cursor->y;
 
-				int ballX = board->ball->x;
-				int ballY = board->ball->y;
+					int ballX = board->ball->x;
+					int ballY = board->ball->y;
 
-				int dx = coursorX - ballX;
-				int dy = coursorY - ballY;
-				long double len = sqrt(pow(dx, 2) + pow(dy, 2));
+					int dx = cursorX - ballX;
+					int dy = cursorY - ballY;
+					long double len = sqrt(pow(dx, 2) + pow(dy, 2));
 
-				board->ball->setVelosity(BALL_VELOCITY);
-				board->ball->setDirection(dx / len, dy / len);
+					board->ball->setVelosity(BALL_VELOCITY);
+					board->ball->setDirection(dx / len, dy / len);
+				}
+				break;
+			case FRMouseButton::RIGHT:
+				board->ball->resetVelosity();
+				break;
+			case FRMouseButton::MIDDLE:
+				break;
+			case FRMouseButton::COUNT:
+				break;
+			default:
+				break;
 			}
-			break;
-		case FRMouseButton::RIGHT:
-			board->ball->resetVelosity();
-			break;
-		case FRMouseButton::MIDDLE:
-			break;
-		case FRMouseButton::COUNT:
-			break;
-		default:
-			break;
-		}
 	}
 
 	virtual void onKeyPressed(FRKey k) {
 		switch (k)
 		{
 		case FRKey::RIGHT:
-			board->platform->setVelosity(PLATFORM_VELOCITY);
-			board->platform->setDirection(1, 0);
+			if (showBoard) {
+				board->platform->setVelosity(PLATFORM_VELOCITY);
+				board->platform->setDirection(1, 0);
+			}
 			break;
 		case FRKey::LEFT:
-			board->platform->setVelosity(PLATFORM_VELOCITY);
-			board->platform->setDirection(-1, 0);
+			if (showBoard) {
+				board->platform->setVelosity(PLATFORM_VELOCITY);
+				board->platform->setDirection(-1, 0);
+			}
 			break;
 		case FRKey::DOWN:
+			if (showBoard == false)
+			{
+				Init();
+				showBoard = true;
+			}
 			break;
 		case FRKey::UP:
 			break;
@@ -150,10 +167,14 @@ public:
 		switch (k)
 		{
 		case FRKey::RIGHT:
-			board->platform->resetVelosity();
+			if (showBoard) {
+				board->platform->resetVelosity();
+			}
 			break;
 		case FRKey::LEFT:
-			board->platform->resetVelosity();
+			if (showBoard) {
+				board->platform->resetVelosity();
+			}
 			break;
 		case FRKey::DOWN:
 			break;

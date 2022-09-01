@@ -15,16 +15,17 @@ public:
 	std::vector<Unit*> units;
 	PratformUnit* platform;
 	DynamicUnit* ball;
-	Unit* coursor;
+	Unit* cursor;
 
 
 	Board(int width, int height);
+	Board(int width, int height, Sprite* wall, std::vector<Sprite*> platforms, Sprite* cursor, Sprite* ball);
 
 	bool intersects(Unit* other);
 	bool addUnit(Unit* unit);
 	bool addPlatform(PratformUnit* platform);
 	bool addBall(DynamicUnit* ball);
-	void addCoursor(Unit* coursor);
+	void addcursor(Unit* cursor);
 	Side checkIfCollideWithEdges(DynamicUnit* ball);
 	Side checkIfCollideWithPlatform(DynamicUnit* other, DynamicUnit* platform);
 

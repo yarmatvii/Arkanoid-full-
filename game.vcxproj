@@ -132,6 +132,7 @@
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="DynamicUnit.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="PratformUnit.cpp" />
     <ClCompile Include="Unit.cpp" />
   </ItemGroup>
@@ -139,6 +140,7 @@
     <ClInclude Include="Board.h" />
     <ClInclude Include="DynamicUnit.h" />
     <ClInclude Include="Framework.h" />
+    <ClInclude Include="GameOver.h" />
     <ClInclude Include="PratformUnit.h" />
     <ClInclude Include="Side.h" />
     <ClInclude Include="Unit.h" />
