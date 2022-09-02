@@ -14,6 +14,8 @@ public:
 
 	int width;
 	int height;
+	bool isDefeat = false;
+	bool isVictory = false;
 	std::vector<BlockUnit*> blocks;
 	PratformUnit* platform;
 	BallUnit* ball;
@@ -32,7 +34,7 @@ public:
 	void launchBall();
 	bool checkDefeat();
 	bool checkVictory();
-
+	bool tick(bool showBoard, Sprite* gameOver, Sprite* victory);
 
 	void update();
 	void draw();
@@ -40,7 +42,7 @@ public:
 private:
 	std::pair<double, double> reflectionVector(std::pair<double, double> d, std::pair<double, double> n);
 	Side checkIfCollideWithEdges(DynamicUnit* ball);
-	Side checkIfCollideWithPlatform(DynamicUnit* other, DynamicUnit* platform);
+	Side checkIfCollideWithPlatform();
 	void edgesCollision();
 	void platformCollision();
 	void blockCollision();
