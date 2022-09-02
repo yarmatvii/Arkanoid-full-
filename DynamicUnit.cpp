@@ -27,6 +27,15 @@ void DynamicUnit::setDirection(double x, double y) {
 	directionStartTick = getTickCount();
 }
 
+void DynamicUnit::setDirection(std::pair<double, double> direction) {
+	directionX = direction.first;
+	directionY = direction.second;
+
+	directionStartX = this->x;
+	directionStartY = this->y;
+	directionStartTick = getTickCount();
+}
+
 double DynamicUnit::getDirectionX() {
 	return this->directionX;
 }
@@ -47,4 +56,3 @@ void DynamicUnit::draw() {
 	update();
 	Unit::draw();
 }
-

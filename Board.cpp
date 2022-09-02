@@ -1,4 +1,4 @@
-#define _WINDOWS
+﻿#define _WINDOWS
 #include "Board.h"
 #include <algorithm>
 #include "iostream"
@@ -10,18 +10,57 @@ Board::Board(int width, int height) {
 	this->height = height;
 }
 
-Board::Board(int width, int height, Sprite* wall, Sprite* blueBlock, std::vector<Sprite*> platforms, Sprite* cursor, Sprite* ball) {
+Board::Board(int width, int height, Sprite* wall, Sprite* yellowBlock, Sprite* goldBlock, std::vector<Sprite*> platforms, Sprite* cursor, Sprite* ball) {
 	this->width = width;
 	this->height = height;
 
-	this->addBlock(new BlockUnit(wall, 200, 200, 150, 50));
-	this->addBlock(new BlockUnit(wall, 150, 0, 150, 50));
-	this->addBlock(new BlockUnit(wall, 300, 0, 150, 50));
-	this->addBlock(new BlockUnit(wall, 450, 0, 150, 50));
-	this->addBlock(new BlockUnit(wall, 600, 0, 150, 50));
-	this->addBlock(new BlockUnit(wall, 750, 0, 50, 50));
+	int centerX = (0 + this->width) / 2;
+	double xСoefficient = double(this->width) / 800;
+	double yСoefficient = double(this->height) / 600;
+	int wallX = 100 * xСoefficient;
+	int wallY = 50 * yСoefficient;
 
-	this->addBlock(new BlockUnit(blueBlock, 450, 200, 100, 100, 3));
+	this->damagedBlock = createSprite(getResourcePath("14-Breakout-Tiles.png").c_str());
+
+	this->addBlock(new BlockUnit(wall, centerX - wallX, 0, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX - wallX - wallX, 0, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX - wallX - wallX - wallX, 0, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX + 0, 0, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX + wallX, 0, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX + wallX + wallX, 0, wallX, wallY));
+
+	this->addBlock(new BlockUnit(wall, centerX - wallX / 2 - 1, wallY, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX - wallX - wallX / 2 - 1, wallY, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX - wallX - wallX - wallX / 2 - 1, wallY, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX - wallX - wallX - wallX - 1, wallY, wallX / 2, wallY));
+	this->addBlock(new BlockUnit(wall, centerX + wallX / 2 + 1, wallY, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX + wallX + wallX / 2 + 1, wallY, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX + wallX + wallX + wallX / 2 + 1, wallY, wallX / 2, wallY));
+
+	this->addBlock(new BlockUnit(wall, centerX - wallX, wallY + wallY, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX - wallX - wallX, wallY + wallY, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX - wallX - wallX - wallX, wallY + wallY, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX + 0, wallY + wallY, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX + wallX, wallY + wallY, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX + wallX + wallX, wallY + wallY, wallX, wallY));
+
+	this->addBlock(new BlockUnit(wall, centerX - wallX / 2 - 1, wallY + wallY + wallY, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX - wallX - wallX / 2 - 1, wallY + wallY + wallY, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX - wallX - wallX - wallX / 2 - 1, wallY + wallY + wallY, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX - wallX - wallX - wallX - 1, wallY + wallY + wallY, wallX / 2, wallY));
+	this->addBlock(new BlockUnit(wall, centerX + wallX / 2 + 1, wallY + wallY + wallY, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX + wallX + wallX / 2 + 1, wallY + wallY + wallY, wallX, wallY));
+	this->addBlock(new BlockUnit(wall, centerX + wallX + wallX + wallX / 2 + 1, wallY + wallY + wallY, wallX / 2, wallY));
+
+	this->addBlock(new BlockUnit(yellowBlock, centerX - wallX, wallY + wallY + wallY + wallY + wallY / 2, wallX, wallY / 2, 2));
+	this->addBlock(new BlockUnit(yellowBlock, centerX - wallX - wallX, wallY + wallY + wallY + wallY + wallY / 2, wallX, wallY / 2, 2));
+	this->addBlock(new BlockUnit(yellowBlock, centerX - wallX - wallX - wallX, wallY + wallY + wallY + wallY + wallY / 2, wallX, wallY / 2, 2));
+	this->addBlock(new BlockUnit(yellowBlock, centerX + 0, wallY + wallY + wallY + wallY + wallY / 2, wallX, wallY / 2, 2));
+	this->addBlock(new BlockUnit(yellowBlock, centerX + wallX, wallY + wallY + wallY + wallY + wallY / 2, wallX, wallY / 2, 2));
+	this->addBlock(new BlockUnit(yellowBlock, centerX + wallX + wallX, wallY + wallY + wallY + wallY + wallY / 2, wallX, wallY / 2, 2));
+
+	this->addBlock(new BlockUnit(goldBlock, centerX - wallX - wallX - wallX - wallX, wallY + wallY + wallY + wallY + wallY / 4, wallX, wallY + wallY, 999));
+	this->addBlock(new BlockUnit(goldBlock, centerX + wallX + wallX + wallX, wallY + wallY + wallY + wallY + wallY / 4, wallX, wallY + wallY, 999));
 
 	this->addPlatform(new PratformUnit(platforms, this->width / 2 - 80, this->height - 100, 160, 40));
 	this->addBall(new BallUnit(ball, (this->platform->x + this->platform->width / 2) - 8, this->height - 160, 16, 16));
@@ -105,14 +144,6 @@ void Board::draw() {
 
 }
 
-std::pair<double, double> Board::reflectionVector(std::pair<double, double> d, std::pair<double, double> n) {
-	double dotProduct = d.first * n.first + d.second * n.second;
-	return {
-		d.first - 2 * dotProduct * n.first,
-		d.second - 2 * dotProduct * n.second
-	};
-}
-
 Side Board::checkIfCollideWithEdges(DynamicUnit* unit)
 {
 	if (unit->x + unit->width >= this->width) {
@@ -160,21 +191,26 @@ void Board::edgesCollision() {
 }
 
 void Board::platformCollision() {
-	switch (checkIfCollideWithPlatform()) {
+
+	switch (checkIfCollideWithPlatform()) {  
 	case Side::LEFT:
 		if (this->ball->directionX < 0) {
-			this->ball->setDirection(-this->ball->directionX, -this->ball->directionY);
+			this->ball->setDirection(normalizeVector(-this->ball->directionX + this->platform->directionX, -this->ball->directionY));
+			this->ball->move(this->ball->x, platform->y - ball->height - 1 );
 		}
 		else {
-			this->ball->setDirection(this->ball->directionX, -this->ball->directionY);
+			this->ball->setDirection(normalizeVector(this->ball->directionX + this->platform->directionX, -this->ball->directionY));
+			this->ball->move(this->ball->x, platform->y - ball->height - 1);
 		}
 		break;
 	case Side::RIGHT:
 		if (this->ball->directionX < 0) {
-			this->ball->setDirection(this->ball->directionX, -this->ball->directionY);
+			this->ball->setDirection(normalizeVector(this->ball->directionX + this->platform->directionX, -this->ball->directionY));
+			this->ball->move(this->ball->x, platform->y - ball->height - 1);
 		}
 		else {
-			this->ball->setDirection(-this->ball->directionX, -this->ball->directionY);
+			this->ball->setDirection(normalizeVector(-this->ball->directionX + this->platform->directionX, -this->ball->directionY));
+			this->ball->move(this->ball->x, platform->y - ball->height - 1);
 		}
 		break;
 	}
@@ -184,7 +220,9 @@ void Board::blockCollision() {
 	for (auto block : blocks) {
 		if (block->intersects(ball)) {
 
+			if (block->getHp() > 1) block->sprite = damagedBlock;
 			block->doDamage(1);
+
 			if (!block->isAlive()) {
 				this->eraseBlock(block);
 			}
@@ -223,8 +261,10 @@ void Board::checkIfPLatformCollidesWithEdges() {
 	}
 }
 
-bool Board::tick(bool showBoard, Sprite* gameOver, Sprite* victory) {
+bool Board::tick(bool showBoard, Sprite* gameOver, Sprite* victory, Sprite* bg) {
 	if (showBoard) {
+		setSpriteSize(bg, this->width, this->height);
+		drawSprite(bg, 0, 0);
 		this->update();
 		this->draw();
 
