@@ -22,7 +22,7 @@ Board::Board(int width, int height, Sprite* wall, std::vector<Sprite*> platforms
 
 	this->addPlatform(new PratformUnit(platforms, this->width / 2 - 80, this->height - 100, 160, 40));
 	this->addBall(new BallUnit(ball, (this->platform->x + this->platform->width / 2) - 8, this->height - 160, 16, 16));
-	this->addcursor(new Unit(cursor, -50, -50, 16, 16));
+	this->addCursor(new Unit(cursor, -50, -50, 16, 16));
 }
 
 bool Board::intersects(Unit* other) {
@@ -57,16 +57,16 @@ bool Board::addPlatform(PratformUnit* platform) {
 	return true;
 }
 
+void Board::addCursor(Unit* cursor) {
+	this->cursor = cursor;
+}
+
 bool Board::addBall(BallUnit* ball) {
 	if (intersects(ball)) {
 		return false;
 	}
 	this->ball = ball;
 	return true;
-}
-
-void Board::addcursor(Unit* cursor) {
-	this->cursor = cursor;
 }
 
 void Board::launchBall() {
@@ -77,64 +77,10 @@ void Board::update() {
 	ball->update();
 	platform->update();
 
-	double directionX = this->ball->getDirectionX();
-	double directionY = this->ball->getDirectionY();
+	this->edgesCollision();
+	this->platformCollision();
+	this->blockCollision();
 
-	switch (checkIfCollideWithEdges(ball)) {
-	case Side::RIGHT:
-		this->ball->setDirection(-directionX, directionY);
-		break;
-	case Side::LEFT:
-		this->ball->setDirection(-directionX, directionY);
-		break;
-	case Side::BOTTOM:
-		this->ball->setDirection(directionX, -directionY);
-		break;
-	case Side::TOP:
-		this->ball->setDirection(directionX, -directionY);
-		break;
-	}
-
-	switch (checkIfCollideWithPlatform(ball, platform)) {
-	case Side::LEFT:
-		if (directionX < 0)
-			this->ball->setDirection(-directionX, -directionY);
-		else this->ball->setDirection(directionX, -directionY);
-		break;
-	case Side::RIGHT:
-		if (directionX < 0)
-			this->ball->setDirection(directionX, -directionY);
-		else this->ball->setDirection(-directionX, -directionY);
-		break;
-	}
-
-	for (auto unit : units) {
-		if (unit->intersects(ball)) {
-			this->eraseUnit(unit);
-
-			double directionX = this->ball->getDirectionX();
-			double directionY = this->ball->getDirectionY();
-			switch (unit->collides(ball))
-			{
-			case Side::TOP:
-				this->ball->move(this->ball->x, unit->y - unit->height - 1);
-				this->ball->setDirection(directionX, -directionY);
-				break;
-			case Side::BOTTOM:
-				this->ball->move(this->ball->x, unit->y + unit->height + 1);
-				this->ball->setDirection(directionX, -directionY);
-				break;
-			case Side::RIGHT:
-				this->ball->move(unit->x + unit->width + 1, this->ball->y);
-				this->ball->setDirection(-directionX, directionY);
-				break;
-			case Side::LEFT:
-				this->ball->move(unit->x - this->ball->width - 1, this->ball->y);
-				this->ball->setDirection(-directionX, directionY);
-				break;
-			}
-		}
-	}
 }
 
 void Board::draw() {
@@ -145,6 +91,14 @@ void Board::draw() {
 	platform->draw();
 	cursor->draw();
 
+}
+
+std::pair<double, double> Board::reflectionVector(std::pair<double, double> d, std::pair<double, double> n) {
+	double dotProduct = d.first * n.first + d.second * n.second;
+	return {
+		d.first - 2 * dotProduct * n.first,
+		d.second - 2 * dotProduct * n.second
+	};
 }
 
 Side Board::checkIfCollideWithEdges(DynamicUnit* unit)
@@ -177,11 +131,68 @@ Side Board::checkIfCollideWithPlatform(DynamicUnit* ball, DynamicUnit* platform)
 	}
 }
 
-std::pair<double, double> Board::reflectionVector(std::pair<double, double> d,
-	std::pair<double, double> n) {
-	double dotProduct = d.first * n.first + d.second * n.second;
-	return {
-		d.first - 2 * dotProduct * n.first,
-		d.second - 2 * dotProduct * n.second
-	};
+void Board::edgesCollision() {
+	switch (checkIfCollideWithEdges(ball)) {
+	case Side::RIGHT:
+		this->ball->setDirection(-this->ball->directionX, this->ball->directionY);
+		break;
+	case Side::LEFT:
+		this->ball->setDirection(-this->ball->directionX, this->ball->directionY);
+		break;
+	case Side::BOTTOM:
+		this->ball->setDirection(this->ball->directionX, -this->ball->directionY);
+		break;
+	case Side::TOP:
+		this->ball->setDirection(this->ball->directionX, -this->ball->directionY);
+		break;
+	}
+}
+
+void Board::platformCollision() {
+	switch (checkIfCollideWithPlatform(ball, platform)) {
+	case Side::LEFT:
+		if (this->ball->directionX < 0) {
+			this->ball->setDirection(-this->ball->directionX, -this->ball->directionY);
+		}
+		else {
+			this->ball->setDirection(this->ball->directionX, -this->ball->directionY);
+		}
+		break;
+	case Side::RIGHT:
+		if (this->ball->directionX < 0) {
+			this->ball->setDirection(this->ball->directionX, -this->ball->directionY);
+		}
+		else {
+			this->ball->setDirection(-this->ball->directionX, -this->ball->directionY);
+		}
+		break;
+	}
+}
+
+void Board::blockCollision() {
+	for (auto unit : units) {
+		if (unit->intersects(ball)) {
+			this->eraseUnit(unit);
+
+			switch (unit->collides(ball))
+			{
+			case Side::TOP:
+				this->ball->move(this->ball->x, unit->y - unit->height - 1);
+				this->ball->setDirection(this->ball->directionX, -this->ball->directionY);
+				break;
+			case Side::BOTTOM:
+				this->ball->move(this->ball->x, unit->y + unit->height + 1);
+				this->ball->setDirection(this->ball->directionX, -this->ball->directionY);
+				break;
+			case Side::RIGHT:
+				this->ball->move(unit->x + unit->width + 1, this->ball->y);
+				this->ball->setDirection(-this->ball->directionX, this->ball->directionY);
+				break;
+			case Side::LEFT:
+				this->ball->move(unit->x - this->ball->width - 1, this->ball->y);
+				this->ball->setDirection(-this->ball->directionX, this->ball->directionY);
+				break;
+			}
+		}
+	}
 }

@@ -27,15 +27,17 @@ public:
 	void eraseUnit(Unit* unit);
 	bool addPlatform(PratformUnit* platform);
 	bool addBall(BallUnit* ball);
-	void addcursor(Unit* cursor);
-	Side checkIfCollideWithEdges(DynamicUnit* ball);
-	Side checkIfCollideWithPlatform(DynamicUnit* other, DynamicUnit* platform);
+	void addCursor(Unit* cursor);
 	void launchBall();
 
 	void update();
 	void draw();
 
 private:
-	std::pair<double, double> reflectionVector(std::pair<double, double> d,
-		std::pair<double, double> n);
+	std::pair<double, double> reflectionVector(std::pair<double, double> d, std::pair<double, double> n);
+	Side checkIfCollideWithEdges(DynamicUnit* ball);
+	Side checkIfCollideWithPlatform(DynamicUnit* other, DynamicUnit* platform);
+	void edgesCollision();
+	void platformCollision();
+	void blockCollision();
 };
