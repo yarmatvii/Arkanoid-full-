@@ -1,3 +1,4 @@
+#define _WINDOWS
 #include "Board.h"
 #include <algorithm>
 #include "iostream"
@@ -80,7 +81,7 @@ bool Board::checkDefeat() {
 }
 
 bool Board::checkVictory() {
-	return this->blocks.size() == 0;
+	return (this->blocks.size() == 0 && ball->intersects(platform));
 }
 
 void Board::update() {
@@ -128,8 +129,7 @@ Side Board::checkIfCollideWithEdges(DynamicUnit* unit)
 	}
 }
 
-Side Board::checkIfCollideWithPlatform(DynamicUnit* ball, DynamicUnit* platform)
-{
+Side Board::checkIfCollideWithPlatform() {
 	if (((ball->y + ball->height + 1) > platform->y) &&
 		(ball->x + ball->width + 1 > platform->x + platform->width / 2) &&
 		(ball->x - 1 < (platform->x + platform->width))) {
@@ -160,7 +160,7 @@ void Board::edgesCollision() {
 }
 
 void Board::platformCollision() {
-	switch (checkIfCollideWithPlatform(ball, platform)) {
+	switch (checkIfCollideWithPlatform()) {
 	case Side::LEFT:
 		if (this->ball->directionX < 0) {
 			this->ball->setDirection(-this->ball->directionX, -this->ball->directionY);
@@ -221,4 +221,33 @@ void Board::checkIfPLatformCollidesWithEdges() {
 		this->platform->velocity = 0;
 		this->platform->x += 1;
 	}
+}
+
+bool Board::tick(bool showBoard, Sprite* gameOver, Sprite* victory) {
+	if (showBoard) {
+		this->update();
+		this->draw();
+
+		if (this->checkDefeat() || this->checkVictory()) {
+			if (this->checkDefeat()) isDefeat = true;
+			if (this->checkVictory()) isVictory = true;
+			delete this->ball;
+			delete this->cursor;
+			delete this->platform;
+			this->blocks.clear();
+			return false;
+		}
+	}
+	else {
+		if (isDefeat) {
+			setSpriteSize(gameOver, this->width, this->height);
+			drawSprite(gameOver, 0, 0);
+		}
+		if (isVictory) {
+			setSpriteSize(victory, this->width, this->height);
+			drawSprite(victory, 0, 0);
+		}
+		return false;
+	}
+	return true;
 }

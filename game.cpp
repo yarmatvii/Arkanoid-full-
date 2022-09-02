@@ -1,7 +1,6 @@
 #define _WINDOWS
 #include "Framework.h"
 #include "Board.h"
-#include "GameOver.h"
 
 #include <string>
 #include <filesystem>
@@ -24,6 +23,7 @@ public:
 	bool showBoard;
 
 	Sprite* gameOverSprite = NULL;
+	Sprite* victorySprite = NULL;
 	Sprite* blueWallSprite = NULL;
 	Sprite* blueBlockSprite = NULL;
 	std::vector<Sprite*> platformSprites;
@@ -58,6 +58,7 @@ public:
 		board = new Board(width, height, blueWallSprite, blueBlockSprite, platformSprites, cursorSprite, ballSprite);
 
 		gameOverSprite = createSprite(getResourcePath("GameOver.jpg").c_str());
+		victorySprite = createSprite(getResourcePath("Victory.jpg").c_str());
 
 		showCursor(false);
 		return true;
@@ -74,23 +75,7 @@ public:
 
 	virtual bool Tick() {
 		drawTestBackground();
-		if (showBoard) {
-			board->update();
-			board->draw();
-
-			if (board->checkDefeat()) {
-				showBoard = false;
-				delete board->ball;
-				delete board->cursor;
-				delete board->platform;
-				board->blocks.clear();
-			}
-		}
-		else
-		{
-			setSpriteSize(gameOverSprite, this->width, this->height);
-			drawSprite(gameOverSprite, 0, 0);
-		}
+		this->showBoard = board->tick(showBoard, gameOverSprite, victorySprite);
 
 		return false;
 	}
