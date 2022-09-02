@@ -42,6 +42,13 @@ bool Board::addUnit(Unit* unit) {
 	return true;
 }
 
+void Board::eraseUnit(Unit* unit) {
+	auto position = std::find(begin(this->units), end(this->units), unit);
+	if (position != end(this->units)) {
+		this->units.erase(position);
+	}
+}
+
 bool Board::addPlatform(PratformUnit* platform) {
 	if (intersects(platform)) {
 		return false;
@@ -100,12 +107,11 @@ void Board::update() {
 		else this->ball->setDirection(-directionX, -directionY);
 		break;
 	}
-}
 
-void Board::draw() {
 	for (auto unit : units) {
-		if (unit->intersects(ball))
-		{
+		if (unit->intersects(ball)) {
+			this->eraseUnit(unit);
+
 			double directionX = this->ball->getDirectionX();
 			double directionY = this->ball->getDirectionY();
 			switch (unit->collides(ball))
@@ -128,6 +134,11 @@ void Board::draw() {
 				break;
 			}
 		}
+	}
+}
+
+void Board::draw() {
+	for (auto unit : units) {
 		unit->draw();
 	}
 	ball->draw();

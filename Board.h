@@ -24,6 +24,7 @@ public:
 
 	bool intersects(Unit* other);
 	bool addUnit(Unit* unit);
+	void eraseUnit(Unit* unit);
 	bool addPlatform(PratformUnit* platform);
 	bool addBall(BallUnit* ball);
 	void addcursor(Unit* cursor);
