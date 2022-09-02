@@ -8,6 +8,7 @@
 #include <numbers>
 #include <cmath>
 #include <utility>
+#include "wtypes.h"
 
 #include <iostream>
 
@@ -20,6 +21,7 @@ class MyFramework : public Framework {
 public:
 	int width;
 	int height;
+	bool fullscreen;
 	Board* board;
 	bool showBoard;
 
@@ -30,16 +32,17 @@ public:
 	Sprite* ballSprite = NULL;
 	Sprite* cursorSprite = NULL;
 
-	MyFramework(int width, int height) {
+	MyFramework(int width, int height, bool fullscreen) {
 		this->width = width;
 		this->height = height;
+		this->fullscreen = fullscreen;
 		showBoard = true;
 	}
 
 	virtual void PreInit(int& width, int& height, bool& fullscreen) {
 		width = this->width;
 		height = this->height;
-		fullscreen = false;
+		fullscreen = this->fullscreen;
 	}
 
 	virtual bool Init() {
@@ -191,17 +194,29 @@ private:
 
 };
 
+std::pair<int, int> getDesktopResolution() {
+	RECT desktop;
+	const HWND hDesktop = GetDesktopWindow();
+	GetWindowRect(hDesktop, &desktop);
+	return { desktop.right, desktop.bottom };
+}
+
 int main(int argc, char* argv[]) {
 	// default values
 	int width = 800;
 	int height = 600;
+	int fullscreen = false;
 
+	std::pair<int, int> desktop = getDesktopResolution();
 	// values from command line
 	if (argc == 3) {
 		// TODO input validation 
 		width = std::stoi(argv[1]);
 		height = std::stoi(argv[2]);
 	}
+	if (width == desktop.first && height == desktop.second) {
+		fullscreen = true;
+	}
 
-	return run(new MyFramework(width, height));
+	return run(new MyFramework(width, height, fullscreen));
 }
