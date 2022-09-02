@@ -9,16 +9,18 @@ Board::Board(int width, int height) {
 	this->height = height;
 }
 
-Board::Board(int width, int height, Sprite* wall, std::vector<Sprite*> platforms, Sprite* cursor, Sprite* ball) {
+Board::Board(int width, int height, Sprite* wall, Sprite* blueBlock, std::vector<Sprite*> platforms, Sprite* cursor, Sprite* ball) {
 	this->width = width;
 	this->height = height;
 
-	this->addUnit(new Unit(wall, 200, 200, 150, 50));
-	this->addUnit(new Unit(wall, 150, 0, 150, 50));
-	this->addUnit(new Unit(wall, 300, 0, 150, 50));
-	this->addUnit(new Unit(wall, 450, 0, 150, 50));
-	this->addUnit(new Unit(wall, 600, 0, 150, 50));
-	this->addUnit(new Unit(wall, 750, 0, 50, 50));
+	this->addBlock(new BlockUnit(wall, 200, 200, 150, 50));
+	this->addBlock(new BlockUnit(wall, 150, 0, 150, 50));
+	this->addBlock(new BlockUnit(wall, 300, 0, 150, 50));
+	this->addBlock(new BlockUnit(wall, 450, 0, 150, 50));
+	this->addBlock(new BlockUnit(wall, 600, 0, 150, 50));
+	this->addBlock(new BlockUnit(wall, 750, 0, 50, 50));
+
+	this->addBlock(new BlockUnit(blueBlock, 450, 200, 100, 100, 3));
 
 	this->addPlatform(new PratformUnit(platforms, this->width / 2 - 80, this->height - 100, 160, 40));
 	this->addBall(new BallUnit(ball, (this->platform->x + this->platform->width / 2) - 8, this->height - 160, 16, 16));
@@ -26,26 +28,26 @@ Board::Board(int width, int height, Sprite* wall, std::vector<Sprite*> platforms
 }
 
 bool Board::intersects(Unit* other) {
-	for (auto unit : units) {
-		if (unit->intersects(other)) {
+	for (auto block : blocks) {
+		if (block->intersects(other)) {
 			return true;
 		}
 	}
 	return false;
 }
 
-bool Board::addUnit(Unit* unit) {
+bool Board::addBlock(BlockUnit* unit) {
 	if (intersects(unit)) {
 		return false;
 	}
-	this->units.push_back(unit);
+	this->blocks.push_back(unit);
 	return true;
 }
 
-void Board::eraseUnit(Unit* unit) {
-	auto position = std::find(begin(this->units), end(this->units), unit);
-	if (position != end(this->units)) {
-		this->units.erase(position);
+void Board::eraseBlock(BlockUnit* unit) {
+	auto position = std::find(begin(this->blocks), end(this->blocks), unit);
+	if (position != end(this->blocks)) {
+		this->blocks.erase(position);
 	}
 }
 
@@ -84,8 +86,8 @@ void Board::update() {
 }
 
 void Board::draw() {
-	for (auto unit : units) {
-		unit->draw();
+	for (auto block : blocks) {
+		block->draw();
 	}
 	ball->draw();
 	platform->draw();
@@ -170,26 +172,30 @@ void Board::platformCollision() {
 }
 
 void Board::blockCollision() {
-	for (auto unit : units) {
-		if (unit->intersects(ball)) {
-			this->eraseUnit(unit);
+	for (auto block : blocks) {
+		if (block->intersects(ball)) {
 
-			switch (unit->collides(ball))
+			block->doDamage(1);
+			if (!block->isAlive()) {
+				this->eraseBlock(block);
+			}
+
+			switch (block->collides(ball))
 			{
 			case Side::TOP:
-				this->ball->move(this->ball->x, unit->y - unit->height - 1);
+				this->ball->move(this->ball->x, block->y - block->height - 1);
 				this->ball->setDirection(this->ball->directionX, -this->ball->directionY);
 				break;
 			case Side::BOTTOM:
-				this->ball->move(this->ball->x, unit->y + unit->height + 1);
+				this->ball->move(this->ball->x, block->y + block->height + 1);
 				this->ball->setDirection(this->ball->directionX, -this->ball->directionY);
 				break;
 			case Side::RIGHT:
-				this->ball->move(unit->x + unit->width + 1, this->ball->y);
+				this->ball->move(block->x + block->width + 1, this->ball->y);
 				this->ball->setDirection(-this->ball->directionX, this->ball->directionY);
 				break;
 			case Side::LEFT:
-				this->ball->move(unit->x - this->ball->width - 1, this->ball->y);
+				this->ball->move(block->x - this->ball->width - 1, this->ball->y);
 				this->ball->setDirection(-this->ball->directionX, this->ball->directionY);
 				break;
 			}

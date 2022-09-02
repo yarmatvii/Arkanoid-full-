@@ -130,6 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BallUnit.cpp" />
+    <ClCompile Include="BlockUnit.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="DynamicUnit.cpp" />
     <ClCompile Include="game.cpp" />
@@ -139,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BallUnit.h" />
+    <ClInclude Include="BlockUnit.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="DynamicUnit.h" />
     <ClInclude Include="Framework.h" />

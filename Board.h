@@ -5,6 +5,7 @@
 #include "DynamicUnit.h"
 #include "PratformUnit.h"
 #include "BallUnit.h"
+#include "BlockUnit.h"
 
 #include <vector>
 
@@ -13,18 +14,18 @@ public:
 
 	int width;
 	int height;
-	std::vector<Unit*> units;
+	std::vector<BlockUnit*> blocks;
 	PratformUnit* platform;
 	BallUnit* ball;
 	Unit* cursor;
 
 
 	Board(int width, int height);
-	Board(int width, int height, Sprite* wall, std::vector<Sprite*> platforms, Sprite* cursor, Sprite* ball);
+	Board(int width, int height, Sprite* wall, Sprite* blueBlock, std::vector<Sprite*> platforms, Sprite* cursor, Sprite* ball);
 
 	bool intersects(Unit* other);
-	bool addUnit(Unit* unit);
-	void eraseUnit(Unit* unit);
+	bool addBlock(BlockUnit* block);
+	void eraseBlock(BlockUnit* unit);
 	bool addPlatform(PratformUnit* platform);
 	bool addBall(BallUnit* ball);
 	void addCursor(Unit* cursor);

@@ -26,6 +26,7 @@ public:
 
 	Sprite* gameOverSprite = NULL;
 	Sprite* blueWallSprite = NULL;
+	Sprite* blueBlockSprite = NULL;
 	std::vector<Sprite*> platformSprites;
 	Sprite* ballSprite = NULL;
 	Sprite* cursorSprite = NULL;
@@ -53,8 +54,9 @@ public:
 		};
 		cursorSprite = createSprite(getResourcePath("59-Breakout-Tiles.png").c_str());
 		ballSprite = createSprite(getResourcePath("63-Breakout-Tiles.png").c_str());
+		blueBlockSprite = createSprite(getResourcePath("21-Breakout-Tiles.png").c_str());
 
-		board = new Board(width, height, blueWallSprite, platformSprites, cursorSprite, ballSprite);
+		board = new Board(width, height, blueWallSprite, blueBlockSprite, platformSprites, cursorSprite, ballSprite);
 
 		gameOverSprite = createSprite(getResourcePath("GameOver.jpg").c_str());
 
@@ -84,7 +86,7 @@ public:
 				delete board->ball;
 				delete board->cursor;
 				delete board->platform;
-				board->units.clear();
+				board->blocks.clear();
 			}
 		}
 		else
