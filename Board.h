@@ -41,4 +41,5 @@ private:
 	void edgesCollision();
 	void platformCollision();
 	void blockCollision();
+	void checkIfPLatformCollidesWithEdges();
 };

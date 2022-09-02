@@ -77,6 +77,7 @@ void Board::launchBall() {
 
 void Board::update() {
 	ball->update();
+	checkIfPLatformCollidesWithEdges();
 	platform->update();
 
 	this->edgesCollision();
@@ -200,5 +201,16 @@ void Board::blockCollision() {
 				break;
 			}
 		}
+	}
+}
+
+void Board::checkIfPLatformCollidesWithEdges() {
+	if (this->platform->x + this->platform->width + 1 > this->width) {
+		this->platform->velocity = 0;
+		this->platform->x -= 1;
+	}
+	if (this->platform->x - 1 < 0) {
+		this->platform->velocity = 0;
+		this->platform->x += 1;
 	}
 }
