@@ -74,13 +74,11 @@ public:
 
 	virtual bool Tick() {
 		drawTestBackground();
-		if (showBoard)
-		{
+		if (showBoard) {
 			board->update();
 			board->draw();
 
-			if (board->ball->y + board->ball->height > board->platform->y + board->platform->height)
-			{
+			if (board->checkDefeat()) {
 				showBoard = false;
 				delete board->ball;
 				delete board->cursor;

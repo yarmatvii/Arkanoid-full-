@@ -30,6 +30,9 @@ public:
 	bool addBall(BallUnit* ball);
 	void addCursor(Unit* cursor);
 	void launchBall();
+	bool checkDefeat();
+	bool checkVictory();
+
 
 	void update();
 	void draw();

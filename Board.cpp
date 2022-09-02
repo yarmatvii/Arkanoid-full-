@@ -75,6 +75,14 @@ void Board::launchBall() {
 	ball->launch(cursor->x, cursor->y);
 }
 
+bool Board::checkDefeat() {
+	return this->ball->y + this->ball->height > this->platform->y + this->platform->height;
+}
+
+bool Board::checkVictory() {
+	return this->blocks.size() == 0;
+}
+
 void Board::update() {
 	ball->update();
 	checkIfPLatformCollidesWithEdges();
