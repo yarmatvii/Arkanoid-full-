@@ -1,6 +1,7 @@
 #define _WINDOWS
 #include "Framework.h"
 #include "Board.h"
+#include "UI.h"
 #include "Effect.h"
 
 #include <string>
@@ -19,6 +20,7 @@ public:
 	int height;
 	bool fullscreen;
 	Board* board;
+	UI* ui;
 	bool showBoard;
 
 	Sprite* bg = NULL;
@@ -62,6 +64,8 @@ public:
 
 		board = new Board(width, height, blueWallSprite, yellowBlockSprite, goldBlockSprite, platformSprites, cursorSprite, ballSprite);
 
+		ui = new UI(width, height);
+
 		gameOverSprite = createSprite(getResourcePath("GameOver.jpg").c_str());
 		victorySprite = createSprite(getResourcePath("Victory.jpg").c_str());
 
@@ -70,6 +74,13 @@ public:
 	}
 
 	virtual void Close() {
+		destroySprite(ui->scoreboardStart);
+		destroySprite(board->damagedBlock);
+		destroySprite(bg);
+		destroySprite(gameOverSprite);
+		destroySprite(victorySprite);
+		destroySprite(goldBlockSprite);
+		destroySprite(yellowBlockSprite);
 		destroySprite(blueWallSprite);
 		destroySprite(ballSprite);
 		destroySprite(cursorSprite);
@@ -81,7 +92,7 @@ public:
 	virtual bool Tick() {
 		drawTestBackground();
 		this->showBoard = board->tick(showBoard, gameOverSprite, victorySprite, bg);
-
+		ui->tick(board->score, width, height);
 		return false;
 	}
 
