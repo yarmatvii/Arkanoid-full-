@@ -88,7 +88,7 @@ bool Board::addBlock(BlockUnit* unit) {
 	}
 	this->blocks.push_back(unit);
 	return true;
-} 
+}
 
 bool Board::addUndestructableBlock(BlockUnit* unit) {
 	if (intersects(unit)) {
@@ -144,11 +144,13 @@ void Board::launchBall() {
 }
 
 bool Board::checkDefeat() {
-	return this->ball->y + this->ball->height > this->platform->y + this->platform->height;
+	this->isDefeat = this->ball->y + this->ball->height > this->platform->y + this->platform->height;
+	return this->isDefeat;
 }
 
 bool Board::checkVictory() {
-	return (this->blocks.size() == 0 && ball->intersects(platform));
+	this->isVictory = this->blocks.size() == 0 && ball->intersects(platform);
+	return this->isVictory;
 }
 
 void Board::update() {
@@ -225,11 +227,12 @@ void Board::edgesCollision() {
 
 void Board::platformCollision() {
 
-	switch (checkIfCollideWithPlatform()) {  
+	switch (checkIfCollideWithPlatform()) {
 	case Side::LEFT:
+		this->checkVictory();
 		if (this->ball->getDirectionX() < 0) {
 			this->ball->setDirection(normalizeVector(-this->ball->getDirectionX() + this->platform->getDirectionX(), -this->ball->getDirectionY()));
-			this->ball->move(this->ball->x, platform->y - ball->height - 1 );
+			this->ball->move(this->ball->x, platform->y - ball->height - 1);
 		}
 		else {
 			this->ball->setDirection(normalizeVector(this->ball->getDirectionX() + this->platform->getDirectionX(), -this->ball->getDirectionY()));
@@ -237,6 +240,7 @@ void Board::platformCollision() {
 		}
 		break;
 	case Side::RIGHT:
+		this->checkVictory();
 		if (this->ball->getDirectionX() < 0) {
 			this->ball->setDirection(normalizeVector(this->ball->getDirectionX() + this->platform->getDirectionX(), -this->ball->getDirectionY()));
 			this->ball->move(this->ball->x, platform->y - ball->height - 1);
@@ -323,12 +327,7 @@ bool Board::tick(bool showBoard, Sprite* gameOver, Sprite* victory, Sprite* bg) 
 	if (showBoard) {
 		setSpriteSize(bg, this->width, this->height);
 		drawSprite(bg, 0, 0);
-		this->update();
-		this->draw();
-
-		if (this->checkDefeat() || this->checkVictory()) {
-			if (this->checkDefeat()) isDefeat = true;
-			if (this->checkVictory()) isVictory = true;
+		if (this->checkDefeat() || this->isVictory) {
 			delete this->ball;
 			delete this->cursor;
 			delete this->platform;
@@ -336,6 +335,9 @@ bool Board::tick(bool showBoard, Sprite* gameOver, Sprite* victory, Sprite* bg) 
 			this->undestructableBlocks.clear();
 			return false;
 		}
+		this->update();
+		this->draw();
+
 	}
 	else {
 		if (isDefeat) {

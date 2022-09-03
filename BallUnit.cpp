@@ -1,7 +1,7 @@
 #include "BallUnit.h"
 #include "Tools.h"
 
-#define BALL_VELOCITY 2
+#define BALL_VELOCITY 4
 
 BallUnit::BallUnit(Sprite* sprite, double x, double y, double width, double height) :
 	DynamicUnit(sprite, x, y, width, height) {
