@@ -124,6 +124,20 @@ bool Board::addBall(BallUnit* ball) {
 	return true;
 }
 
+void Board::addEffect(Effect* effect) {
+	this->effects.push_back(effect);
+};
+
+void Board::updateEffects() {
+	int now = getTickCount();
+	for (auto effect : effects) {
+		if (effect->expired(now)) {
+			this->eraseEffect(effect);
+			delete effect;
+		}
+	}
+};
+
 void Board::launchBall() {
 	ball->launch(cursor->x, cursor->y);
 }
@@ -138,9 +152,11 @@ bool Board::checkVictory() {
 
 void Board::update() {
 	ball->update();
-	checkIfPLatformCollidesWithEdges();
 	platform->update();
 
+	updateEffects();
+
+	this->checkIfPLatformCollidesWithEdges();
 	this->edgesCollision();
 	this->platformCollision();
 	this->blockCollision();
@@ -294,13 +310,11 @@ void Board::undestructableBlockCollision() {
 }
 
 void Board::checkIfPLatformCollidesWithEdges() {
-	if (this->platform->x + this->platform->width + 1 > this->width) {
-		this->platform->velocity = 0;
-		this->platform->x -= 1;
+	if (this->platform->x + this->platform->width - 1 > this->width) {
+		this->platform->x = this->width - this->platform->width - 1;
 	}
-	if (this->platform->x - 1 < 0) {
-		this->platform->velocity = 0;
-		this->platform->x += 1;
+	if (this->platform->x < 0) {
+		this->platform->x = 0;
 	}
 }
 
@@ -335,3 +349,10 @@ bool Board::tick(bool showBoard, Sprite* gameOver, Sprite* victory, Sprite* bg) 
 	}
 	return true;
 }
+
+void Board::eraseEffect(Effect* effect) {
+	auto position = std::find(begin(this->effects), end(this->effects), effect);
+	if (position != end(this->effects)) {
+		this->effects.erase(position);
+	}
+};

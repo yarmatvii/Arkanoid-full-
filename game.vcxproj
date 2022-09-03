@@ -133,6 +133,7 @@
     <ClCompile Include="BlockUnit.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="DynamicUnit.cpp" />
+    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="PratformUnit.cpp" />
     <ClCompile Include="Tools.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="BlockUnit.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="DynamicUnit.h" />
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="PratformUnit.h" />
     <ClInclude Include="Side.h" />

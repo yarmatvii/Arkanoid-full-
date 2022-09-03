@@ -6,8 +6,8 @@
 DynamicUnit::DynamicUnit(Sprite* sprite, int x, int y, int width, int height) :
 	Unit(sprite, x, y, width, height) {
 	this->velocity = 0;
-	this->directionStartX = x;
-	this->directionStartY = y;
+	dx = 0;
+	dy = 0;
 }
 
 void DynamicUnit::setVelosity(double velocity) {
@@ -22,9 +22,8 @@ void DynamicUnit::setDirection(double x, double y) {
 	directionX = x;
 	directionY = y;
 
-	directionStartX = this->x;
-	directionStartY = this->y;
-	directionStartTick = getTickCount();
+	dx = directionX * velocity;
+	dy = directionY * velocity;
 }
 
 void DynamicUnit::setDirection(std::pair<double, double> direction) {
@@ -46,13 +45,18 @@ double DynamicUnit::getDirectionY() {
 
 void DynamicUnit::update() {
 	if (velocity != 0) {
-		int x = directionStartX + directionX * velocity * (getTickCount() - directionStartTick);
-		int y = directionStartY + directionY * velocity * (getTickCount() - directionStartTick);
-		move(x, y);
+		moveRelative(this->dx, this->dy);
 	}
 }
 
 void DynamicUnit::draw() {
-	update();
 	Unit::draw();
+}
+
+void DynamicUnit::accelerate(double coef) {
+	this->velocity *= 1 + coef;
+}
+
+void DynamicUnit::decelerate(double coef) {
+	this->velocity *= 1 - coef;
 }

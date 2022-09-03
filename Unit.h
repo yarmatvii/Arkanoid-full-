@@ -8,17 +8,17 @@ class Unit {
 public:
 
 	Sprite* sprite;
-	int x;
-	int y;
-	int width;
-	int height;
+	double x;
+	double y;
+	double width;
+	double height;
 
-	Unit(Sprite* sprite, int x, int y, int width, int height);
-	virtual int getCenterX();
-	virtual int getCenterY();
+	Unit(Sprite* sprite, double x, double y, double width, double height);
+	virtual double getCenterX();
+	virtual double getCenterY();
 
-	virtual void move(int x, int y);
-	virtual void moveRelative(int xRelative, int yRelative);
+	virtual void move(double x, double y);
+	virtual void moveRelative(double xRelative, double yRelative);
 	virtual bool intersects(Unit* other);
 	virtual Side collides(Unit* other);
 	virtual void draw();
