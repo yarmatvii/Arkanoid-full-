@@ -21,11 +21,7 @@ double DynamicUnit::velocity() {
 }
 
 void DynamicUnit::setDirection(std::pair<double, double> direction) {
-	directionX = direction.first;
-	directionY = direction.second;
-
-	dx = directionX * velocity;
-	dy = directionY * velocity;
+	this->setDirection(direction.first, direction.second);
 }
 
 void DynamicUnit::setDirection(double x, double y) {

@@ -262,7 +262,7 @@ void Board::blockCollision() {
 			switch (block->collides(ball))
 			{
 			case Side::TOP:
-				this->ball->move(this->ball->x, block->y - block->height - 1);
+				this->ball->move(this->ball->x, block->y - ball->height - 1);
 				this->ball->setDirection(this->ball->getDirectionX(), -this->ball->getDirectionY());
 				break;
 			case Side::BOTTOM:
@@ -289,20 +289,20 @@ void Board::undestructableBlockCollision() {
 			switch (block->collides(ball))
 			{
 			case Side::TOP:
-				this->ball->move(this->ball->x, block->y - block->height - 1);
-				this->ball->setDirection(this->ball->directionX, -this->ball->directionY);
+				this->ball->move(this->ball->x, block->y - ball->height - 1);
+				this->ball->setDirection(this->ball->getDirectionX(), -this->ball->getDirectionY());
 				break;
 			case Side::BOTTOM:
 				this->ball->move(this->ball->x, block->y + block->height + 1);
-				this->ball->setDirection(this->ball->directionX, -this->ball->directionY);
+				this->ball->setDirection(this->ball->getDirectionX(), -this->ball->getDirectionY());
 				break;
 			case Side::RIGHT:
 				this->ball->move(block->x + block->width + 1, this->ball->y);
-				this->ball->setDirection(-this->ball->directionX, this->ball->directionY);
+				this->ball->setDirection(-this->ball->getDirectionX(), this->ball->getDirectionY());
 				break;
 			case Side::LEFT:
 				this->ball->move(block->x - this->ball->width - 1, this->ball->y);
-				this->ball->setDirection(-this->ball->directionX, this->ball->directionY);
+				this->ball->setDirection(-this->ball->getDirectionX(), this->ball->getDirectionY());
 				break;
 			}
 		}
