@@ -1,8 +1,6 @@
 #pragma once
 
 #include "Framework.h"
-#include "Unit.h"
-#include "DynamicUnit.h"
 #include "PratformUnit.h"
 #include "BallUnit.h"
 #include "BlockUnit.h"
@@ -17,6 +15,7 @@ public:
 
 	int width;
 	int height;
+	int score;
 	bool isDefeat = false;
 	bool isVictory = false;
 	std::vector<BlockUnit*> blocks;
@@ -26,6 +25,7 @@ public:
 	PratformUnit* platform;
 	BallUnit* ball;
 	Unit* cursor;
+
 	Sprite* damagedBlock = NULL;
 
 	Board(int width, int height);
@@ -57,4 +57,5 @@ private:
 	void undestructableBlockCollision();
 	void checkIfPLatformCollidesWithEdges();
 	void eraseEffect(Effect* effect);
+
 };

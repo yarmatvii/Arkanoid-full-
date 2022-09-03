@@ -13,6 +13,7 @@ Board::Board(int width, int height) {
 Board::Board(int width, int height, Sprite* wall, Sprite* yellowBlock, Sprite* goldBlock, std::vector<Sprite*> platforms, Sprite* cursor, Sprite* ball) {
 	this->width = width;
 	this->height = height;
+	this->score = 0;
 
 	int centerX = (0 + this->width) / 2;
 	double xСoefficient = double(this->width) / 800;
