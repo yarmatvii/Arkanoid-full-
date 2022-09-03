@@ -10,7 +10,7 @@ PratformUnit::PratformUnit(std::vector<Sprite*> sprites, double x, double y, dou
 	this->sprites = sprites;
 	this->currentSpriteIndex = 0;
 	this->counter = 0;
-	this->velocity = PLATFORM_VELOCITY;
+	this->velocity(PLATFORM_VELOCITY);
 }
 
 void PratformUnit::update() {
@@ -20,16 +20,4 @@ void PratformUnit::update() {
 	}
 	counter = (counter + 1) % PLATFORM_ANIMATION_LATENCY;
 	DynamicUnit::update();
-}
-
-void PratformUnit::increase(double coef) {
-	double newWidth = this->width * (1 + coef);
-	this->moveRelative(-(newWidth - width) / 2, 0);
-	this->width = newWidth;
-}
-
-void PratformUnit::decrease(double coef) {
-	double newWidth = this->width / (1 + coef);
-	this->moveRelative(-(newWidth - width) / 2, 0);
-	this->width = newWidth;
 }
