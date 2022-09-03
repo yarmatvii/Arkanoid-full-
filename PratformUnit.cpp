@@ -5,7 +5,7 @@
 #define PLATFORM_VELOCITY 1
 #define PLATFORM_ANIMATION_LATENCY 10
 
-PratformUnit::PratformUnit(std::vector<Sprite*> sprites, int x, int y, int width, int height) :
+PratformUnit::PratformUnit(std::vector<Sprite*> sprites, double x, double y, double width, double height) :
 	DynamicUnit(sprites[0], x, y, width, height) {
 	this->sprites = sprites;
 	this->currentSpriteIndex = 0;
@@ -23,13 +23,13 @@ void PratformUnit::update() {
 }
 
 void PratformUnit::increase(double ñoef) {
-	int offset = this->width * ñoef / 2;
-	this->moveRelative(-offset, 0);
-	this->width *= 1 + ñoef;
+	double newWidth = this->width * (1 + ñoef);
+	this->moveRelative(-(newWidth - width) / 2, 0);
+	this->width = newWidth;
 }
 
 void PratformUnit::decrease(double ñoef) {
-	int decrement = this->width * ñoef;
-	this->x += decrement / 2;
-	this->width /= 1 + ñoef;
+	double newWidth = this->width / (1 + ñoef);
+	this->moveRelative(-(newWidth - width) / 2, 0);
+	this->width = newWidth;
 }

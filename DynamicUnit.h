@@ -24,9 +24,8 @@ public:
 	virtual void accelerate(double coef);
 	virtual void decelerate(double coef);
 
-	int directionStartX;
-	int directionStartY;
+	double dx;
+	double dy;
 	double directionX;
 	double directionY;
-	int directionStartTick;
 };

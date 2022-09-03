@@ -4,7 +4,7 @@
 #include "Unit.h"
 #include <iostream>
 
-Unit::Unit(Sprite* sprite, int x, int y, int width, int height) {
+Unit::Unit(Sprite* sprite, double x, double y, double width, double height) {
 	this->sprite = sprite;
 	this->x = x;
 	this->y = y;
@@ -12,20 +12,20 @@ Unit::Unit(Sprite* sprite, int x, int y, int width, int height) {
 	this->height = height;
 }
 
-int Unit::getCenterX() {
+double Unit::getCenterX() {
 	return this->x + this->width / 2;
 }
 
-int Unit::getCenterY() {
+double Unit::getCenterY() {
 	return this->y + this->height / 2;
 }
 
-void Unit::move(int x, int y) {
+void Unit::move(double x, double y) {
 	this->x = x;
 	this->y = y;
 }
 
-void Unit::moveRelative(int xRelative, int yRelative) {
+void Unit::moveRelative(double xRelative, double yRelative) {
 	this->x += xRelative;
 	this->y += yRelative;
 }
