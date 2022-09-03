@@ -59,8 +59,8 @@ Board::Board(int width, int height, Sprite* wall, Sprite* yellowBlock, Sprite* g
 	this->addBlock(new BlockUnit(yellowBlock, centerX + wallX, wallY + wallY + wallY + wallY + wallY / 2, wallX, wallY / 2, 2));
 	this->addBlock(new BlockUnit(yellowBlock, centerX + wallX + wallX, wallY + wallY + wallY + wallY + wallY / 2, wallX, wallY / 2, 2));
 
-	this->addBlock(new BlockUnit(goldBlock, centerX - wallX - wallX - wallX - wallX, wallY + wallY + wallY + wallY + wallY / 4, wallX, wallY + wallY, 999));
-	this->addBlock(new BlockUnit(goldBlock, centerX + wallX + wallX + wallX, wallY + wallY + wallY + wallY + wallY / 4, wallX, wallY + wallY, 999));
+	this->addUndestructableBlock(new BlockUnit(goldBlock, centerX - wallX - wallX - wallX - wallX, wallY + wallY + wallY + wallY + wallY / 4, wallX, wallY + wallY, 999));
+	this->addUndestructableBlock(new BlockUnit(goldBlock, centerX + wallX + wallX + wallX, wallY + wallY + wallY + wallY + wallY / 4, wallX, wallY + wallY, 999));
 
 	this->addPlatform(new PratformUnit(platforms, this->width / 2 - 80, this->height - 100, 160, 40));
 	this->addBall(new BallUnit(ball, (this->platform->x + this->platform->width / 2) - 8, this->height - 160, 16, 16));
@@ -73,6 +73,11 @@ bool Board::intersects(Unit* other) {
 			return true;
 		}
 	}
+	for (auto block : undestructableBlocks) {
+		if (block->intersects(other)) {
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -81,6 +86,14 @@ bool Board::addBlock(BlockUnit* unit) {
 		return false;
 	}
 	this->blocks.push_back(unit);
+	return true;
+} 
+
+bool Board::addUndestructableBlock(BlockUnit* unit) {
+	if (intersects(unit)) {
+		return false;
+	}
+	this->undestructableBlocks.push_back(unit);
 	return true;
 }
 
@@ -131,11 +144,14 @@ void Board::update() {
 	this->edgesCollision();
 	this->platformCollision();
 	this->blockCollision();
-
+	this->undestructableBlockCollision();
 }
 
 void Board::draw() {
 	for (auto block : blocks) {
+		block->draw();
+	}
+	for (auto block : undestructableBlocks) {
 		block->draw();
 	}
 	ball->draw();
@@ -250,6 +266,33 @@ void Board::blockCollision() {
 	}
 }
 
+void Board::undestructableBlockCollision() {
+	for (auto block : undestructableBlocks) {
+		if (block->intersects(ball)) {
+
+			switch (block->collides(ball))
+			{
+			case Side::TOP:
+				this->ball->move(this->ball->x, block->y - block->height - 1);
+				this->ball->setDirection(this->ball->directionX, -this->ball->directionY);
+				break;
+			case Side::BOTTOM:
+				this->ball->move(this->ball->x, block->y + block->height + 1);
+				this->ball->setDirection(this->ball->directionX, -this->ball->directionY);
+				break;
+			case Side::RIGHT:
+				this->ball->move(block->x + block->width + 1, this->ball->y);
+				this->ball->setDirection(-this->ball->directionX, this->ball->directionY);
+				break;
+			case Side::LEFT:
+				this->ball->move(block->x - this->ball->width - 1, this->ball->y);
+				this->ball->setDirection(-this->ball->directionX, this->ball->directionY);
+				break;
+			}
+		}
+	}
+}
+
 void Board::checkIfPLatformCollidesWithEdges() {
 	if (this->platform->x + this->platform->width + 1 > this->width) {
 		this->platform->velocity = 0;
@@ -275,6 +318,7 @@ bool Board::tick(bool showBoard, Sprite* gameOver, Sprite* victory, Sprite* bg) 
 			delete this->cursor;
 			delete this->platform;
 			this->blocks.clear();
+			this->undestructableBlocks.clear();
 			return false;
 		}
 	}

@@ -19,6 +19,7 @@ public:
 	bool isDefeat = false;
 	bool isVictory = false;
 	std::vector<BlockUnit*> blocks;
+	std::vector<BlockUnit*> undestructableBlocks;
 	PratformUnit* platform;
 	BallUnit* ball;
 	Unit* cursor;
@@ -29,6 +30,7 @@ public:
 
 	bool intersects(Unit* other);
 	bool addBlock(BlockUnit* block);
+	bool addUndestructableBlock(BlockUnit* block);
 	void eraseBlock(BlockUnit* unit);
 	bool addPlatform(PratformUnit* platform);
 	bool addBall(BallUnit* ball);
@@ -47,5 +49,6 @@ private:
 	void edgesCollision();
 	void platformCollision();
 	void blockCollision();
+	void undestructableBlockCollision();
 	void checkIfPLatformCollidesWithEdges();
 };
