@@ -208,16 +208,16 @@ Side Board::checkIfCollideWithPlatform() {
 void Board::edgesCollision() {
 	switch (checkIfCollideWithEdges(ball)) {
 	case Side::RIGHT:
-		this->ball->setDirection(-this->ball->directionX, this->ball->directionY);
+		this->ball->setDirection(-this->ball->getDirectionX(), this->ball->getDirectionY());
 		break;
 	case Side::LEFT:
-		this->ball->setDirection(-this->ball->directionX, this->ball->directionY);
+		this->ball->setDirection(-this->ball->getDirectionX(), this->ball->getDirectionY());
 		break;
 	case Side::BOTTOM:
-		this->ball->setDirection(this->ball->directionX, -this->ball->directionY);
+		this->ball->setDirection(this->ball->getDirectionX(), -this->ball->getDirectionY());
 		break;
 	case Side::TOP:
-		this->ball->setDirection(this->ball->directionX, -this->ball->directionY);
+		this->ball->setDirection(this->ball->getDirectionX(), -this->ball->getDirectionY());
 		break;
 	}
 }
@@ -226,22 +226,22 @@ void Board::platformCollision() {
 
 	switch (checkIfCollideWithPlatform()) {  
 	case Side::LEFT:
-		if (this->ball->directionX < 0) {
-			this->ball->setDirection(normalizeVector(-this->ball->directionX + this->platform->directionX, -this->ball->directionY));
+		if (this->ball->getDirectionX() < 0) {
+			this->ball->setDirection(normalizeVector(-this->ball->getDirectionX() + this->platform->getDirectionX(), -this->ball->getDirectionY()));
 			this->ball->move(this->ball->x, platform->y - ball->height - 1 );
 		}
 		else {
-			this->ball->setDirection(normalizeVector(this->ball->directionX + this->platform->directionX, -this->ball->directionY));
+			this->ball->setDirection(normalizeVector(this->ball->getDirectionX() + this->platform->getDirectionX(), -this->ball->getDirectionY()));
 			this->ball->move(this->ball->x, platform->y - ball->height - 1);
 		}
 		break;
 	case Side::RIGHT:
-		if (this->ball->directionX < 0) {
-			this->ball->setDirection(normalizeVector(this->ball->directionX + this->platform->directionX, -this->ball->directionY));
+		if (this->ball->getDirectionX() < 0) {
+			this->ball->setDirection(normalizeVector(this->ball->getDirectionX() + this->platform->getDirectionX(), -this->ball->getDirectionY()));
 			this->ball->move(this->ball->x, platform->y - ball->height - 1);
 		}
 		else {
-			this->ball->setDirection(normalizeVector(-this->ball->directionX + this->platform->directionX, -this->ball->directionY));
+			this->ball->setDirection(normalizeVector(-this->ball->getDirectionX() + this->platform->getDirectionX(), -this->ball->getDirectionY()));
 			this->ball->move(this->ball->x, platform->y - ball->height - 1);
 		}
 		break;
@@ -263,19 +263,19 @@ void Board::blockCollision() {
 			{
 			case Side::TOP:
 				this->ball->move(this->ball->x, block->y - block->height - 1);
-				this->ball->setDirection(this->ball->directionX, -this->ball->directionY);
+				this->ball->setDirection(this->ball->getDirectionX(), -this->ball->getDirectionY());
 				break;
 			case Side::BOTTOM:
 				this->ball->move(this->ball->x, block->y + block->height + 1);
-				this->ball->setDirection(this->ball->directionX, -this->ball->directionY);
+				this->ball->setDirection(this->ball->getDirectionX(), -this->ball->getDirectionY());
 				break;
 			case Side::RIGHT:
 				this->ball->move(block->x + block->width + 1, this->ball->y);
-				this->ball->setDirection(-this->ball->directionX, this->ball->directionY);
+				this->ball->setDirection(-this->ball->getDirectionX(), this->ball->getDirectionY());
 				break;
 			case Side::LEFT:
 				this->ball->move(block->x - this->ball->width - 1, this->ball->y);
-				this->ball->setDirection(-this->ball->directionX, this->ball->directionY);
+				this->ball->setDirection(-this->ball->getDirectionX(), this->ball->getDirectionY());
 				break;
 			}
 		}

@@ -1,6 +1,7 @@
 #define _WINDOWS
 #include "Framework.h"
 #include "Board.h"
+#include "Effect.h"
 
 #include <string>
 #include <filesystem>
@@ -98,7 +99,7 @@ public:
 				}
 				break;
 			case FRMouseButton::RIGHT:
-				board->ball->resetVelosity();
+				board->ball->velocity(0);
 				break;
 			case FRMouseButton::MIDDLE:
 				break;
@@ -128,14 +129,10 @@ public:
 				Init();
 				showBoard = true;
 			}
-			this->board->platform->decelerate(0.4);
+			board->addEffect(new AccelerateEffect(board->platform, 0.4, 5000));
 			break;
 		case FRKey::UP:
-			board->addEffect(new Effect(
-				[this]() { this->board->platform->increase(0.4); },
-				[this]() { this->board->platform->decrease(0.4); },
-				5000
-			));
+			board->addEffect(new IncreaseEffect(board->platform, 0.4, 5000));
 			break;
 		case FRKey::COUNT:
 			break;
