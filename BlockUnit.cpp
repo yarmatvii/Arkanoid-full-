@@ -15,3 +15,7 @@ void BlockUnit::doDamage(int damage) {
 bool BlockUnit::isAlive() {
 	return this->hp > 0;
 }
+
+int BlockUnit::getHp() {
+	return this->hp;
+}

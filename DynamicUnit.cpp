@@ -20,6 +20,14 @@ double DynamicUnit::velocity() {
 	return this->_velocity;
 }
 
+void DynamicUnit::setDirection(std::pair<double, double> direction) {
+	directionX = direction.first;
+	directionY = direction.second;
+
+	dx = directionX * velocity;
+	dy = directionY * velocity;
+}
+
 void DynamicUnit::setDirection(double x, double y) {
 	_directionX = x;
 	_directionY = y;
@@ -53,4 +61,3 @@ void DynamicUnit::accelerate(double coef) {
 void DynamicUnit::decelerate(double coef) {
 	this->velocity(this->velocity() / (1 + coef));
 }
-

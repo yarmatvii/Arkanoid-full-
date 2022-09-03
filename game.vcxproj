@@ -136,6 +136,7 @@
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="PratformUnit.cpp" />
+    <ClCompile Include="Tools.cpp" />
     <ClCompile Include="Unit.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +148,7 @@
     <ClInclude Include="Framework.h" />
     <ClInclude Include="PratformUnit.h" />
     <ClInclude Include="Side.h" />
+    <ClInclude Include="Tools.h" />
     <ClInclude Include="Unit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

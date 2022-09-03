@@ -13,4 +13,5 @@ public:
 
 	void doDamage(int damage);
 	bool isAlive();
+	int getHp();
 };

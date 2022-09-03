@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <cmath>
 
-#define PLATFORM_VELOCITY 1
+#define PLATFORM_VELOCITY 4
 #define PLATFORM_ANIMATION_LATENCY 10
 
 PratformUnit::PratformUnit(std::vector<Sprite*> sprites, double x, double y, double width, double height) :

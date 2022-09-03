@@ -18,9 +18,9 @@ public:
 	virtual double velocity();
 
 	virtual void setDirection(double x, double y);
+	virtual void setDirection(std::pair<double, double> direction);
 	virtual double getDirectionX();
 	virtual double getDirectionY();
-
 
 	virtual void update();
 	virtual void draw();

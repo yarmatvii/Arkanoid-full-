@@ -9,7 +9,6 @@
 #include <cmath>
 #include <utility>
 #include "wtypes.h"
-
 #include <iostream>
 
 /* Test Framework realization */
@@ -22,13 +21,15 @@ public:
 	Board* board;
 	bool showBoard;
 
+	Sprite* bg = NULL;
 	Sprite* gameOverSprite = NULL;
 	Sprite* victorySprite = NULL;
 	Sprite* blueWallSprite = NULL;
-	Sprite* blueBlockSprite = NULL;
+	Sprite* yellowBlockSprite = NULL;
 	std::vector<Sprite*> platformSprites;
 	Sprite* ballSprite = NULL;
 	Sprite* cursorSprite = NULL;
+	Sprite* goldBlockSprite = NULL;
 
 	MyFramework(int width, int height, bool fullscreen) {
 		this->width = width;
@@ -46,6 +47,8 @@ public:
 	virtual bool Init() {
 		// load resources
 
+		bg = createSprite(getResourcePath("bg.jpg").c_str());
+
 		blueWallSprite = createSprite(getResourcePath("01-Breakout-Tiles.png").c_str());
 		platformSprites = {
 			createSprite(getResourcePath("50-Breakout-Tiles.png").c_str()),
@@ -54,9 +57,10 @@ public:
 		};
 		cursorSprite = createSprite(getResourcePath("59-Breakout-Tiles.png").c_str());
 		ballSprite = createSprite(getResourcePath("63-Breakout-Tiles.png").c_str());
-		blueBlockSprite = createSprite(getResourcePath("21-Breakout-Tiles.png").c_str());
+		yellowBlockSprite = createSprite(getResourcePath("13-Breakout-Tiles.png").c_str());
+		goldBlockSprite = createSprite(getResourcePath("25-Breakout-Tiles.png").c_str());
 
-		board = new Board(width, height, blueWallSprite, blueBlockSprite, platformSprites, cursorSprite, ballSprite);
+		board = new Board(width, height, blueWallSprite, yellowBlockSprite, goldBlockSprite, platformSprites, cursorSprite, ballSprite);
 
 		gameOverSprite = createSprite(getResourcePath("GameOver.jpg").c_str());
 		victorySprite = createSprite(getResourcePath("Victory.jpg").c_str());
@@ -76,7 +80,7 @@ public:
 
 	virtual bool Tick() {
 		drawTestBackground();
-		this->showBoard = board->tick(showBoard, gameOverSprite, victorySprite);
+		this->showBoard = board->tick(showBoard, gameOverSprite, victorySprite, bg);
 
 		return false;
 	}
@@ -163,13 +167,6 @@ public:
 
 	virtual const char* GetTitle() override {
 		return "Arcanoid";
-	}
-
-
-private:
-	std::string getResourcePath(std::string resourceName) {
-		auto path = std::filesystem::current_path() / "data" / resourceName;
-		return path.string();
 	}
 
 };
