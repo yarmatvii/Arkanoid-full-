@@ -1,4 +1,5 @@
 #include "BallUnit.h"
+#include "Tools.h"
 
 #define BALL_VELOCITY 2
 
@@ -10,9 +11,8 @@ void BallUnit::launch(int cursorX, int cursorY) {
 	if (this->velocity == 0) {
 		int dx = cursorX - this->x;
 		int dy = cursorY - this->y;
-		long double len = sqrt(pow(dx, 2) + pow(dy, 2));
 
 		setVelosity(BALL_VELOCITY);
-		setDirection(dx / len, dy / len);
+		setDirection(normalizeVector(dx, dy));
 	}
 }

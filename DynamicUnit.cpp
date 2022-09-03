@@ -26,6 +26,15 @@ void DynamicUnit::setDirection(double x, double y) {
 	dy = directionY * velocity;
 }
 
+void DynamicUnit::setDirection(std::pair<double, double> direction) {
+	directionX = direction.first;
+	directionY = direction.second;
+
+	directionStartX = this->x;
+	directionStartY = this->y;
+	directionStartTick = getTickCount();
+}
+
 double DynamicUnit::getDirectionX() {
 	return this->directionX;
 }
@@ -51,4 +60,3 @@ void DynamicUnit::accelerate(double coef) {
 void DynamicUnit::decelerate(double coef) {
 	this->velocity *= 1 - coef;
 }
-
