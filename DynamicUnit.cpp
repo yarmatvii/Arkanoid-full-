@@ -18,21 +18,20 @@ void DynamicUnit::resetVelosity() {
 	this->velocity = 0;
 }
 
+void DynamicUnit::setDirection(std::pair<double, double> direction) {
+	directionX = direction.first;
+	directionY = direction.second;
+
+	dx = directionX * velocity;
+	dy = directionY * velocity;
+}
+
 void DynamicUnit::setDirection(double x, double y) {
 	directionX = x;
 	directionY = y;
 
 	dx = directionX * velocity;
 	dy = directionY * velocity;
-}
-
-void DynamicUnit::setDirection(std::pair<double, double> direction) {
-	directionX = direction.first;
-	directionY = direction.second;
-
-	directionStartX = this->x;
-	directionStartY = this->y;
-	directionStartTick = getTickCount();
 }
 
 double DynamicUnit::getDirectionX() {

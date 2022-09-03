@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <cmath>
 
-#define PLATFORM_VELOCITY 1
+#define PLATFORM_VELOCITY 4
 #define PLATFORM_ANIMATION_LATENCY 10
 
 PratformUnit::PratformUnit(std::vector<Sprite*> sprites, double x, double y, double width, double height) :
@@ -22,14 +22,14 @@ void PratformUnit::update() {
 	DynamicUnit::update();
 }
 
-void PratformUnit::increase(double ñoef) {
-	double newWidth = this->width * (1 + ñoef);
+void PratformUnit::increase(double coef) {
+	double newWidth = this->width * (1 + coef);
 	this->moveRelative(-(newWidth - width) / 2, 0);
 	this->width = newWidth;
 }
 
-void PratformUnit::decrease(double ñoef) {
-	double newWidth = this->width / (1 + ñoef);
+void PratformUnit::decrease(double coef) {
+	double newWidth = this->width / (1 + coef);
 	this->moveRelative(-(newWidth - width) / 2, 0);
 	this->width = newWidth;
 }

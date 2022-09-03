@@ -19,7 +19,6 @@ public:
 	virtual double getDirectionX();
 	virtual double getDirectionY();
 
-
 	virtual void update();
 	virtual void draw();
 	virtual void accelerate(double coef);
