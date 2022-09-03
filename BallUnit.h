@@ -6,8 +6,8 @@
 class BallUnit : public DynamicUnit {
 public:
 
-	BallUnit(Sprite* sprite, int x, int y, int width, int height);
-	void launch(int cursorX, int cursorY);
+	BallUnit(Sprite* sprite, double x, double y, double width, double height);
+	void launch(double cursorX, double cursorY);
 
 };
 

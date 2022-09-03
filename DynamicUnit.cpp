@@ -3,40 +3,42 @@
 #include <cmath>
 #include <iostream>
 
-DynamicUnit::DynamicUnit(Sprite* sprite, int x, int y, int width, int height) :
+DynamicUnit::DynamicUnit(Sprite* sprite, double x, double y, double width, double height) :
 	Unit(sprite, x, y, width, height) {
-	this->velocity = 0;
-	dx = 0;
-	dy = 0;
+	this->_velocity = 0;
+	this->_dx = 0;
+	this->_dy = 0;
 }
 
-void DynamicUnit::setVelosity(double velocity) {
-	this->velocity = velocity;
+void DynamicUnit::velocity(double velocity) {
+	this->_velocity = velocity;
+	this->_dx = velocity * this->_directionX;
+	this->_dy = velocity * this->_directionY;
 }
 
-void DynamicUnit::resetVelosity() {
-	this->velocity = 0;
+double DynamicUnit::velocity() {
+	return this->_velocity;
 }
 
 void DynamicUnit::setDirection(double x, double y) {
-	directionX = x;
-	directionY = y;
+	_directionX = x;
+	_directionY = y;
 
-	dx = directionX * velocity;
-	dy = directionY * velocity;
+	this->_dx = _directionX * _velocity;
+	this->_dy = _directionY * _velocity;
 }
 
 double DynamicUnit::getDirectionX() {
-	return this->directionX;
+	return this->_directionX;
 }
 
 double DynamicUnit::getDirectionY() {
-	return this->directionY;
+	return this->_directionY;
 }
 
 void DynamicUnit::update() {
-	if (velocity != 0) {
-		moveRelative(this->dx, this->dy);
+	if (_velocity != 0) {
+		moveRelative(this->_dx, this->_dy);
 	}
 }
 
@@ -45,10 +47,10 @@ void DynamicUnit::draw() {
 }
 
 void DynamicUnit::accelerate(double coef) {
-	this->velocity *= 1 + coef;
+	this->velocity(this->velocity() * (1 + coef));
 }
 
 void DynamicUnit::decelerate(double coef) {
-	this->velocity *= 1 - coef;
+	this->velocity(this->velocity() / (1 + coef));
 }
 

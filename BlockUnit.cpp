@@ -1,10 +1,10 @@
 #include "BlockUnit.h"
 
-BlockUnit::BlockUnit(Sprite* sprite, int x, int y, int width, int height) : Unit(sprite, x, y, width, height) {
+BlockUnit::BlockUnit(Sprite* sprite, double x, double y, double width, double height) : Unit(sprite, x, y, width, height) {
 	this->hp = 1;
 }
 
-BlockUnit::BlockUnit(Sprite* sprite, int x, int y, int width, int height, int hp) : Unit(sprite, x, y, width, height) {
+BlockUnit::BlockUnit(Sprite* sprite, double x, double y, double width, double height, int hp) : Unit(sprite, x, y, width, height) {
 	this->hp = hp;
 }
 

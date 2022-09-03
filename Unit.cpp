@@ -2,7 +2,6 @@
 #define _WINDOWS
 
 #include "Unit.h"
-#include <iostream>
 
 Unit::Unit(Sprite* sprite, double x, double y, double width, double height) {
 	this->sprite = sprite;
@@ -69,6 +68,19 @@ bool Unit::linesIntersects(double p0x, double p0y, double p1x, double p1y, doubl
 		return true;
 	}
 	return false;
+}
+
+
+void Unit::increase(double ñoef) {
+	double newWidth = this->width * (1 + ñoef);
+	this->moveRelative(-(newWidth - width) / 2, 0);
+	this->width = newWidth;
+}
+
+void Unit::decrease(double ñoef) {
+	double newWidth = this->width / (1 + ñoef);
+	this->moveRelative(-(newWidth - width) / 2, 0);
+	this->width = newWidth;
 }
 
 void Unit::draw() {
