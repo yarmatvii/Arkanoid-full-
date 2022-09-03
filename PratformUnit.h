@@ -10,5 +10,6 @@ public:
 
 	PratformUnit(std::vector<Sprite*> sprites, int x, int y, int width, int height);
 	virtual void update();
+	void increase(double ñoef);
+	void decrease(double ñoef);
 };
-

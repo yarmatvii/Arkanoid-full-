@@ -6,6 +6,7 @@
 #include "PratformUnit.h"
 #include "BallUnit.h"
 #include "BlockUnit.h"
+#include "Effect.h"
 
 #include <vector>
 
@@ -17,6 +18,7 @@ public:
 	bool isDefeat = false;
 	bool isVictory = false;
 	std::vector<BlockUnit*> blocks;
+	std::vector<Effect*> effects;
 	PratformUnit* platform;
 	BallUnit* ball;
 	Unit* cursor;
@@ -31,6 +33,8 @@ public:
 	bool addPlatform(PratformUnit* platform);
 	bool addBall(BallUnit* ball);
 	void addCursor(Unit* cursor);
+	void addEffect(Effect* effect);
+	void updateEffects();
 	void launchBall();
 	bool checkDefeat();
 	bool checkVictory();
@@ -47,4 +51,5 @@ private:
 	void platformCollision();
 	void blockCollision();
 	void checkIfPLatformCollidesWithEdges();
+	void eraseEffect(Effect* effect);
 };

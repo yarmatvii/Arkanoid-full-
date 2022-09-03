@@ -11,9 +11,6 @@
 
 #include <iostream>
 
-#define PLATFORM_VELOCITY 1
-#define BALL_VELOCITY 0.5
-
 /* Test Framework realization */
 class MyFramework : public Framework {
 
@@ -113,14 +110,11 @@ public:
 		{
 		case FRKey::RIGHT:
 			if (showBoard) {
-
-				board->platform->setVelosity(PLATFORM_VELOCITY);
 				board->platform->setDirection(board->platform->getDirectionX() + 1, 0);
 			}
 			break;
 		case FRKey::LEFT:
 			if (showBoard) {
-				board->platform->setVelosity(PLATFORM_VELOCITY);
 				board->platform->setDirection(board->platform->getDirectionX() - 1, 0);
 			}
 			break;
@@ -130,8 +124,14 @@ public:
 				Init();
 				showBoard = true;
 			}
+			this->board->platform->decelerate(0.4);
 			break;
 		case FRKey::UP:
+			board->addEffect(new Effect(
+				[this]() { this->board->platform->increase(0.4); },
+				[this]() { this->board->platform->decrease(0.4); },
+				5000
+			));
 			break;
 		case FRKey::COUNT:
 			break;
@@ -146,13 +146,11 @@ public:
 		case FRKey::RIGHT:
 			if (showBoard) {
 				board->platform->setDirection(board->platform->getDirectionX() - 1, 0);
-				//board->platform->resetVelosity();
 			}
 			break;
 		case FRKey::LEFT:
 			if (showBoard) {
 				board->platform->setDirection(board->platform->getDirectionX() + 1, 0);
-				//board->platform->resetVelosity();
 			}
 			break;
 		case FRKey::DOWN:

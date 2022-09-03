@@ -44,7 +44,14 @@ void DynamicUnit::update() {
 }
 
 void DynamicUnit::draw() {
-	update();
 	Unit::draw();
+}
+
+void DynamicUnit::accelerate(double coef) {
+	this->velocity *= 1 + coef;
+}
+
+void DynamicUnit::decelerate(double coef) {
+	this->velocity *= 1 - coef;
 }
 
