@@ -151,6 +151,7 @@ public:
 		case FRKey::DOWN:
 			if (showBoard == false)
 			{
+				Close();
 				Init();
 				showBoard = true;
 			}
@@ -198,14 +199,6 @@ public:
 
 };
 
-std::pair<int, int> getDesktopResolution()
-{
-	RECT desktop;
-	const HWND hDesktop = GetDesktopWindow();
-	GetWindowRect(hDesktop, &desktop);
-	return { desktop.right, desktop.bottom };
-}
-
 int main(int argc, char* argv[])
 {
 	// default values
@@ -213,15 +206,18 @@ int main(int argc, char* argv[])
 	int height = 600;
 	int fullscreen = false;
 
-	std::pair<int, int> desktop = getDesktopResolution();
 	// values from command line
-	if (argc == 3)
+	if (argc == 4 && strcmp(argv[1], "-window") == 0)
 	{
 		// TODO input validation 
-		width = std::stoi(argv[1]);
-		height = std::stoi(argv[2]);
+		width = std::stoi(argv[2]);
+		height = std::stoi(argv[3]);
 	}
-	if (width == desktop.first && height == desktop.second)
+
+	RECT desktop;
+	const HWND hDesktop = GetDesktopWindow();
+	GetWindowRect(hDesktop, &desktop);
+	if (width == desktop.right && height == desktop.bottom)
 		fullscreen = true;
 
 
