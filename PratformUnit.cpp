@@ -4,7 +4,6 @@
 
 #define PLATFORM_VELOCITY 4
 #define PLATFORM_ANIMATION_LATENCY 10
-#define PLATFOTM_WIDTH_COEF 2
 #define PLATFORM_VELOCITY_COEF 2
 
 PratformUnit::PratformUnit(std::vector<Sprite*> sprites, double x, double y, double width, double height) : DynamicUnit(sprites[0], x, y, width, height)
@@ -14,7 +13,6 @@ PratformUnit::PratformUnit(std::vector<Sprite*> sprites, double x, double y, dou
 	this->counter = 0;
 	this->setMaxVelocity(PLATFORM_VELOCITY * PLATFORM_VELOCITY_COEF);
 	this->setMinVelocity(PLATFORM_VELOCITY / PLATFORM_VELOCITY_COEF);
-	this->setMaxWidth(width * PLATFOTM_WIDTH_COEF);
 	this->setVelocity(PLATFORM_VELOCITY);
 }
 

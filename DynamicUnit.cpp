@@ -109,6 +109,7 @@ void DynamicUnit::update()
 	if (getVelocity() != 0)
 	{
 		moveRelative(dx, dy);
+		std::cout << dx << ":" << dy << std::endl;
 	}
 }
 

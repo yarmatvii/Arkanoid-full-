@@ -11,7 +11,6 @@ Unit::Unit(Sprite* sprite, double x, double y, double width, double height)
 	this->x = x;
 	this->y = y;
 	this->width = width;
-	this->maxWidth = -1;
 	this->height = height;
 }
 
@@ -31,20 +30,7 @@ void Unit::setWidth(double width) {
 
 double Unit::getWidth()
 {
-	if (getMaxWidth() >= 0) {
-		return std::min(getMaxWidth(), width);
-	}
 	return width;
-}
-
-void Unit::setMaxWidth(double maxWidth)
-{
-	this->maxWidth = maxWidth;
-}
-
-double Unit::getMaxWidth()
-{
-	return this->maxWidth;
 }
 
 void Unit::move(double x, double y)
@@ -61,7 +47,7 @@ void Unit::moveRelative(double xRelative, double yRelative)
 
 bool Unit::intersects(Unit* other)
 {
-	return !(this->x + this->getWidth() - 1 < other->x ||
+		return !(this->x + this->getWidth() - 1 < other->x ||
 		this->x > other->x + other->getWidth() - 1 ||
 		this->y > other->y + other->height - 1 ||
 		this->y + this->height - 1 < other->y
@@ -85,20 +71,6 @@ Side Unit::collides(Unit* other)
 	{
 		return Side::RIGHT;
 	}
-}
-
-void Unit::increase(double coef)
-{
-	double prevWidth = getWidth();
-	width *= 1 + coef;
-	moveRelative((prevWidth - getWidth()) / 2, 0);
-}
-
-void Unit::decrease(double coef)
-{
-	double prevWidth = getWidth();
-	width /= 1 + coef;
-	moveRelative((prevWidth - getWidth()) / 2, 0);
 }
 
 void Unit::draw()

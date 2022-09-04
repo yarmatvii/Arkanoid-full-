@@ -74,11 +74,24 @@ public:
 		victorySprite = createSprite(getResourcePath("Victory.jpg").c_str());
 
 		showCursor(false);
+		board->ball->setDirection(0, 1);
 		return true;
 	}
 
 	virtual void Close()
 	{
+		destroySprite(ui->zero);
+		destroySprite(ui->one);
+		destroySprite(ui->two);
+		destroySprite(ui->three);
+		destroySprite(ui->four);
+		destroySprite(ui->five);
+		destroySprite(ui->six);
+		destroySprite(ui->seven);
+		destroySprite(ui->eight);
+		destroySprite(ui->nine);
+
+		destroySprite(ui->speedAbility);
 		destroySprite(ui->scoreboardStart);
 		destroySprite(board->damagedBlock);
 		destroySprite(bg);
@@ -151,6 +164,7 @@ public:
 		case FRKey::DOWN:
 			if (showBoard == false)
 			{
+				Close();
 				Init();
 				showBoard = true;
 			}
@@ -198,32 +212,22 @@ public:
 
 };
 
-std::pair<int, int> getDesktopResolution()
-{
-	RECT desktop;
-	const HWND hDesktop = GetDesktopWindow();
-	GetWindowRect(hDesktop, &desktop);
-	return { desktop.right, desktop.bottom };
-}
-
 int main(int argc, char* argv[])
 {
-	// default values
 	int width = 800;
 	int height = 600;
 	int fullscreen = false;
 
-	std::pair<int, int> desktop = getDesktopResolution();
-	// values from command line
-	if (argc == 3)
+	if (argc == 4 && strcmp(argv[1], "-window") == 0)
 	{
-		// TODO input validation 
-		width = std::stoi(argv[1]);
-		height = std::stoi(argv[2]);
+		width = std::stoi(argv[2]);
+		height = std::stoi(argv[3]);
 	}
-	if (width == desktop.first && height == desktop.second)
-		fullscreen = true;
 
+	RECT desktop;
+	const HWND hDesktop = GetDesktopWindow();
+	GetWindowRect(hDesktop, &desktop);
+	if (width == desktop.right && height == desktop.bottom) fullscreen = true;
 
 	return run(new MyFramework(width, height, fullscreen));
 }

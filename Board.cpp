@@ -168,8 +168,8 @@ void Board::addRandomEffect()
 			[this](DynamicUnit* unit, double coef, int duration) { return new DecelerateEffect(unit, coef, duration); },
 		};
 
-		std::srand(std::time(NULL));
-		int randomIndex = std::rand() % effectsList.size();
+		srand(time(NULL));
+		int randomIndex = rand() % effectsList.size();
 		std::function<Effect* (DynamicUnit* unit, double coef, int duration)> randomEffectConstructor = effectsList[randomIndex];
 		this->addEffect(randomEffectConstructor(platform, ACCELERATION_COEF, EFFECT_DURATION));
 	}

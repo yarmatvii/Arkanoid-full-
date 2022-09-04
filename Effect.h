@@ -3,7 +3,6 @@
 #include "Framework.h"
 #include "DynamicUnit.h"
 
-
 class Effect {
 	std::function<void()> onCreate;
 	std::function<void()> onDestruct;
@@ -27,16 +26,3 @@ class DecelerateEffect : public Effect {
 public:
 	DecelerateEffect(DynamicUnit* unit, double coef, int duration);
 };
-
-
-class IncreaseEffect : public Effect {
-public:
-	IncreaseEffect(Unit* unit, double coef, int duration);
-};
-
-
-class DecreaseEffect : public Effect {
-public:
-	DecreaseEffect(Unit* unit, double coef, int duration);
-};
-

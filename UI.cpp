@@ -10,8 +10,6 @@ UI::UI(int width, int height)
 
 	this->speedAbility = createSprite(getResourcePath("speedAbilityOnRMB.png").c_str());
 	setSpriteSize(speedAbility, 200, 100);
-	//this->sizeAbility = createSprite(getResourcePath("sizeAbility.png").c_str());
-	//setSpriteSize(sizeAbility, 200, 100);
 
 	this->zero = createSprite(getResourcePath("numbers/0.png").c_str());
 	setSpriteSize(zero, 16, 16);
@@ -79,7 +77,7 @@ void UI::drawNumber(int width, int height, int score)
 	int x = width - 88;
 	int y = 34;
 
-	for (auto it = std::begin(score_str); it != std::end(score_str); it++, x += 18)
+	for (auto it = begin(score_str); it != end(score_str); it++, x += 18)
 	{
 		switch (*it) {
 		case '0':
