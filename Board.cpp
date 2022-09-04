@@ -1,7 +1,7 @@
 ﻿#define _WINDOWS
 
 #define WALL_POINTS 1
-#define YELLOW_BLOCK_POINTS 1
+#define YELLOW_BLOCK_POINTS 3
 
 #include "Board.h"
 #include <algorithm>
