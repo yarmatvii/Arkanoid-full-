@@ -79,7 +79,7 @@ void UI::drawNumber(int width, int height, int score)
 	int x = width - 88;
 	int y = 34;
 
-	for (auto it = std::rbegin(score_str); it != std::rend(score_str); it++, x += 18)
+	for (auto it = std::begin(score_str); it != std::end(score_str); it++, x += 18)
 	{
 		switch (*it) {
 		case '0':
