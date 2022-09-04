@@ -160,17 +160,19 @@ void Board::addEffect(Effect* effect)
 
 void Board::addRandomEffect()
 {
-	std::vector<std::function<Effect* (DynamicUnit* unit, double coef, int duration)>> effectsList = {
-		[this](DynamicUnit* unit, double coef, int duration) { return new AccelerateEffect(unit, coef, duration); },
-		[this](DynamicUnit* unit, double coef, int duration) { return new DecelerateEffect(unit, coef, duration); },
-	};
-	
-	std::srand(std::time(NULL));
-	int a = std::rand() % effectsList.size();
-	std::cout << a << std::endl;
-	std::function<Effect* (DynamicUnit* unit, double coef, int duration)> randomEffectConstructor = effectsList[1];
-	//std::function<Effect* (DynamicUnit* unit, double coef, int duration)> randomEffectConstructor = effectsList[a];
-	this->addEffect(randomEffectConstructor(this->platform, ACCELERATION_COEF, EFFECT_DURATION));
+	if (score > 19) {
+		score -= 20;
+
+		std::vector<std::function<Effect* (DynamicUnit* unit, double coef, int duration)>> effectsList = {
+			[this](DynamicUnit* unit, double coef, int duration) { return new AccelerateEffect(unit, coef, duration); },
+			[this](DynamicUnit* unit, double coef, int duration) { return new DecelerateEffect(unit, coef, duration); },
+		};
+
+		std::srand(std::time(NULL));
+		int randomIndex = std::rand() % effectsList.size();
+		std::function<Effect* (DynamicUnit* unit, double coef, int duration)> randomEffectConstructor = effectsList[randomIndex];
+		this->addEffect(randomEffectConstructor(platform, ACCELERATION_COEF, EFFECT_DURATION));
+	}
 }
 
 void Board::updateEffects()
