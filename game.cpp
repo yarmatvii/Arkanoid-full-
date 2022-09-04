@@ -13,7 +13,8 @@
 #include <iostream>
 
 /* Test Framework realization */
-class MyFramework : public Framework {
+class MyFramework : public Framework
+{
 
 public:
 	int width;
@@ -33,20 +34,23 @@ public:
 	Sprite* cursorSprite = NULL;
 	Sprite* goldBlockSprite = NULL;
 
-	MyFramework(int width, int height, bool fullscreen) {
+	MyFramework(int width, int height, bool fullscreen)
+	{
 		this->width = width;
 		this->height = height;
 		this->fullscreen = fullscreen;
 		showBoard = true;
 	}
 
-	virtual void PreInit(int& width, int& height, bool& fullscreen) {
+	virtual void PreInit(int& width, int& height, bool& fullscreen)
+	{
 		width = this->width;
 		height = this->height;
 		fullscreen = this->fullscreen;
 	}
 
-	virtual bool Init() {
+	virtual bool Init()
+	{
 		// load resources
 
 		bg = createSprite(getResourcePath("bg.jpg").c_str());
@@ -73,7 +77,8 @@ public:
 		return true;
 	}
 
-	virtual void Close() {
+	virtual void Close()
+	{
 		destroySprite(ui->scoreboardStart);
 		destroySprite(board->damagedBlock);
 		destroySprite(bg);
@@ -84,23 +89,27 @@ public:
 		destroySprite(blueWallSprite);
 		destroySprite(ballSprite);
 		destroySprite(cursorSprite);
-		for (auto sprite : platformSprites) {
+		for (auto sprite : platformSprites)
+		{
 			destroySprite(sprite);
 		}
 	}
 
-	virtual bool Tick() {
+	virtual bool Tick()
+	{
 		drawTestBackground();
-		this->showBoard = board->tick(showBoard, gameOverSprite, victorySprite, bg);
+		showBoard = board->tick(showBoard, gameOverSprite, victorySprite, bg);
 		ui->tick(board->score, width, height);
 		return false;
 	}
 
-	virtual void onMouseMove(int x, int y, int xrelative, int yrelative) {
+	virtual void onMouseMove(int x, int y, int xrelative, int yrelative)
+	{
 		if (showBoard) board->cursor->move(x, y);
 	}
 
-	virtual void onMouseButtonClick(FRMouseButton button, bool isReleased) {
+	virtual void onMouseButtonClick(FRMouseButton button, bool isReleased)
+	{
 		if (showBoard)
 			switch (button)
 			{
@@ -121,16 +130,19 @@ public:
 			}
 	}
 
-	virtual void onKeyPressed(FRKey k) {
+	virtual void onKeyPressed(FRKey k)
+	{
 		switch (k)
 		{
 		case FRKey::RIGHT:
-			if (showBoard) {
+			if (showBoard)
+			{
 				board->platform->setDirection(board->platform->getDirectionX() + 1, 0);
 			}
 			break;
 		case FRKey::LEFT:
-			if (showBoard) {
+			if (showBoard)
+			{
 				board->platform->setDirection(board->platform->getDirectionX() - 1, 0);
 			}
 			break;
@@ -152,16 +164,19 @@ public:
 		}
 	}
 
-	virtual void onKeyReleased(FRKey k) {
+	virtual void onKeyReleased(FRKey k)
+	{
 		switch (k)
 		{
 		case FRKey::RIGHT:
-			if (showBoard) {
+			if (showBoard)
+			{
 				board->platform->setDirection(board->platform->getDirectionX() - 1, 0);
 			}
 			break;
 		case FRKey::LEFT:
-			if (showBoard) {
+			if (showBoard)
+			{
 				board->platform->setDirection(board->platform->getDirectionX() + 1, 0);
 			}
 			break;
@@ -176,20 +191,23 @@ public:
 		}
 	}
 
-	virtual const char* GetTitle() override {
+	virtual const char* GetTitle() override
+	{
 		return "Arcanoid";
 	}
 
 };
 
-std::pair<int, int> getDesktopResolution() {
+std::pair<int, int> getDesktopResolution()
+{
 	RECT desktop;
 	const HWND hDesktop = GetDesktopWindow();
 	GetWindowRect(hDesktop, &desktop);
 	return { desktop.right, desktop.bottom };
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
 	// default values
 	int width = 800;
 	int height = 600;
@@ -197,14 +215,15 @@ int main(int argc, char* argv[]) {
 
 	std::pair<int, int> desktop = getDesktopResolution();
 	// values from command line
-	if (argc == 3) {
+	if (argc == 3)
+	{
 		// TODO input validation 
 		width = std::stoi(argv[1]);
 		height = std::stoi(argv[2]);
 	}
-	if (width == desktop.first && height == desktop.second) {
+	if (width == desktop.first && height == desktop.second)
 		fullscreen = true;
-	}
+
 
 	return run(new MyFramework(width, height, fullscreen));
 }

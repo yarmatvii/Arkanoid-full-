@@ -4,15 +4,14 @@
 #include <tuple>
 
 class DynamicUnit : public Unit {
-protected:
+public:
+
 	double velocity;
 	double maxVelocity;
 	double dx;
 	double dy;
 	double directionX;
 	double directionY;
-
-public:
 
 	DynamicUnit(Sprite* sprite, double x, double y, double width, double height);
 	DynamicUnit(Sprite* sprite, double x, double y, double width, double height, double velocity);

@@ -4,11 +4,9 @@
 #include "Side.h"
 
 class Unit {
-	// TODO getters & setters
-	double _width;
-	double _maxWidth;
-
 public:
+	double width;
+	double maxWidth;
 
 	Sprite* sprite;
 	double x;
