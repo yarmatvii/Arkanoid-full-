@@ -154,10 +154,8 @@ public:
 				Init();
 				showBoard = true;
 			}
-			board->addEffect(new AccelerateEffect(board->platform, 0.4, 5000));
 			break;
 		case FRKey::UP:
-			board->addEffect(new IncreaseEffect(board->platform, 0.4, 5000));
 			break;
 		case FRKey::COUNT:
 			break;
