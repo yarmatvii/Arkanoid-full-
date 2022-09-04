@@ -74,114 +74,44 @@ void UI::addNumber(Sprite* num)
 
 void UI::drawNumber(int width, int height, int score)
 {
-	char first;
-	char second;
-	char third;
+	std::string score_str = std::to_string(score);
 
-	first = scoreToStr(score)[0];
-	if (score > 9) second = scoreToStr(score)[1];
-	if (score > 99) third = scoreToStr(score)[2];
+	int x = width - 88;
+	int y = 34;
 
-	switch (first) {
-	case '0':
-		drawSprite(this->numbers[0], width - 88, 34);
-		break;
-	case '1':
-		drawSprite(this->numbers[1], width - 88, 34);
-		break;
-	case '2':
-		drawSprite(this->numbers[2], width - 88, 34);
-		break;
-	case '3':
-		drawSprite(this->numbers[3], width - 88, 34);
-		break;
-	case '4':
-		drawSprite(this->numbers[4], width - 88, 34);
-		break;
-	case '5':
-		drawSprite(this->numbers[5], width - 88, 34);
-		break;
-	case '6':
-		drawSprite(this->numbers[6], width - 88, 34);
-		break;
-	case '7':
-		drawSprite(this->numbers[7], width - 88, 34);
-		break;
-	case '8':
-		drawSprite(this->numbers[8], width - 88, 34);
-		break;
-	case '9':
-		drawSprite(this->numbers[9], width - 88, 34);
-		break;
+	for (auto it = std::rbegin(score_str); it != std::rend(score_str); it++, x += 18)
+	{
+		switch (*it) {
+		case '0':
+			drawSprite(this->numbers[0], x, y);
+			break;
+		case '1':
+			drawSprite(this->numbers[1], x, y);
+			break;
+		case '2':
+			drawSprite(this->numbers[2], x, y);
+			break;
+		case '3':
+			drawSprite(this->numbers[3], x, y);
+			break;
+		case '4':
+			drawSprite(this->numbers[4], x, y);
+			break;
+		case '5':
+			drawSprite(this->numbers[5], x, y);
+			break;
+		case '6':
+			drawSprite(this->numbers[6], x, y);
+			break;
+		case '7':
+			drawSprite(this->numbers[7], x, y);
+			break;
+		case '8':
+			drawSprite(this->numbers[8], x, y);
+			break;
+		case '9':
+			drawSprite(this->numbers[9], x, y);
+			break;
+		}
 	}
-
-	if (score > 9) switch (second) {
-	case '0':
-		drawSprite(this->numbers[0], width - 70, 34);
-		break;
-	case '1':
-		drawSprite(this->numbers[1], width - 70, 34);
-		break;
-	case '2':
-		drawSprite(this->numbers[2], width - 70, 34);
-		break;
-	case '3':
-		drawSprite(this->numbers[3], width - 70, 34);
-		break;
-	case '4':
-		drawSprite(this->numbers[4], width - 70, 34);
-		break;
-	case '5':
-		drawSprite(this->numbers[5], width - 70, 34);
-		break;
-	case '6':
-		drawSprite(this->numbers[6], width - 70, 34);
-		break;
-	case '7':
-		drawSprite(this->numbers[7], width - 70, 34);
-		break;
-	case '8':
-		drawSprite(this->numbers[8], width - 70, 34);
-		break;
-	case '9':
-		drawSprite(this->numbers[9], width - 70, 34);
-		break;
-	}
-
-	if (score > 99) switch (third) {
-	case '0':
-		drawSprite(this->numbers[0], width - 52, 34);
-		break;
-	case '1':
-		drawSprite(this->numbers[1], width - 52, 34);
-		break;
-	case '2':
-		drawSprite(this->numbers[2], width - 52, 34);
-		break;
-	case '3':
-		drawSprite(this->numbers[3], width - 52, 34);
-		break;
-	case '4':
-		drawSprite(this->numbers[4], width - 52, 34);
-		break;
-	case '5':
-		drawSprite(this->numbers[5], width - 52, 34);
-		break;
-	case '6':
-		drawSprite(this->numbers[6], width - 52, 34);
-		break;
-	case '7':
-		drawSprite(this->numbers[7], width - 52, 34);
-		break;
-	case '8':
-		drawSprite(this->numbers[8], width - 52, 34);
-		break;
-	case '9':
-		drawSprite(this->numbers[9], width - 52, 34);
-		break;
-	}
-}
-
-std::string UI::scoreToStr(int score) {
-	return std::to_string(score);
 }

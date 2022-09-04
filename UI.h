@@ -1,6 +1,7 @@
 #pragma once
 #include "Framework.h"
 #include <vector>
+#include <string>
 #include <iostream>
 
 class UI
@@ -28,8 +29,6 @@ public:
 	Sprite* eight = NULL;
 	Sprite* nine = NULL;
 	Sprite* zero = NULL;
-
-	std::string scoreToStr(int score);
 
 	void tick(int score, int width, int height, bool showboard);
 
