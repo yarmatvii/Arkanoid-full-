@@ -40,6 +40,7 @@ public:
 	bool addBall(BallUnit* ball);
 	void addCursor(Unit* cursor);
 	void addEffect(Effect* effect);
+	void addRandomEffect();
 	void updateEffects();
 	void launchBall();
 	bool checkDefeat();

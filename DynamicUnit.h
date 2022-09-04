@@ -8,6 +8,7 @@ public:
 
 	double velocity;
 	double maxVelocity;
+	double minVelocity;
 	double dx;
 	double dy;
 	double directionX;
@@ -15,7 +16,7 @@ public:
 
 	DynamicUnit(Sprite* sprite, double x, double y, double width, double height);
 	DynamicUnit(Sprite* sprite, double x, double y, double width, double height, double velocity);
-	DynamicUnit(Sprite* sprite, double x, double y, double width, double height, double velocity, double maxVelocity);
+	DynamicUnit(Sprite* sprite, double x, double y, double width, double height, double velocity, double minVelocity, double maxVelocity);
 
 	virtual void setVelocity(double velocity);
 	virtual double getVelocity();
@@ -23,6 +24,8 @@ public:
 	virtual void setMaxVelocity(double velocity);
 	virtual double getMaxVelocity();
 
+	virtual void setMinVelocity(double velocity);
+	virtual double getMinVelocity();
 
 	virtual void setDirection(double x, double y);
 	virtual void setDirection(std::pair<double, double> direction);

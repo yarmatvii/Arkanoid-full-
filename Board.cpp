@@ -3,11 +3,16 @@
 #define WALL_POINTS 1
 #define YELLOW_BLOCK_POINTS 1
 
+#define ACCELERATION_COEF 0.4
+#define EFFECT_DURATION 20000
+
 #include "Board.h"
 #include <algorithm>
 #include "iostream"
 #include <numbers>
 #include <numeric>
+#include <functional>
+#include <random>
 
 Board::Board(int width, int height)
 {
@@ -152,6 +157,21 @@ void Board::addEffect(Effect* effect)
 {
 	effects.push_back(effect);
 };
+
+void Board::addRandomEffect()
+{
+	std::vector<std::function<Effect* (DynamicUnit* unit, double coef, int duration)>> effectsList = {
+		[this](DynamicUnit* unit, double coef, int duration) { return new AccelerateEffect(unit, coef, duration); },
+		[this](DynamicUnit* unit, double coef, int duration) { return new DecelerateEffect(unit, coef, duration); },
+	};
+	
+	std::srand(std::time(NULL));
+	int a = std::rand() % effectsList.size();
+	std::cout << a << std::endl;
+	std::function<Effect* (DynamicUnit* unit, double coef, int duration)> randomEffectConstructor = effectsList[1];
+	//std::function<Effect* (DynamicUnit* unit, double coef, int duration)> randomEffectConstructor = effectsList[a];
+	this->addEffect(randomEffectConstructor(this->platform, ACCELERATION_COEF, EFFECT_DURATION));
+}
 
 void Board::updateEffects()
 {

@@ -119,7 +119,9 @@ public:
 				}
 				break;
 			case FRMouseButton::RIGHT:
-				board->ball->setVelocity(0);
+				if (isReleased) {
+					board->addRandomEffect();
+				}
 				break;
 			case FRMouseButton::MIDDLE:
 				break;
