@@ -179,7 +179,7 @@ bool Board::checkDefeat()
 
 bool Board::checkVictory()
 {
-	isVictory = blocks.size() == 0 && ball->intersects(platform);
+	isVictory = blocks.size() == 0;
 	return isVictory;
 }
 
@@ -190,9 +190,9 @@ void Board::update()
 
 	updateEffects();
 
+	platformCollision();
 	checkIfPLatformCollidesWithEdges();
 	edgesCollision();
-	platformCollision();
 	blockCollision();
 	undestructableBlockCollision();
 }
@@ -325,7 +325,6 @@ void Board::blockCollision()
 					streak++;
 				}
 
-				std::cout << score << std::endl;
 				eraseBlock(block);
 			}
 

@@ -38,8 +38,8 @@ void DynamicUnit::setVelocity(double velocity)
 {
 	this->velocity = velocity;
 
-	dx = getVelocity() * getDirectionX();
-	dy = getVelocity() * getDirectionY();
+	dx = getDirectionX() * getVelocity();
+	dy = getDirectionY() * getVelocity();
 }
 
 double DynamicUnit::getVelocity()
@@ -69,8 +69,8 @@ void DynamicUnit::setDirection(double x, double y)
 	directionX = x;
 	directionY = y;
 
-	dx = directionX * getVelocity();
-	dy = directionY * getVelocity();
+	dx = getDirectionX() * getVelocity();
+	dy = getDirectionY() * getVelocity();
 }
 
 double DynamicUnit::getDirectionX()
