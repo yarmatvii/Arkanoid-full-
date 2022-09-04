@@ -3,13 +3,17 @@
 #include <cmath>
 
 #define PLATFORM_VELOCITY 4
+#define MAX_PLATFORM_VELOCITY 8
 #define PLATFORM_ANIMATION_LATENCY 10
+#define MAX_WIDTH_COEF 2
 
 PratformUnit::PratformUnit(std::vector<Sprite*> sprites, double x, double y, double width, double height) :
 	DynamicUnit(sprites[0], x, y, width, height) {
 	this->sprites = sprites;
 	this->currentSpriteIndex = 0;
 	this->counter = 0;
+	this->maxVelocity(MAX_PLATFORM_VELOCITY);
+	this->maxWidth(MAX_WIDTH_COEF * width);
 	this->velocity(PLATFORM_VELOCITY);
 }
 

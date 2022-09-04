@@ -64,7 +64,7 @@ Board::Board(int width, int height, Sprite* wall, Sprite* yellowBlock, Sprite* g
 	this->addUndestructableBlock(new BlockUnit(goldBlock, centerX + wallX + wallX + wallX, wallY + wallY + wallY + wallY + wallY / 4, wallX, wallY + wallY, 999));
 
 	this->addPlatform(new PratformUnit(platforms, this->width / 2 - 80, this->height - 100, 160, 40));
-	this->addBall(new BallUnit(ball, (this->platform->x + this->platform->width / 2) - 8, this->height - 160, 16, 16));
+	this->addBall(new BallUnit(ball, (this->platform->x + this->platform->width() / 2) - 8, this->height - 160, 16, 16));
 	this->addCursor(new Unit(cursor, -50, -50, 16, 16));
 }
 
@@ -181,7 +181,7 @@ void Board::draw() {
 
 Side Board::checkIfCollideWithEdges(DynamicUnit* unit)
 {
-	if (unit->x + unit->width >= this->width) {
+	if (unit->x + unit->width() >= this->width) {
 		return Side::RIGHT;
 	}
 	else if (unit->x < 0) {
@@ -197,13 +197,13 @@ Side Board::checkIfCollideWithEdges(DynamicUnit* unit)
 
 Side Board::checkIfCollideWithPlatform() {
 	if (((ball->y + ball->height + 1) > platform->y) &&
-		(ball->x + ball->width + 1 > platform->x + platform->width / 2) &&
-		(ball->x - 1 < (platform->x + platform->width))) {
+		(ball->x + ball->width() + 1 > platform->x + platform->width() / 2) &&
+		(ball->x - 1 < (platform->x + platform->width()))) {
 		return Side::LEFT;
 	}
 	else if (((ball->y + ball->height + 1) > platform->y) &&
-		(ball->x + ball->width + 1 > platform->x) &&
-		(ball->x - 1 < platform->x + platform->width / 2)) {
+		(ball->x + ball->width() + 1 > platform->x) &&
+		(ball->x - 1 < platform->x + platform->width() / 2)) {
 		return Side::RIGHT;
 	}
 }
@@ -275,11 +275,11 @@ void Board::blockCollision() {
 				this->ball->setDirection(this->ball->getDirectionX(), -this->ball->getDirectionY());
 				break;
 			case Side::RIGHT:
-				this->ball->move(block->x + block->width + 1, this->ball->y);
+				this->ball->move(block->x + block->width() + 1, this->ball->y);
 				this->ball->setDirection(-this->ball->getDirectionX(), this->ball->getDirectionY());
 				break;
 			case Side::LEFT:
-				this->ball->move(block->x - this->ball->width - 1, this->ball->y);
+				this->ball->move(block->x - this->ball->width() - 1, this->ball->y);
 				this->ball->setDirection(-this->ball->getDirectionX(), this->ball->getDirectionY());
 				break;
 			}
@@ -299,14 +299,14 @@ void Board::undestructableBlockCollision() {
 				break;
 			case Side::BOTTOM:
 				this->ball->move(this->ball->x, block->y + block->height + 1);
-				this->ball->setDirection(this->ball->getDirectionX(), -this->ball->getDirectionY());
+				this->ball->setDirection(this->ball->  getDirectionX(), -this->ball->getDirectionY());
 				break;
 			case Side::RIGHT:
-				this->ball->move(block->x + block->width + 1, this->ball->y);
+				this->ball->move(block->x + block->width() + 1, this->ball->y);
 				this->ball->setDirection(-this->ball->getDirectionX(), this->ball->getDirectionY());
 				break;
 			case Side::LEFT:
-				this->ball->move(block->x - this->ball->width - 1, this->ball->y);
+				this->ball->move(block->x - this->ball->width() - 1, this->ball->y);
 				this->ball->setDirection(-this->ball->getDirectionX(), this->ball->getDirectionY());
 				break;
 			}
@@ -315,8 +315,8 @@ void Board::undestructableBlockCollision() {
 }
 
 void Board::checkIfPLatformCollidesWithEdges() {
-	if (this->platform->x + this->platform->width - 1 > this->width) {
-		this->platform->x = this->width - this->platform->width - 1;
+	if (this->platform->x + this->platform->width() - 1 > this->width) {
+		this->platform->x = this->width - this->platform->width() - 1;
 	}
 	if (this->platform->x < 0) {
 		this->platform->x = 0;
