@@ -8,6 +8,11 @@ BlockUnit::BlockUnit(Sprite* sprite, double x, double y, double width, double he
 	this->hp = hp;
 }
 
+BlockUnit::BlockUnit(Sprite* sprite, double x, double y, double width, double height, int hp, int points) : Unit(sprite, x, y, width, height) {
+	this->hp = hp;
+	this->points = points;
+}
+
 void BlockUnit::doDamage(int damage) {
 	this->hp = std::max(0, this->hp - damage);
 }
@@ -18,4 +23,8 @@ bool BlockUnit::isAlive() {
 
 int BlockUnit::getHp() {
 	return this->hp;
+}
+
+int BlockUnit::getPoints() {
+	return this->points;
 }

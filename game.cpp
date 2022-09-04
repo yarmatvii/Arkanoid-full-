@@ -110,7 +110,7 @@ public:
 				}
 				break;
 			case FRMouseButton::RIGHT:
-				board->ball->velocity(0);
+				board->ball->setVelocity(0);
 				break;
 			case FRMouseButton::MIDDLE:
 				break;

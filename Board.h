@@ -16,6 +16,7 @@ public:
 	int width;
 	int height;
 	int score;
+	int streak;
 	bool isDefeat = false;
 	bool isVictory = false;
 	std::vector<BlockUnit*> blocks;

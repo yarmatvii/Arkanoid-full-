@@ -6,54 +6,54 @@
 
 DynamicUnit::DynamicUnit(Sprite* sprite, double x, double y, double width, double height) :
 	Unit(sprite, x, y, width, height) {
-	this->_maxVelocity = -1;
-	this->_velocity = 0;
-	this->_dx = 0;
-	this->_dy = 0;
-	this->_directionX = 0;
-	this->_directionY = 0;
+	this->maxVelocity = -1;
+	this->velocity = 0;
+	this->dx = 0;
+	this->dy = 0;
+	this->directionX = 0;
+	this->directionY = 0;
 }
 
 DynamicUnit::DynamicUnit(Sprite* sprite, double x, double y, double width, double height, double velocity) :
 	Unit(sprite, x, y, width, height) {
-	this->_maxVelocity = -1;
-	this->_velocity = velocity;
-	this->_dx = 0;
-	this->_dy = 0;
-	this->_directionX = 0;
-	this->_directionY = 0;
+	this->maxVelocity = -1;
+	this->velocity = velocity;
+	this->dx = 0;
+	this->dy = 0;
+	this->directionX = 0;
+	this->directionY = 0;
 }
 
 DynamicUnit::DynamicUnit(Sprite* sprite, double x, double y, double width, double height, double velocity, double maxVelocity) :
 	Unit(sprite, x, y, width, height) {
-	this->_maxVelocity = maxVelocity;
-	this->velocity(velocity);
-	this->_dx = 0;
-	this->_dy = 0;
-	this->_directionX = 0;
-	this->_directionY = 0;
+	this->velocity = maxVelocity;
+	this->setVelocity(velocity);
+	this->dx = 0;
+	this->dy = 0;
+	this->directionX = 0;
+	this->directionY = 0;
 }
 
-void DynamicUnit::velocity(double velocity) {
-	this->_velocity = velocity;
+void DynamicUnit::setVelocity(double velocity) {
+	this->velocity = velocity;
 
-	this->_dx = this->velocity() * this->getDirectionX();
-	this->_dy = this->velocity() * this->getDirectionY();
+	this->dx = this->getVelocity() * this->getDirectionX();
+	this->dy = this->getVelocity() * this->getDirectionY();
 }
 
-double DynamicUnit::velocity() {
-	if (this->maxVelocity() >= 0) {
-		return std::min(this->_velocity, this->maxVelocity());
+double DynamicUnit::getVelocity() {
+	if (this->getMaxVelocity() >= 0) {
+		return std::min(this->velocity, this->getMaxVelocity());
 	}
-	return this->_velocity;
+	return this->velocity;
 }
 
-void DynamicUnit::maxVelocity(double maxVelocity) {
-	this->_maxVelocity = maxVelocity;
+void DynamicUnit::setMaxVelocity(double maxVelocity) {
+	this->maxVelocity = maxVelocity;
 }
 
-double DynamicUnit::maxVelocity() {
-	return this->_maxVelocity;
+double DynamicUnit::getMaxVelocity() {
+	return this->maxVelocity;
 }
 
 void DynamicUnit::setDirection(std::pair<double, double> direction) {
@@ -61,25 +61,24 @@ void DynamicUnit::setDirection(std::pair<double, double> direction) {
 }
 
 void DynamicUnit::setDirection(double x, double y) {
-	_directionX = x;
-	_directionY = y;
+	directionX = x;
+	directionY = y;
 
-	this->_dx = _directionX * this->velocity();
-	this->_dy = _directionY * this->velocity();
+	this->dx = directionX * this->getVelocity();
+	this->dy = directionY * this->getVelocity();
 }
 
 double DynamicUnit::getDirectionX() {
-	return this->_directionX;
+	return this->directionX;
 }
 
 double DynamicUnit::getDirectionY() {
-	return this->_directionY;
+	return this->directionY;
 }
 
 void DynamicUnit::update() {
-	if (this->velocity() != 0) {
-		moveRelative(this->_dx, this->_dy);
-		std::cout << this->_dx << " : " << this->_dy << std::endl;
+	if (this->getVelocity() != 0) {
+		moveRelative(this->dx, this->dy);
 	}
 }
 
@@ -88,9 +87,9 @@ void DynamicUnit::draw() {
 }
 
 void DynamicUnit::accelerate(double coef) {
-	this->velocity(this->_velocity * (1 + coef));
+	this->setVelocity(this->velocity * (1 + coef));
 }
 
 void DynamicUnit::decelerate(double coef) {
-	this->velocity(this->_velocity / (1 + coef));
+	this->setVelocity(this->velocity / (1 + coef));
 }

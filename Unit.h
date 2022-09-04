@@ -19,11 +19,11 @@ public:
 	virtual double getCenterX();
 	virtual double getCenterY();
 
-	virtual void width(double width);
-	virtual double width();
+	virtual void setWidth(double width);
+	virtual double getWidth();
 
-	virtual void maxWidth(double maxWidth);
-	virtual double maxWidth();
+	virtual void setMaxWidth(double maxWidth);
+	virtual double getMaxWidth();
 
 	virtual void move(double x, double y);
 	virtual void moveRelative(double xRelative, double yRelative);

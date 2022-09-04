@@ -9,12 +9,12 @@ BallUnit::BallUnit(Sprite* sprite, double x, double y, double width, double heig
 }
 
 void BallUnit::launch(double cursorX, double cursorY) {
-	if (this->velocity() == 0) {
+	if (this->getVelocity() == 0) {
 		int dx = cursorX - this->x;
 		int dy = cursorY - this->y;
 
-		this->maxVelocity(MAX_BALL_VELOCITY);
-		this->velocity(BALL_VELOCITY);
+		this->setMaxVelocity(MAX_BALL_VELOCITY);
+		this->setVelocity(BALL_VELOCITY);
 		this->setDirection(normalizeVector(dx, dy));
 	}
 }

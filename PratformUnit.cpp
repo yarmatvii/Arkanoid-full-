@@ -12,9 +12,9 @@ PratformUnit::PratformUnit(std::vector<Sprite*> sprites, double x, double y, dou
 	this->sprites = sprites;
 	this->currentSpriteIndex = 0;
 	this->counter = 0;
-	this->maxVelocity(MAX_PLATFORM_VELOCITY);
-	this->maxWidth(MAX_WIDTH_COEF * width);
-	this->velocity(PLATFORM_VELOCITY);
+	this->setMaxVelocity(MAX_PLATFORM_VELOCITY);
+	this->setMaxWidth(MAX_WIDTH_COEF * width);
+	this->setVelocity(PLATFORM_VELOCITY);
 }
 
 void PratformUnit::update() {

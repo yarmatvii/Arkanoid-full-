@@ -5,12 +5,12 @@
 
 class DynamicUnit : public Unit {
 protected:
-	double _velocity;
-	double _maxVelocity;
-	double _dx;
-	double _dy;
-	double _directionX;
-	double _directionY;
+	double velocity;
+	double maxVelocity;
+	double dx;
+	double dy;
+	double directionX;
+	double directionY;
 
 public:
 
@@ -18,11 +18,11 @@ public:
 	DynamicUnit(Sprite* sprite, double x, double y, double width, double height, double velocity);
 	DynamicUnit(Sprite* sprite, double x, double y, double width, double height, double velocity, double maxVelocity);
 
-	virtual void velocity(double velocity);
-	virtual double velocity();
+	virtual void setVelocity(double velocity);
+	virtual double getVelocity();
 
-	virtual void maxVelocity(double velocity);
-	virtual double maxVelocity();
+	virtual void setMaxVelocity(double velocity);
+	virtual double getMaxVelocity();
 
 
 	virtual void setDirection(double x, double y);
