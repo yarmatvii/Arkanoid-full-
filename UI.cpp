@@ -8,10 +8,10 @@ UI::UI(int width, int height)
 	this->scoreboardStart = createSprite(getResourcePath("49-Breakout-Tiles.png").c_str());
 	setSpriteSize(scoreboardStart, 96, 44);
 
-	this->speedAbility = createSprite(getResourcePath("speedAbility.png").c_str());
+	this->speedAbility = createSprite(getResourcePath("speedAbilityOnRMB.png").c_str());
 	setSpriteSize(speedAbility, 200, 100);
-	this->sizeAbility = createSprite(getResourcePath("sizeAbility.png").c_str());
-	setSpriteSize(sizeAbility, 200, 100);
+	//this->sizeAbility = createSprite(getResourcePath("sizeAbility.png").c_str());
+	//setSpriteSize(sizeAbility, 200, 100);
 
 	this->zero = createSprite(getResourcePath("numbers/0.png").c_str());
 	setSpriteSize(zero, 16, 16);
@@ -51,7 +51,7 @@ void UI::draw(int width, int height, int score, bool showboard)
 	drawSprite(this->scoreboardStart, width - 110, 20);
 	if (showboard) {
 		drawSprite(this->speedAbility, width - 205, height - 105);
-		drawSprite(this->sizeAbility, 5, height - 105);
+		//drawSprite(this->sizeAbility, 5, height - 105);
 	}
 	drawNumber(width, height, score);
 }
