@@ -166,10 +166,8 @@ void Board::addRandomEffect()
 	};
 	
 	std::srand(std::time(NULL));
-	int a = std::rand() % effectsList.size();
-	std::cout << a << std::endl;
-	std::function<Effect* (DynamicUnit* unit, double coef, int duration)> randomEffectConstructor = effectsList[1];
-	//std::function<Effect* (DynamicUnit* unit, double coef, int duration)> randomEffectConstructor = effectsList[a];
+	int randomIndex = std::rand() % effectsList.size();
+	std::function<Effect* (DynamicUnit* unit, double coef, int duration)> randomEffectConstructor = effectsList[randomIndex];
 	this->addEffect(randomEffectConstructor(this->platform, ACCELERATION_COEF, EFFECT_DURATION));
 }
 
