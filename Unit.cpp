@@ -89,16 +89,16 @@ Side Unit::collides(Unit* other)
 
 void Unit::increase(double coef)
 {
-	double prevWith = getWidth();
+	double prevWidth = getWidth();
 	width *= 1 + coef;
-	moveRelative((prevWith - getWidth()) / 2, 0);
+	moveRelative((prevWidth - getWidth()) / 2, 0);
 }
 
 void Unit::decrease(double coef)
 {
-	double prevWith = getWidth();
+	double prevWidth = getWidth();
 	width /= 1 + coef;
-	moveRelative((prevWith - getWidth()) / 2, 0);
+	moveRelative((prevWidth - getWidth()) / 2, 0);
 }
 
 void Unit::draw()

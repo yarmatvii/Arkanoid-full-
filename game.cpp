@@ -99,7 +99,7 @@ public:
 	{
 		drawTestBackground();
 		showBoard = board->tick(showBoard, gameOverSprite, victorySprite, bg);
-		ui->tick(board->score, width, height);
+		ui->tick(board->score, width, height, showBoard);
 		return false;
 	}
 
