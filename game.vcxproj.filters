@@ -45,7 +45,7 @@
     <ClCompile Include="Effect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tools.cpp">
+    <ClCompile Include="lib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UI.cpp">
@@ -85,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="constants.h">
+      <Filter>Header Files\Units</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

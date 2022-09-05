@@ -1,128 +1,78 @@
 #define _WINDOWS
-#include "DynamicUnit.h"
 #include <cmath>
 #include <algorithm>
 #include <iostream>
+#include <numeric>
 
-DynamicUnit::DynamicUnit(Sprite* sprite, double x, double y, double width, double height) : Unit(sprite, x, y, width, height)
-{
-	this->maxVelocity = -1;
-	this->minVelocity = -1;
-	this->velocity = 0;
-	this->dx = 0;
-	this->dy = 0;
-	this->directionX = 0;
-	this->directionY = 0;
+#include "DynamicUnit.h"
+
+DynamicUnit::DynamicUnit(Sprite* sprite, double x, double y, double width, double height, double velocity, double minVelocity, double maxVelocity) : Unit(sprite, x, y, width, height) {
+	this->_maxVelocity = maxVelocity;
+	this->_minVelocity = minVelocity;
+	this->velocity(velocity);
+	this->_dx = 0;
+	this->_dy = 0;
+	this->_directionX = 0;
+	this->_directionY = 0;
 }
 
-DynamicUnit::DynamicUnit(Sprite* sprite, double x, double y, double width, double height, double velocity) : Unit(sprite, x, y, width, height)
-{
-	this->maxVelocity = -1;
-	this->minVelocity = -1;
-	this->velocity = velocity;
-	this->dx = 0;
-	this->dy = 0;
-	this->directionX = 0;
-	this->directionY = 0;
+void DynamicUnit::velocity(double velocity) {
+	this->_velocity = velocity;
+
+	this->_dx = directionX() * this->velocity();
+	this->_dy = directionY() * this->velocity();
 }
 
-DynamicUnit::DynamicUnit(Sprite* sprite, double x, double y, double width, double height, double velocity, double minVelocity, double maxVelocity) : Unit(sprite, x, y, width, height)
-{
-	this->maxVelocity = maxVelocity;
-	this->minVelocity = minVelocity;
-	this->setVelocity(velocity);
-	this->dx = 0;
-	this->dy = 0;
-	this->directionX = 0;
-	this->directionY = 0;
+double DynamicUnit::velocity() {
+	return std::clamp(_velocity, this->minVelocity(), this->maxVelocity());
 }
 
-void DynamicUnit::setVelocity(double velocity)
-{
-	this->velocity = velocity;
-
-	dx = getDirectionX() * getVelocity();
-	dy = getDirectionY() * getVelocity();
+void DynamicUnit::maxVelocity(double maxVelocity) {
+	this->_maxVelocity = maxVelocity;
 }
 
-double DynamicUnit::getVelocity()
-{
-	if (minVelocity > 0 && maxVelocity > 0)
-	{
-		return std::clamp(velocity, minVelocity, maxVelocity);
-	}
-	else if (minVelocity > 0)
-	{
-		return std::min(velocity, maxVelocity);
-	}
-	else if (maxVelocity > 0)
-	{
-		return std::max(velocity, minVelocity);
-	}
-	return velocity;
+double DynamicUnit::maxVelocity() {
+	return this->_maxVelocity > 0 ? this->_maxVelocity : HUGE_VAL;
 }
 
-void DynamicUnit::setMaxVelocity(double maxVelocity)
-{
-	this->maxVelocity = maxVelocity;
+void DynamicUnit::minVelocity(double minVelocity) {
+	this->_minVelocity = minVelocity;
 }
 
-double DynamicUnit::getMaxVelocity() {
-	return maxVelocity;
+double DynamicUnit::minVelocity() {
+	return this->_minVelocity > 0 ? this->_minVelocity : -HUGE_VAL;
 }
 
-void DynamicUnit::setMinVelocity(double minVelocity)
-{
-	this->minVelocity = minVelocity;
+void DynamicUnit::direction(std::pair<double, double> direction) {
+	this->direction(direction.first, direction.second);
 }
 
-double DynamicUnit::getMinVelocity() {
-	return minVelocity;
+void DynamicUnit::direction(double x, double y) {
+	this->_directionX = x;
+	this->_directionY = y;
+
+	this->_dx = this->directionX() * this->velocity();
+	this->_dy = this->directionY() * this->velocity();
 }
 
-void DynamicUnit::setDirection(std::pair<double, double> direction)
-{
-	setDirection(direction.first, direction.second);
+double DynamicUnit::directionX() {
+	return this->_directionX;
 }
 
-void DynamicUnit::setDirection(double x, double y)
-{
-	directionX = x;
-	directionY = y;
-
-	dx = getDirectionX() * getVelocity();
-	dy = getDirectionY() * getVelocity();
+double DynamicUnit::directionY() {
+	return this->_directionY;
 }
 
-double DynamicUnit::getDirectionX()
-{
-	return directionX;
-}
-
-double DynamicUnit::getDirectionY()
-{
-	return directionY;
-}
-
-void DynamicUnit::update()
-{
-	if (getVelocity() != 0)
-	{
-		moveRelative(dx, dy);
+void DynamicUnit::update() {
+	if (this->velocity() != 0) {
+		this->moveRelative(_dx, _dy);
 	}
 }
 
-void DynamicUnit::draw()
-{
-	Unit::draw();
+void DynamicUnit::accelerate(double coef) {
+	this->velocity(_velocity * (1 + coef));
 }
 
-void DynamicUnit::accelerate(double coef)
-{
-	setVelocity(velocity * (1 + coef));
-}
-
-void DynamicUnit::decelerate(double coef)
-{
-	setVelocity(velocity / (1 + coef));
+void DynamicUnit::decelerate(double coef) {
+	this->velocity(_velocity / (1 + coef));
 }

@@ -1,24 +1,14 @@
 #include "BallUnit.h"
-#include "Tools.h"
+#include "tools.h"
+#include "constants.h"
 
-#define BALL_VELOCITY 4
-#define MAX_BALL_VELOCITY 8
-#define MIN_BALL_VELOCITY 2
 
-BallUnit::BallUnit(Sprite* sprite, double x, double y, double width, double height) : DynamicUnit(sprite, x, y, width, height)
-{
+BallUnit::BallUnit(Sprite* sprite, double x, double y, double width, double height) : DynamicUnit(sprite, x, y, width, height) {
 }
 
-void BallUnit::launch(double cursorX, double cursorY)
-{
-	if (getVelocity() == 0)
-	{
-		int dx = cursorX - x;
-		int dy = cursorY - y;
-
-		setMaxVelocity(MAX_BALL_VELOCITY);
-		setMinVelocity(MIN_BALL_VELOCITY);
-		setVelocity(BALL_VELOCITY);
-		setDirection(normalizeVector(dx, dy));
-	}
+void BallUnit::launch(double cursorX, double cursorY) {
+	direction(normalize(cursorX - this->x(), cursorY - this->y()));
+	maxVelocity(MAX_BALL_VELOCITY);
+	minVelocity(MIN_BALL_VELOCITY);
+	velocity(BALL_VELOCITY);
 }

@@ -1,10 +1,10 @@
 #define _WINDOWS
 #include "UI.h"
 #include "Framework.h"
-#include "Tools.h"
+#include "tools.h"
+#include "constants.h"
 
-UI::UI(int width, int height)
-{
+UI::UI(int width, int height) {
 	this->scoreboardStart = createSprite(getResourcePath("49-Breakout-Tiles.png").c_str());
 	setSpriteSize(scoreboardStart, 96, 44);
 
@@ -46,8 +46,7 @@ UI::UI(int width, int height)
 	this->addNumber(nine);
 }
 
-void UI::draw(int width, int height, int score, bool showboard)
-{
+void UI::draw(int width, int height, int score, bool showboard) {
 	drawSprite(this->scoreboardStart, width - 110, 20);
 	if (showboard) {
 		drawSprite(this->speedAbility, width - 205, height - 105);
@@ -56,31 +55,26 @@ void UI::draw(int width, int height, int score, bool showboard)
 	drawNumber(width, height, score);
 }
 
-void UI::update(int score)
-{
+void UI::update(int score) {
 
 }
 
-void UI::tick(int score, int width, int height, bool showboard)
-{
+void UI::tick(int score, int width, int height, bool showboard) {
 	this->update(score);
 	this->draw(width, height, score, showboard);
 }
 
-void UI::addNumber(Sprite* num)
-{
+void UI::addNumber(Sprite* num) {
 	this->numbers.push_back(num);
 }
 
-void UI::drawNumber(int width, int height, int score)
-{
+void UI::drawNumber(int width, int height, int score) {
 	std::string score_str = std::to_string(score);
 
 	int x = width - 88;
 	int y = 34;
 
-	for (auto it = std::begin(score_str); it != std::end(score_str); it++, x += 18)
-	{
+	for (auto it = std::begin(score_str); it != std::end(score_str); it++, x += 18) {
 		switch (*it) {
 		case '0':
 			drawSprite(this->numbers[0], x, y);

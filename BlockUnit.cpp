@@ -1,27 +1,25 @@
 #include "BlockUnit.h"
 
-BlockUnit::BlockUnit(Sprite* sprite, double x, double y, double width, double height) : Unit(sprite, x, y, width, height)
-{
-	this->hp = 1;
+BlockUnit::BlockUnit(Sprite* sprite, double x, double y, double width, double height, int hp, int points) : Unit(sprite, x, y, width, height) {
+	this->_hp = hp;
+	this->_baseHp = hp;
+	this->_points = points;
 }
 
-BlockUnit::BlockUnit(Sprite* sprite, double x, double y, double width, double height, int hp) : Unit(sprite, x, y, width, height)
-{
-	this->hp = hp;
+int BlockUnit::hp() {
+	return this->_hp;
 }
 
-BlockUnit::BlockUnit(Sprite* sprite, double x, double y, double width, double height, int hp, int points) : Unit(sprite, x, y, width, height)
-{
-	this->hp = hp;
-	this->points = points;
+int BlockUnit::points() {
+	return this->_points;
 }
 
-void BlockUnit::doDamage(int damage)
-{
-	hp = std::max(0, this->hp - damage);
+void BlockUnit::doDamage(int damage) {
+	this->_hp = std::max(0, this->_hp - damage);
 }
 
-bool BlockUnit::isAlive()
-{
-	return hp > 0;
+bool BlockUnit::isAlive() {
+	return this->_hp > 0;
 }
+
+

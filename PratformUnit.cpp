@@ -1,30 +1,24 @@
-#include "PratformUnit.h"
 #include <algorithm>
 #include <cmath>
 
-#define PLATFORM_VELOCITY 4
-#define PLATFORM_ANIMATION_LATENCY 10
-#define PLATFOTM_WIDTH_COEF 2
-#define PLATFORM_VELOCITY_COEF 2
+#include "PratformUnit.h"
+#include "constants.h"
 
-PratformUnit::PratformUnit(std::vector<Sprite*> sprites, double x, double y, double width, double height) : DynamicUnit(sprites[0], x, y, width, height)
-{
+PratformUnit::PratformUnit(std::vector<Sprite*> sprites, double x, double y, double width, double height) : DynamicUnit(sprites[0], x, y, width, height) {
 	this->sprites = sprites;
 	this->currentSpriteIndex = 0;
-	this->counter = 0;
-	this->setMaxVelocity(PLATFORM_VELOCITY * PLATFORM_VELOCITY_COEF);
-	this->setMinVelocity(PLATFORM_VELOCITY / PLATFORM_VELOCITY_COEF);
-	this->setMaxWidth(width * PLATFOTM_WIDTH_COEF);
-	this->setVelocity(PLATFORM_VELOCITY);
+	this->animationCounter = 0;
+	this->maxVelocity(PLATFORM_VELOCITY * PLATFORM_VELOCITY_COEF);
+	this->minVelocity(PLATFORM_VELOCITY / PLATFORM_VELOCITY_COEF);
+	this->maxWidth(width * PLATFOTM_WIDTH_COEF);
+	this->velocity(PLATFORM_VELOCITY);
 }
 
-void PratformUnit::update()
-{
-	if (counter == 0)
-	{
-		sprite = sprites[currentSpriteIndex];
+void PratformUnit::update() {
+	if (animationCounter == 0) {
+		sprite(sprites[currentSpriteIndex]);
 		currentSpriteIndex = (currentSpriteIndex + 1) % sprites.size();
 	}
-	counter = (counter + 1) % PLATFORM_ANIMATION_LATENCY;
+	animationCounter = (animationCounter + 1) % PLATFORM_ANIMATION_LATENCY;
 	DynamicUnit::update();
 }

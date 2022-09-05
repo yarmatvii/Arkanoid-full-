@@ -136,7 +136,7 @@
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="PratformUnit.cpp" />
-    <ClCompile Include="Tools.cpp" />
+    <ClCompile Include="lib.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Unit.cpp" />
   </ItemGroup>
@@ -144,6 +144,7 @@
     <ClInclude Include="BallUnit.h" />
     <ClInclude Include="BlockUnit.h" />
     <ClInclude Include="Board.h" />
+    <ClInclude Include="constants.h" />
     <ClInclude Include="DynamicUnit.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="Framework.h" />

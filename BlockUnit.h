@@ -3,14 +3,15 @@
 #include <cmath>
 
 class BlockUnit : public Unit {
-public:
-	int hp;
-	int baseHp;
-	int points;
+	int _hp;
+	int _baseHp;
+	int _points;
 
-	BlockUnit(Sprite* sprite, double x, double y, double width, double height);
-	BlockUnit(Sprite* sprite, double x, double y, double width, double height, int hp);
-	BlockUnit(Sprite* sprite, double x, double y, double width, double height, int hp, int points);
+public:
+	BlockUnit(Sprite* sprite, double x, double y, double width, double height, int hp = 0, int points = 0);
+
+	int hp();
+	int points();
 
 	void doDamage(int damage);
 	bool isAlive();

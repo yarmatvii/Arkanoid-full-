@@ -4,37 +4,31 @@
 #include <tuple>
 
 class DynamicUnit : public Unit {
+	double _velocity;
+	double _minVelocity;
+	double _maxVelocity;
+	double _dx;
+	double _dy;
+	double _directionX;
+	double _directionY;
+
 public:
+	DynamicUnit(Sprite* sprite, double x, double y, double width, double height, double velocity = 0, double minVelocity = -1, double maxVelocity = -1);
 
-	double velocity;
-	double maxVelocity;
-	double minVelocity;
-	double dx;
-	double dy;
-	double directionX;
-	double directionY;
+	virtual void velocity(double velocity);
+	virtual double velocity();
+	virtual void maxVelocity(double velocity);
+	virtual double maxVelocity();
+	virtual void minVelocity(double velocity);
+	virtual double minVelocity();
 
-	DynamicUnit(Sprite* sprite, double x, double y, double width, double height);
-	DynamicUnit(Sprite* sprite, double x, double y, double width, double height, double velocity);
-	DynamicUnit(Sprite* sprite, double x, double y, double width, double height, double velocity, double minVelocity, double maxVelocity);
+	virtual void direction(double x, double y);
+	virtual void direction(std::pair<double, double> direction);
+	virtual double directionX();
+	virtual double directionY();
 
-	virtual void setVelocity(double velocity);
-	virtual double getVelocity();
-
-	virtual void setMaxVelocity(double velocity);
-	virtual double getMaxVelocity();
-
-	virtual void setMinVelocity(double velocity);
-	virtual double getMinVelocity();
-
-	virtual void setDirection(double x, double y);
-	virtual void setDirection(std::pair<double, double> direction);
-	virtual double getDirectionX();
-	virtual double getDirectionY();
-
-	virtual void update();
-	virtual void draw();
 	virtual void accelerate(double coef);
 	virtual void decelerate(double coef);
 
+	virtual void update();
 };

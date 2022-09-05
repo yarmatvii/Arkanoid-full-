@@ -1,14 +1,13 @@
 #include <filesystem>
-#include "Tools.h"
 
-std::string getResourcePath(std::string resourceName)
-{
+#include "tools.h"
+
+std::string getResourcePath(std::string resourceName) {
 	auto path = std::filesystem::current_path() / "data" / resourceName;
 	return path.string();
 }
 
-bool linesIntersects(double p0x, double p0y, double p1x, double p1y, double p2x, double p2y, double p3x, double p3y)
-{
+bool linesIntersection(double p0x, double p0y, double p1x, double p1y, double p2x, double p2y, double p3x, double p3y) {
 	double s1x = p1x - p0x;
 	double s1y = p1y - p0y;
 	double s2x = p3x - p2x;
@@ -22,18 +21,7 @@ bool linesIntersects(double p0x, double p0y, double p1x, double p1y, double p2x,
 	return false;
 }
 
-std::pair<double, double> reflectionVector(std::pair<double, double> d, std::pair<double, double> n)
-{
-	double dotProduct = d.first * n.first + d.second * n.second;
-	return
-	{
-		d.first - 2 * dotProduct * n.first,
-		d.second - 2 * dotProduct * n.second
-	};
-}
-
-std::pair<double, double> normalizeVector(double x, double y)
-{
+std::pair<double, double> normalize(double x, double y) {
 	long double len = sqrt(pow(x, 2) + pow(y, 2));
 	return { x / len, y / len };
 }
