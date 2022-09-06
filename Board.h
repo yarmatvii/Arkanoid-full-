@@ -1,14 +1,16 @@
 #pragma once
 
+#include <vector>
+
 #include "Framework.h"
+#include "Textures.h"
 #include "PratformUnit.h"
 #include "BallUnit.h"
 #include "BlockUnit.h"
 #include "Effect.h"
-#include "Tools.h"
+#include "Area.h"
+#include "lib.h"
 
-#include <vector>
-#include <iostream>
 
 class Board {
 public:
@@ -16,48 +18,59 @@ public:
 	int width;
 	int height;
 	int score;
-	int streak;
+	int playerHp;
 	bool isDefeat = false;
 	bool isVictory = false;
-	std::vector<BlockUnit*> blocks;
+	std::vector<Unit*> units;
 	std::vector<Effect*> effects;
-	std::vector<BlockUnit*> undestructableBlocks;
+	std::vector<Area*> areas;
+	std::vector<Unit*> scoreboard;
+	std::vector<Unit*> hp;
   
+	Textures& textures;
+	Unit& background;
 	PratformUnit* platform;
 	BallUnit* ball;
 	Unit* cursor;
+	Unit* savingWall;
+	Unit* hud;
 
 	Sprite* damagedBlock = NULL;
 
 	Board(int width, int height);
-	Board(int width, int height, Sprite* wall, Sprite* yellowBlock, Sprite* goldBlock, std::vector<Sprite*> platforms, Sprite* cursor, Sprite* ball);
 
+	void loadLevel();
+	void loadPyramid(int rows);
+	void loadAreas();
+	void loadHp();
+	void reset();
 	bool intersects(Unit* other);
-	bool addBlock(BlockUnit* block);
-	bool addUndestructableBlock(BlockUnit* block);
-	void eraseBlock(BlockUnit* unit);
+	bool addUnit(Unit* block);
+	void removeUnit(Unit* unit);
 	bool addPlatform(PratformUnit* platform);
 	bool addBall(BallUnit* ball);
 	void addCursor(Unit* cursor);
-	void addEffect(Effect* effect);
+	void addArea(Area* area);
+	void addAccelerationArea(double x, double y, double width, double height);
+	void addDecelerationArea(double x, double y, double width, double height);
+	void applyEffect(Effect* effect);
 	void addRandomEffect();
+	void updateAreas();
 	void updateEffects();
 	void launchBall();
-	bool checkDefeat();
 	bool checkVictory();
-	bool tick(bool showBoard, Sprite* gameOver, Sprite* victory, Sprite* bg);
+	void damagePlayer();
+	void spawnSavingWall();
+	void updateScore();
+	bool tick();
 
 	void update();
 	void draw();
 
-private:
-	Side checkIfCollideWithEdges(DynamicUnit* ball);
-	Side checkIfCollideWithPlatform();
-	void edgesCollision();
+	void savingWallCollision();
+	void edgesCollision(DynamicUnit* unit);
 	void platformCollision();
 	void blockCollision();
-	void undestructableBlockCollision();
-	void checkIfPLatformCollidesWithEdges();
-	void eraseEffect(Effect* effect);
+	void removeEffect(Effect* effect);
 
 };

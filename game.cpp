@@ -10,7 +10,6 @@
 
 #include "Framework.h"
 #include "Board.h"
-#include "UI.h"
 #include "Effect.h"
 
 
@@ -22,24 +21,13 @@ public:
 	int height;
 	bool fullscreen;
 	Board* board;
-	UI* ui;
-	bool showBoard;
-
-	Sprite* bg = NULL;
-	Sprite* gameOverSprite = NULL;
-	Sprite* victorySprite = NULL;
-	Sprite* blueWallSprite = NULL;
-	Sprite* yellowBlockSprite = NULL;
-	std::vector<Sprite*> platformSprites;
-	Sprite* ballSprite = NULL;
-	Sprite* cursorSprite = NULL;
-	Sprite* goldBlockSprite = NULL;
+	bool showHUD;
 
 	MyFramework(int width, int height, bool fullscreen) {
 		this->width = width;
 		this->height = height;
 		this->fullscreen = fullscreen;
-		this->showBoard = true;
+		this->showHUD = false;
 	}
 
 	virtual void PreInit(int& width, int& height, bool& fullscreen) {
@@ -49,61 +37,29 @@ public:
 	}
 
 	virtual bool Init() {
-		// load resources
-
-		bg = createSprite(getResourcePath("bg.jpg").c_str());
-
-		this->blueWallSprite = createSprite(getResourcePath("01-Breakout-Tiles.png").c_str());
-		this->platformSprites = {
-			createSprite(getResourcePath("50-Breakout-Tiles.png").c_str()),
-			createSprite(getResourcePath("51-Breakout-Tiles.png").c_str()),
-			createSprite(getResourcePath("52-Breakout-Tiles.png").c_str())
-		};
-		this->cursorSprite = createSprite(getResourcePath("59-Breakout-Tiles.png").c_str());
-		this->ballSprite = createSprite(getResourcePath("63-Breakout-Tiles.png").c_str());
-		this->yellowBlockSprite = createSprite(getResourcePath("13-Breakout-Tiles.png").c_str());
-		this->goldBlockSprite = createSprite(getResourcePath("25-Breakout-Tiles.png").c_str());
-
-		this->board = new Board(width, height, blueWallSprite, yellowBlockSprite, goldBlockSprite, platformSprites, cursorSprite, ballSprite);
-
-		this->ui = new UI(width, height);
-
-		gameOverSprite = createSprite(getResourcePath("GameOver.jpg").c_str());
-		victorySprite = createSprite(getResourcePath("Victory.jpg").c_str());
-
+		this->board = new Board(width, height);
 		showCursor(false);
 		return true;
 	}
 
 	virtual void Close() {
-		destroySprite(ui->scoreboardStart);
-		destroySprite(board->damagedBlock);
-		destroySprite(bg);
-		destroySprite(gameOverSprite);
-		destroySprite(victorySprite);
-		destroySprite(goldBlockSprite);
-		destroySprite(yellowBlockSprite);
-		destroySprite(blueWallSprite);
-		destroySprite(ballSprite);
-		destroySprite(cursorSprite);
-		for (auto sprite : platformSprites) {
-			destroySprite(sprite);
-		}
+		delete this->board;
+
 	}
 
 	virtual bool Tick() {
-		drawTestBackground();
-		showBoard = board->tick(showBoard, gameOverSprite, victorySprite, bg);
-		ui->tick(board->score, width, height, showBoard);
+		this->showHUD = board->tick();
 		return false;
 	}
 
 	virtual void onMouseMove(int x, int y, int xrelative, int yrelative) {
-		if (showBoard) board->cursor->move(x, y);
+		if (this->showHUD == false) {
+			board->cursor->move(x, y);
+		};
 	}
 
 	virtual void onMouseButtonClick(FRMouseButton button, bool isReleased) {
-		if (showBoard)
+		if (this->showHUD == false) {
 			switch (button) {
 			case FRMouseButton::LEFT:
 				if (isReleased) {
@@ -124,28 +80,29 @@ public:
 			default:
 				break;
 			}
+		}
+
 	}
 
 	virtual void onKeyPressed(FRKey k) {
 		switch (k) {
 		case FRKey::RIGHT:
-			if (showBoard) {
+			if (this->showHUD == false) {
 				board->platform->direction(board->platform->directionX() + 1, 0);
 			}
 			break;
 		case FRKey::LEFT:
-			if (showBoard) {
+			if (this->showHUD == false) {
 				board->platform->direction(board->platform->directionX() - 1, 0);
 			}
 			break;
 		case FRKey::DOWN:
-			if (showBoard == false) {
-				Close();
-				Init();
-				showBoard = true;
-			}
 			break;
 		case FRKey::UP:
+			if (this->showHUD == true) {
+				this->board->reset();
+				this->showHUD = false;
+			}
 			break;
 		case FRKey::COUNT:
 			break;
@@ -158,12 +115,12 @@ public:
 		switch (k)
 		{
 		case FRKey::RIGHT:
-			if (showBoard) {
+			if (this->showHUD == false) {
 				board->platform->direction(board->platform->directionX() - 1, 0);
 			}
 			break;
 		case FRKey::LEFT:
-			if (showBoard) {
+			if (this->showHUD == false) {
 				board->platform->direction(board->platform->directionX() + 1, 0);
 			}
 			break;
@@ -184,8 +141,8 @@ public:
 };
 
 int main(int argc, char* argv[]) {
-	int width = 800;
-	int height = 600;
+	int width = 1280;
+	int height = 720;
 	int fullscreen = false;
 
 	if (argc == 4 && strcmp(argv[1], "-window") == 0) {

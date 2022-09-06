@@ -20,9 +20,9 @@ public:
 	virtual Sprite* sprite();
 	virtual void sprite(Sprite*);
 	virtual double x();
-	virtual void x(double);
+	virtual void x(double x);
 	virtual double y();
-	virtual void y(double);
+	virtual void y(double y);
 	virtual void height(double height);
 	virtual double height();
 	virtual void width(double width);

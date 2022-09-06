@@ -19,24 +19,6 @@ bool Effect::expired(int now) {
 }
 
 
-AccelerateEffect::AccelerateEffect(DynamicUnit* unit, double coef, int duration) :
-	Effect(
-		[unit, coef]() { unit->accelerate(coef); },
-		[unit, coef]() { unit->decelerate(coef); },
-		duration
-	) {
-}
-
-
-DecelerateEffect::DecelerateEffect(DynamicUnit* unit, double coef, int duration) :
-	Effect(
-		[unit, coef]() { unit->decelerate(coef); },
-		[unit, coef]() { unit->accelerate(coef); },
-		duration
-	) {
-}
-
-
 IncreaseEffect::IncreaseEffect(Unit* unit, double coef, int duration) :
 	Effect(
 		[unit, coef]() { unit->increase(coef); },

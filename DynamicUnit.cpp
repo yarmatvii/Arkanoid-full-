@@ -1,7 +1,6 @@
 #define _WINDOWS
 #include <cmath>
 #include <algorithm>
-#include <iostream>
 #include <numeric>
 
 #include "DynamicUnit.h"
@@ -23,6 +22,13 @@ void DynamicUnit::velocity(double velocity) {
 	this->_dy = directionY() * this->velocity();
 }
 
+void DynamicUnit::resetVelocity() {
+	this->_velocity = 0;
+
+	this->_dx = 0;
+	this->_dy = 0;
+}
+
 double DynamicUnit::velocity() {
 	return std::clamp(_velocity, this->minVelocity(), this->maxVelocity());
 }
@@ -32,7 +38,7 @@ void DynamicUnit::maxVelocity(double maxVelocity) {
 }
 
 double DynamicUnit::maxVelocity() {
-	return this->_maxVelocity > 0 ? this->_maxVelocity : HUGE_VAL;
+	return this->_maxVelocity >= 0 ? this->_maxVelocity : HUGE_VAL;
 }
 
 void DynamicUnit::minVelocity(double minVelocity) {
@@ -40,7 +46,7 @@ void DynamicUnit::minVelocity(double minVelocity) {
 }
 
 double DynamicUnit::minVelocity() {
-	return this->_minVelocity > 0 ? this->_minVelocity : -HUGE_VAL;
+	return this->_minVelocity >= 0 ? this->_minVelocity : -HUGE_VAL;
 }
 
 void DynamicUnit::direction(std::pair<double, double> direction) {
@@ -67,6 +73,27 @@ void DynamicUnit::update() {
 	if (this->velocity() != 0) {
 		this->moveRelative(_dx, _dy);
 	}
+}
+
+Side DynamicUnit::reflect(Unit* other) {
+	switch (other->collides(this)) {
+	case Side::TOP:
+		this->move(this->x(), other->y() - this->height() - 1);
+		this->direction(this->directionX(), -this->directionY());
+		return Side::TOP;
+	case Side::BOTTOM:
+		this->move(this->x(), other->y() + other->height() + 1);
+		this->direction(this->directionX(), -this->directionY());
+		return Side::BOTTOM;
+	case Side::RIGHT:
+		this->move(other->x() + other->width() + 1, this->y());
+		this->direction(-this->directionX(), this->directionY());
+		return Side::RIGHT;
+	case Side::LEFT:
+		this->move(other->x() - this->width() - 1, this->y());
+		this->direction(-this->directionX(), this->directionY());
+		return Side::LEFT;
+	};
 }
 
 void DynamicUnit::accelerate(double coef) {

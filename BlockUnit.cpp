@@ -6,8 +6,7 @@ BlockUnit::BlockUnit(Sprite* sprite, double x, double y, double width, double he
 	this->_points = points;
 }
 
-int BlockUnit::hp() {
-	return this->_hp;
+int BlockUnit::hp() {	return this->_hp;
 }
 
 int BlockUnit::points() {

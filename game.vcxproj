@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Area.cpp" />
     <ClCompile Include="BallUnit.cpp" />
     <ClCompile Include="BlockUnit.cpp" />
     <ClCompile Include="Board.cpp" />
@@ -137,10 +138,11 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="PratformUnit.cpp" />
     <ClCompile Include="lib.cpp" />
-    <ClCompile Include="UI.cpp" />
+    <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Unit.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Area.h" />
     <ClInclude Include="BallUnit.h" />
     <ClInclude Include="BlockUnit.h" />
     <ClInclude Include="Board.h" />
@@ -148,10 +150,10 @@
     <ClInclude Include="DynamicUnit.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="Framework.h" />
+    <ClInclude Include="lib.h" />
     <ClInclude Include="PratformUnit.h" />
     <ClInclude Include="Side.h" />
-    <ClInclude Include="Tools.h" />
-    <ClInclude Include="UI.h" />
+    <ClInclude Include="Textures.h" />
     <ClInclude Include="Unit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

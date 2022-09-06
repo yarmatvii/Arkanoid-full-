@@ -17,6 +17,7 @@ public:
 
 	virtual void velocity(double velocity);
 	virtual double velocity();
+	virtual void resetVelocity();
 	virtual void maxVelocity(double velocity);
 	virtual double maxVelocity();
 	virtual void minVelocity(double velocity);
@@ -27,6 +28,7 @@ public:
 	virtual double directionX();
 	virtual double directionY();
 
+	virtual Side reflect(Unit* other);
 	virtual void accelerate(double coef);
 	virtual void decelerate(double coef);
 

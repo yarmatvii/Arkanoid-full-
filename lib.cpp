@@ -1,6 +1,6 @@
 #include <filesystem>
 
-#include "tools.h"
+#include "lib.h"
 
 std::string getResourcePath(std::string resourceName) {
 	auto path = std::filesystem::current_path() / "data" / resourceName;

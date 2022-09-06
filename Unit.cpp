@@ -3,7 +3,7 @@
 #include <algorithm>
 
 #include "Unit.h"
-#include "tools.h"
+#include "lib.h"
 
 Unit::Unit(Sprite* sprite, double x, double y, double width, double height) {
 	this->_sprite = sprite;
@@ -59,7 +59,7 @@ void Unit::minWidth(double minWidth) {
 }
 
 double Unit::minWidth() {
-	return this->_minWidth > 0 ? this->_minWidth : -HUGE_VAL;
+	return this->_minWidth >= 0 ? this->_minWidth : -HUGE_VAL;
 }
 
 void Unit::maxWidth(double maxWidth) {
@@ -67,7 +67,7 @@ void Unit::maxWidth(double maxWidth) {
 }
 
 double Unit::maxWidth() {
-	return this->_maxWidth > 0 ? this->_maxWidth : HUGE_VAL;
+	return this->_maxWidth >= 0 ? this->_maxWidth : HUGE_VAL;
 }
 
 double Unit::Unit::centerX() {
@@ -117,13 +117,13 @@ Side Unit::collides(Unit* other) {
 
 void Unit::increase(double coef) {
 	double prevWidth = this->width();
-	this->_width *= 1 + coef;
+	this->_width *= (1 + coef);
 	moveRelative((prevWidth - width()) / 2, 0);
 }
 
 void Unit::decrease(double coef) {
 	double prevWidth = this->width();
-	this->_width /= 1 + coef;
+	this->_width /= (1 + coef);
 	moveRelative((prevWidth - width()) / 2, 0);
 }
 
