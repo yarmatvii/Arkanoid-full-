@@ -323,6 +323,7 @@ bool Board::tick() {
 	this->draw();
 	if (isDefeat || isVictory) {
 		this->ball->resetVelocity();
+		this->platform->resetVelocity();
 		int hudWidth = this->width / 3;
 		int hudHeight = this->height / 3;
 		this->hud = new Unit(textures.restart(), (this->width - hudWidth) / 2, (this->height - 0.5 * hudHeight) / 2, hudWidth, hudHeight);
