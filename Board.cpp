@@ -22,7 +22,7 @@ Board::Board(int width, int height) : textures(*new Textures()), background(*new
 	double platformHeight = this->height * COEF_Y;
 
 	this->addPlatform(new PratformUnit(textures.platform(), (this->width - platformWidth) / 2, 0.9 * this->height - platformHeight,
-		platformWidth, platformHeight, 0, this->width));
+		platformWidth, platformHeight, 0, this->width - platformWidth));
 	this->platform->minWidth(0);
 	this->platform->maxWidth(this->platform->width() * 2);
 	this->addBall(new BallUnit(textures.ball(), (platform->x() + platform->width() / 2) - this->height * COEF_Y / 4, platform->y() - platformHeight / 2, this->height * COEF_Y / 2, this->height * COEF_Y / 2));
